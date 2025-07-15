@@ -13,7 +13,11 @@
       inactive-label-text-color: var(--color100),
       inactive-focus-label-text-color: var(--color100),
       inactive-hover-label-text-color: var(--color100),
+      active-indicator-color: var(--color-accent60),
+      active-focus-indicator-color: var(--color-accent60),
+      active-hover-indicator-color: var(--color-accent60),
     ));
+  @include mat.icon-button-overrides((icon-color: var(--color100)));
 }
 
 .mat-mdc-tab-header {

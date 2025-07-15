@@ -1,7 +1,13 @@
 <main class="main">
   <mat-tab-group>
-    <mat-tab label="First"> Content 1 </mat-tab>
-    <mat-tab label="Second"> Content 2 </mat-tab>
-    <mat-tab label="Third"> Content 3 </mat-tab>
+    @for (tab of tabs; track tab.id) {
+    <mat-tab [label]="tab.title">
+      <div class="card_list">
+        @for (card of tab.cards; track card.id) {
+        <app-card [data]="card"></app-card>
+        }
+      </div>
+    </mat-tab>
+    }
   </mat-tab-group>
 </main>
