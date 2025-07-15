@@ -1,10 +1,8 @@
 <ul class="menu_list">
+  @for(item of menu; track item.id){
   <li class="menu_list__item">
-    <mat-icon class="menu_list__item_icon">home</mat-icon>
-    <span>Overview</span>
+    <mat-icon class="menu_list__item_icon">{{item.icon}}</mat-icon>
+    <span>{{item.title}}</span>
   </li>
-  <li class="menu_list__item">
-    <mat-icon class="menu_list__item_icon">info</mat-icon>
-    <span>About</span>
-  </li>
+  }
 </ul>

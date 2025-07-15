@@ -1,5 +1,30 @@
+:host {
+  flex-grow: 1;
+}
+
 main {
   width: 100%;
   height: 100%;
   box-sizing: border-box;
+}
+
+.card_list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(33%, max-content));
+  gap: 0.25rem;
+  padding: 0.25rem;
+}
+
+@media (max-width: 860px) {
+  .card_list {
+    grid-template-columns: repeat(2, 50%);
+  }
+}
+
+@media (max-width: 660px) {
+  .card_list {
+    grid-template-columns: unset;
+    display: flex;
+    flex-direction: column;
+  }
 }

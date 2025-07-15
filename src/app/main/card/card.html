@@ -1,0 +1,27 @@
+<div class="card">
+  <h3 class="card__title">{{data().title}}</h3>
+  <div class="card__item_list" [ngClass]="data().layout==='verticalLayout' ? 'card__item_list_vertical': ''">
+    @for(item of data().items; track item.label){
+    @if(item.state!==undefined){
+    <div class="card__item_row">
+      <mat-icon class="card__item_icon">{{item.icon}}</mat-icon>
+      <div>{{item.label}}</div>
+      <div class="card__item_state">{{item.state}}</div>
+    </div>
+    }@else if(item.value){
+    @if(data().layout==='verticalLayout'){
+    <div class="card__item_row">
+      <mat-icon class="card__item_icon">{{item.icon}}</mat-icon>
+      <div>{{item.label}}</div>
+      <div class="card__item_state">{{item.value.amount + item.value.unit}}</div>
+    </div>
+    }@else{
+    <div class="card__item_column">
+      <div>{{item.label}}</div>
+      <mat-icon class="card__item_icon">{{item.icon}}</mat-icon>
+      <div>{{item.value.amount + item.value.unit}}</div>
+    </div>
+    }
+    }
+    }
+  </div>
