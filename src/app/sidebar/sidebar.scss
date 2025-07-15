@@ -1,0 +1,10 @@
+.sidebar {
+  box-sizing: border-box;
+  border-left: var(--border-thickness) solid var(--color20);
+  border-right: var(--border-thickness) solid var(--color20);
+}
+
+.sidebar__main {
+  background: var(--color00);
+  min-height: 20rem;
+}

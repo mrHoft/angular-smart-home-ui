@@ -1,0 +1,21 @@
+@use '@angular/material' as mat;
+
+:root {
+  @include mat.tabs-overrides((divider-height: var(--border-thickness),
+      divider-color: var(--color20),
+      label-text-font: var(--font-family),
+      label-text-size: unset,
+      label-text-weight: 400,
+      container-height: 2.5rem,
+      active-label-text-color: var(--color100),
+      active-focus-label-text-color: var(--color100),
+      active-hover-label-text-color: var(--color100),
+      inactive-label-text-color: var(--color100),
+      inactive-focus-label-text-color: var(--color100),
+      inactive-hover-label-text-color: var(--color100),
+    ));
+}
+
+.mat-mdc-tab-header {
+  background-color: var(--color10) !important;
+}

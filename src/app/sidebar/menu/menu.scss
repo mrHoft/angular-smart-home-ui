@@ -1,0 +1,22 @@
+.menu_list{
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menu_list__item{
+  padding: 0 1rem;
+  display: flex;
+  align-items: center;
+  column-gap: 0.5rem;
+  transition: background-color linear 0.25s;
+  cursor: default;
+}
+
+.menu_list__item:hover{
+  background-color: var(--color-accent50);
+}
+
+.menu_list__item_icon{
+  padding: calc(calc(var(--mat-icon-button-state-layer-size, 40px) - var(--mat-icon-button-icon-size, 24px)) / 2);
+}
