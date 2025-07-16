@@ -1,11 +1,11 @@
 import { Component, signal } from '@angular/core';
-import { Header } from '~/app/sidebar/header/header';
-import { Footer } from '~/app/sidebar/footer/footer';
+import { SidebarHeader } from '~/app/sidebar/header/sidebar-header';
+import { SidebarFooter } from './footer/sidebar-footer';
 import { Menu } from '~/app/sidebar/menu/menu';
 
 @Component({
   selector: 'app-sidebar',
-  imports: [Header, Menu, Footer],
+  imports: [SidebarHeader, Menu, SidebarFooter],
   templateUrl: './sidebar.html',
   styleUrl: './sidebar.scss'
 })

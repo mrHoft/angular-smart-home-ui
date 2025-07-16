@@ -1,9 +1,9 @@
 import { Component, input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import type { CardItemData } from '~/api/api.types';
+import type { CardItem } from '~/api/api.types';
 import { NgClass } from '@angular/common';
 
-const defaultValue: CardItemData = {
+const defaultValue: CardItem = {
   type: "device",
   icon: 'cloud',
   label: '',
@@ -17,8 +17,8 @@ const defaultValue: CardItemData = {
   styleUrl: './device-single.scss'
 })
 export class DeviceSingle {
-  public data = input<CardItemData>(defaultValue)
-  protected item: CardItemData = defaultValue
+  public data = input<CardItem>(defaultValue)
+  protected item: CardItem = defaultValue
   protected stateClasses: Record<string, boolean> = {};
 
   onClick = () => {

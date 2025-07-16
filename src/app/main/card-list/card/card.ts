@@ -1,41 +1,67 @@
 import { Component, input } from '@angular/core';
 import { NgClass } from '@angular/common';
-import { MatIconModule } from '@angular/material/icon';
-import type { CardData, CardItemData } from '~/api/api.types';
+import type { CardData, CardItem } from '~/api/api.types';
 import { Sensor } from './sensor/sensor';
 import { Device } from './device/device';
 import { DeviceSingle } from './device-single/device-single';
 
 const defaultValue: CardData = { id: '0', title: '', layout: "horizontalLayout", items: [] }
-const groupToggle: CardItemData = {
-  type: "device",
-  icon: 'group',
-  label: 'Group toggle',
-  state: true
-}
 
 @Component({
   selector: 'app-card',
-  imports: [MatIconModule, Sensor, Device, DeviceSingle, NgClass],
+  imports: [Sensor, Device, DeviceSingle, NgClass],
   templateUrl: './card.html',
   styleUrl: './card.scss',
 })
 export class Card {
   public data = input<CardData>(defaultValue)
   protected card: CardData & { single: boolean } = { ...defaultValue, single: true }
+  protected groupToggle: CardItem = {
+    type: "device",
+    icon: 'power',
+    label: 'Group toggle',
+    state: true
+  }
+
+  private onGroupToggle = () => {
+    this.groupToggle.state = !this.groupToggle.state
+    this.card.items.forEach(item => {
+      if (item.type === 'device') {
+        item.state = this.groupToggle.state
+      }
+    })
+  }
+
+  onToggle = (item: CardItem) => {
+    if (item.label === 'Group toggle') {
+      this.onGroupToggle()
+    } else {
+      const el = this.card.items.find(el => el.label === item.label)
+      if (el) {
+        el.state = !el.state
+        const group = this.getDeviceGroup()
+        if (group.count > 1) {
+          this.groupToggle.state = group.state
+        }
+      }
+    }
+  }
+
+  private getDeviceGroup = () => this.card.items.reduce<{ count: number, state: boolean }>((acc, cur) => {
+    if (cur.type === 'device' && cur.label !== 'Group toggle') {
+      acc.count += 1
+      acc.state = cur.state || acc.state
+    }
+    return acc
+  }, { count: 0, state: false })
 
   ngOnInit() {
     const data = this.data()
     this.card = { ...data, single: data.items.length === 1 && data.items[0].type === 'device' }
-    const group = data.items.reduce<{ count: number, state: boolean }>((acc, cur) => {
-      if (cur.type === 'device') {
-        acc.count += 1
-        acc.state = cur.state || acc.state
-      }
-      return acc
-    }, { count: 0, state: false })
+    const group = this.getDeviceGroup()
     if (group.count > 1) {
-      this.card.items.push({ ...groupToggle, state: group.state })
+      this.groupToggle.state = group.state
+      this.card.items.push(this.groupToggle)
     }
   }
 }
