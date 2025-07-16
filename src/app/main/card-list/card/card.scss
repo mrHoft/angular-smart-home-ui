@@ -19,25 +19,3 @@
 .card__item_list_vertical {
   flex-direction: column;
 }
-
-.card__item_column {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  row-gap: 0.25rem;
-}
-
-.card__item_row {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  column-gap: 0.25rem;
-}
-
-.card__item_state {
-  margin-left: auto;
-}
-
-.card__item_icon {
-  color: var(--color-accent60);
-}

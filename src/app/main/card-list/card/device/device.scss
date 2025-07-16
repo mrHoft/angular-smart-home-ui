@@ -1,0 +1,14 @@
+.device {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  column-gap: 0.25rem;
+}
+
+.icon {
+  color: var(--color-accent60);
+}
+
+.state {
+  margin-left: auto;
+}
