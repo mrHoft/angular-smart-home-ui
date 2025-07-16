@@ -2,11 +2,7 @@
   <mat-tab-group>
     @for (tab of tabs; track tab.id) {
     <mat-tab [label]="tab.title">
-      <div class="card_list">
-        @for (card of tab.cards; track card.id) {
-        <app-card [data]="card"></app-card>
-        }
-      </div>
+      <app-card-list [cards]="tab.cards"></app-card-list>
     </mat-tab>
     }
   </mat-tab-group>

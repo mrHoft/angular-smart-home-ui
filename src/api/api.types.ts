@@ -1,8 +1,7 @@
-type TLayout = "horizontalLayout" | "verticalLayout"
-type TIconView = "thermostat" | "water_drop" | "cloud" | "co2" | "motion_photos_on" | "lightbulb"
-
+export type TLayout = "horizontalLayout" | "verticalLayout" | 'singleDevice'
+type TIconView = "thermostat" | "water_drop" | "cloud" | "co2" | "motion_photos_on" | "lightbulb" | 'group'
 export interface CardItemData {
-  type: string,
+  type: "sensor" | "device",
   icon: TIconView,
   label: string,
   value?: {

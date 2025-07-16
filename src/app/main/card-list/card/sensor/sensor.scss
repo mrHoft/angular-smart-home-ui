@@ -1,0 +1,21 @@
+.sensor_column {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  row-gap: 0.25rem;
+}
+
+.sensor_row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  column-gap: 0.25rem;
+}
+
+.item_state {
+  margin-left: auto;
+}
+
+.item_icon {
+  color: var(--color-accent60);
+}
