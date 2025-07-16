@@ -5,8 +5,12 @@
   column-gap: 0.25rem;
 }
 
-.icon {
-  color: var(--color-accent60);
+.icon_on {
+  color: var(--color-accent80);
+}
+
+.icon_off {
+  color: #888;
 }
 
 .state {

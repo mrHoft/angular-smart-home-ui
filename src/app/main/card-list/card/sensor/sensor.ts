@@ -1,5 +1,5 @@
 import { Component, input } from '@angular/core';
-import type { CardItemData, TLayout } from '~/api/api.types';
+import type { CardItem, TLayout } from '~/api/api.types';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
@@ -10,7 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class Sensor {
   public layout = input<TLayout>('verticalLayout')
-  public data = input<CardItemData>({
+  public data = input<CardItem>({
     type: "sensor",
     icon: 'cloud',
     label: '',
