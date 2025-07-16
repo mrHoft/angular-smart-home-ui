@@ -1,19 +1,20 @@
 import { Component, input } from '@angular/core';
 import { NgClass } from '@angular/common';
 import type { CardData, CardItem } from '~/api/api.types';
-import { Sensor } from './sensor/sensor';
-import { Device } from './device/device';
-import { DeviceSingle } from './device-single/device-single';
+import { SensorComponent } from './sensor/sensor';
+import { DeviceComponent } from './device/device';
+import { DeviceSingleComponent } from './device-single/device-single';
 
 const defaultValue: CardData = { id: '0', title: '', layout: "horizontalLayout", items: [] }
 
 @Component({
   selector: 'app-card',
-  imports: [Sensor, Device, DeviceSingle, NgClass],
+  standalone: true,
+  imports: [SensorComponent, DeviceComponent, DeviceSingleComponent, NgClass],
   templateUrl: './card.html',
   styleUrl: './card.scss',
 })
-export class Card {
+export class CardComponent {
   public data = input<CardData>(defaultValue)
   protected card: CardData & { single: boolean } = { ...defaultValue, single: true }
   protected groupToggle: CardItem = {

@@ -4,10 +4,11 @@ import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-sidebar-header',
+  standalone: true,
   imports: [MatButtonModule, MatIconModule],
   templateUrl: './sidebar-header.html',
   styleUrl: './sidebar-header.scss'
 })
-export class SidebarHeader {
+export class SidebarHeaderComponent {
 
 }

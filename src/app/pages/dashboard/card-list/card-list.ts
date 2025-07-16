@@ -1,13 +1,14 @@
 import { Component, input } from '@angular/core';
-import { Card } from './card/card';
+import { CardComponent } from './card/card';
 import type { CardData } from '~/api/api.types';
 
 @Component({
   selector: 'app-card-list',
-  imports: [Card],
+  standalone: true,
+  imports: [CardComponent],
   templateUrl: './card-list.html',
   styleUrl: './card-list.scss'
 })
-export class CardList {
+export class CardListComponent {
   public cards = input<CardData[]>([])
 }
