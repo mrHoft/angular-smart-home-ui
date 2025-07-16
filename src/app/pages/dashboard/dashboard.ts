@@ -2,15 +2,16 @@ import { Component } from '@angular/core';
 import { MatTabsModule } from '@angular/material/tabs';
 import type { TabData } from '~/api/api.types';
 import { api } from '~/api/api.service';
-import { CardList } from './card-list/card-list';
+import { CardListComponent } from './card-list/card-list';
 
 @Component({
-  selector: 'app-main',
-  imports: [MatTabsModule, CardList],
-  templateUrl: './main.html',
-  styleUrl: './main.scss'
+  selector: 'app-dashboard',
+  standalone: true,
+  imports: [MatTabsModule, CardListComponent],
+  templateUrl: './dashboard.html',
+  styleUrl: './dashboard.scss'
 })
-export class Main {
+export class DashboardPage {
   protected tabs: TabData[]
 
   constructor() {

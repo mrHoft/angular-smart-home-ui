@@ -1,6 +1,5 @@
 import { Component, input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import type { CardItem } from '~/api/api.types';
 import { NgClass } from '@angular/common';
 
@@ -12,19 +11,20 @@ const defaultValue: CardItem = {
 }
 
 @Component({
-  selector: 'app-device',
-  imports: [MatIconModule, MatSlideToggleModule, NgClass],
-  templateUrl: './device.html',
-  styleUrl: './device.scss'
+  selector: 'app-device-single',
+  standalone: true,
+  imports: [MatIconModule, NgClass],
+  templateUrl: './device-single.html',
+  styleUrl: './device-single.scss'
 })
-export class Device {
-  public onSwitch = input<(_item: CardItem) => void>((_item: CardItem) => undefined)
+export class DeviceSingleComponent {
   public data = input<CardItem>(defaultValue)
   protected item: CardItem = defaultValue
   protected stateClasses: Record<string, boolean> = {};
 
-  onToggle() {
-    this.onSwitch()(this.item)
+  onClick = () => {
+    this.item.state = !this.item.state
+    this.updateClasses()
   }
 
   ngOnInit() {
@@ -32,12 +32,9 @@ export class Device {
     this.updateClasses()
   }
 
-  ngDoCheck() {
-    this.updateClasses()
-  }
-
   private updateClasses = () => {
     this.stateClasses = {
+      state: true,
       icon_on: this.item.state || false,
       icon_off: !this.item.state,
     };

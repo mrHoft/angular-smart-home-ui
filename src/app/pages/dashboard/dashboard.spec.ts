@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DeviceSingle } from './device-single';
+import { DashboardPage } from './dashboard';
 
-describe('Device', () => {
-  let component: DeviceSingle;
-  let fixture: ComponentFixture<DeviceSingle>;
+describe('Main', () => {
+  let component: DashboardPage;
+  let fixture: ComponentFixture<DashboardPage>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DeviceSingle]
+      imports: [DashboardPage]
     })
       .compileComponents();
 
-    fixture = TestBed.createComponent(DeviceSingle);
+    fixture = TestBed.createComponent(DashboardPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
