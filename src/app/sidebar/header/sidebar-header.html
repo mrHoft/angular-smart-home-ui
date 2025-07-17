@@ -1,6 +1,6 @@
-<div class="header">
-  <button matIconButton class="example-icon" aria-label="menu">
-    <mat-icon aria-hidden="true">menu</mat-icon>
-  </button>
-  <span>Smart Home</span>
+<div class="header" (click)="onToggle()()">
+  <mat-icon class="icon" aria-hidden="true">menu</mat-icon>
+  @if(toggled()){
+  <span class="label">Smart Home</span>
+  }
 </div>

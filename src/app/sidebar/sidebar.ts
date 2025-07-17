@@ -11,5 +11,10 @@ import { MenuComponent } from '~/app/sidebar/menu/menu';
   styleUrl: './sidebar.scss'
 })
 export class SidebarComponent {
-  protected readonly title = signal('angular-smart-home-ui');
+  protected toggled = signal(false)
+
+  onToggle = () => {
+    this.toggled.set(!this.toggled())
+    console.log('isToggled', this.toggled())
+  }
 }

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { Router, NavigationEnd, RouterLink } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -10,6 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrl: './menu.scss'
 })
 export class MenuComponent {
+  public toggled = input<boolean>(false)
   private router = inject(Router);
   protected currentRoute = '';
   protected menu = [

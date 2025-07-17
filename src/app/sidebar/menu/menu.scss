@@ -11,7 +11,7 @@
 .nav__item {
   text-decoration: none;
   color: inherit;
-  padding: 0 1rem;
+  padding: 0.5rem 1rem;
   display: flex;
   align-items: center;
   column-gap: 0.5rem;
@@ -28,5 +28,11 @@
 }
 
 .icon {
-  padding: calc(calc(var(--mat-icon-button-state-layer-size, 40px) - var(--mat-icon-button-icon-size, 24px)) / 2);
+  width: 2rem;
+  text-align: center;
+}
+
+.label {
+  text-wrap-mode: nowrap;
+  overflow: hidden;
 }

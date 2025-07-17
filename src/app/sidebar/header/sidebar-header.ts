@@ -1,14 +1,14 @@
-import { Component } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
+import { Component, input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-sidebar-header',
   standalone: true,
-  imports: [MatButtonModule, MatIconModule],
+  imports: [MatIconModule],
   templateUrl: './sidebar-header.html',
   styleUrl: './sidebar-header.scss'
 })
 export class SidebarHeaderComponent {
-
+  public toggled = input<boolean>(false)
+  public onToggle = input<() => void>(() => undefined)
 }

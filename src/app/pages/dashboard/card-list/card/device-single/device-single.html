@@ -1,4 +1,4 @@
 <div class="device" (click)="onClick()">
   <div>{{data().label}}</div>
-  <mat-icon [ngClass]="stateClasses" aria-hidden="true">{{data().icon}}</mat-icon>
+  <mat-icon class="icon" [class.icon_on]="item.state" aria-hidden="true">{{data().icon}}</mat-icon>
 </div>

@@ -2,7 +2,6 @@ import { Component, input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import type { CardItem } from '~/api/api.types';
-import { NgClass } from '@angular/common';
 
 const defaultValue: CardItem = {
   type: "device",
@@ -14,7 +13,7 @@ const defaultValue: CardItem = {
 @Component({
   selector: 'app-device',
   standalone: true,
-  imports: [MatIconModule, MatSlideToggleModule, NgClass],
+  imports: [MatIconModule, MatSlideToggleModule],
   templateUrl: './device.html',
   styleUrl: './device.scss'
 })
@@ -30,17 +29,5 @@ export class DeviceComponent {
 
   ngOnInit() {
     this.item = this.data()
-    this.updateClasses()
-  }
-
-  ngDoCheck() {
-    this.updateClasses()
-  }
-
-  private updateClasses = () => {
-    this.stateClasses = {
-      icon_on: this.item.state || false,
-      icon_off: !this.item.state,
-    };
   }
 }
