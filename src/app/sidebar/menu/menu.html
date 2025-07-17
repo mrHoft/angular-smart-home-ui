@@ -1,8 +1,8 @@
-<ul class="menu_list">
+<nav class="nav">
   @for(item of menu; track item.id){
-  <li class="menu_list__item">
+  <a class="nav__item" [class.nav__item_active]="isActive(item.id)" [routerLink]="'/'+item.id">
     <mat-icon class="icon" aria-hidden="true">{{item.icon}}</mat-icon>
     <span>{{item.title}}</span>
-  </li>
+  </a>
   }
-</ul>
+</nav>

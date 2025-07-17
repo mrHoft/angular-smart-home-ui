@@ -4,18 +4,19 @@
   border: var(--border-thickness) solid var(--color20);
   border-radius: var(--border-radius);
   padding: 0.5rem;
+  overflow: hidden;
 }
 
-.card__title {
+.title {
   margin-top: 0;
 }
 
-.card__item_list {
+.item_list {
   display: flex;
   gap: 0.725rem;
   justify-content: space-around;
 }
 
-.card__item_list_vertical {
+.item_list_vertical {
   flex-direction: column;
 }

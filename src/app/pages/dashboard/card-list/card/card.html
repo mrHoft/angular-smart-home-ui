@@ -1,6 +1,6 @@
 <div class="card">
-  <h3 class="card__title">{{card.title}}</h3>
-  <div class="card__item_list" [ngClass]="card.layout==='verticalLayout' ? 'card__item_list_vertical': ''">
+  <h3 class="title">{{card.title}}</h3>
+  <div class="item_list" [class.item_list_vertical]="card.layout==='verticalLayout'">
     @if(card.single){
     <app-device-single [data]="card.items[0]"></app-device-single>
     }@else{
