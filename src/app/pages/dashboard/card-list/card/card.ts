@@ -27,11 +27,11 @@ export class CardComponent {
 
   private onGroupToggle = () => {
     this.groupToggle.state = !this.groupToggle.state
-    this.card.items.forEach(item => {
+    for (const item of this.card.items) {
       if (item.type === 'device') {
         item.state = this.groupToggle.state
       }
-    })
+    }
     this.highlight.set(this.groupToggle.state)
   }
 

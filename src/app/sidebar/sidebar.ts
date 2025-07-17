@@ -2,6 +2,7 @@ import { Component, signal } from '@angular/core';
 import { SidebarHeaderComponent } from '~/app/sidebar/header/sidebar-header';
 import { SidebarFooterComponent } from './footer/sidebar-footer';
 import { MenuComponent } from '~/app/sidebar/menu/menu';
+import { ScreenMonitorService } from '~/app/services/screen-size';
 
 @Component({
   selector: 'app-sidebar',
@@ -13,8 +14,15 @@ import { MenuComponent } from '~/app/sidebar/menu/menu';
 export class SidebarComponent {
   protected toggled = signal(false)
 
+  constructor(private screenMonitor: ScreenMonitorService) { }
+
   onToggle = () => {
     this.toggled.set(!this.toggled())
-    console.log('isToggled', this.toggled())
+  }
+
+  ngOnInit() {
+    this.screenMonitor.isWideScreen.subscribe((isWide) => {
+      this.toggled.set(isWide)
+    });
   }
 }

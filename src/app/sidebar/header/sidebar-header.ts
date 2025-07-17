@@ -1,6 +1,8 @@
 import { Component, input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 
+const defaultCallback = () => { }
+
 @Component({
   selector: 'app-sidebar-header',
   standalone: true,
@@ -10,5 +12,5 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class SidebarHeaderComponent {
   public toggled = input<boolean>(false)
-  public onToggle = input<() => void>(() => undefined)
+  public onToggle = input<() => void>(defaultCallback)
 }

@@ -4,6 +4,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import type { CardItem } from '~/api/api.types';
 import { LampHighlight } from '../directives/lamp-highlight';
 
+const defaultCallback = (_item: CardItem) => { }
 const defaultValue: CardItem = {
   type: "device",
   icon: 'cloud',
@@ -19,7 +20,7 @@ const defaultValue: CardItem = {
   styleUrl: './device.scss'
 })
 export class DeviceComponent {
-  public onSwitch = input<(_item: CardItem) => void>((_item: CardItem) => undefined)
+  public onSwitch = input<(_item: CardItem) => void>(defaultCallback)
   public data = input<CardItem>(defaultValue)
   protected item: CardItem = defaultValue
 
