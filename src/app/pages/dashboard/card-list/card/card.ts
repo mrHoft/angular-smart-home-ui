@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, signal } from '@angular/core';
 import type { CardData, CardItem } from '~/api/api.types';
 import { SensorComponent } from './sensor/sensor';
 import { DeviceComponent } from './device/device';
@@ -22,6 +22,8 @@ export class CardComponent {
     label: 'Group toggle',
     state: true
   }
+  protected highlight = signal(false)
+
 
   private onGroupToggle = () => {
     this.groupToggle.state = !this.groupToggle.state
@@ -30,6 +32,7 @@ export class CardComponent {
         item.state = this.groupToggle.state
       }
     })
+    this.highlight.set(this.groupToggle.state)
   }
 
   onToggle = (item: CardItem) => {
@@ -43,6 +46,7 @@ export class CardComponent {
         if (group.count > 1) {
           this.groupToggle.state = group.state
         }
+        this.highlight.set(group.state)
       }
     }
   }
@@ -69,5 +73,6 @@ export class CardComponent {
       this.card.items.push(this.groupToggle)
     }
     this.groupToggle.state = group.state
+    this.highlight.set(group.state)
   }
 }
