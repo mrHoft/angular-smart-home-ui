@@ -2,20 +2,19 @@ import { Component, input, signal } from '@angular/core';
 import type { CardData, CardItem } from '~/api/api.types';
 import { SensorComponent } from './sensor/sensor';
 import { DeviceComponent } from './device/device';
-import { DeviceSingleComponent } from '../device-single/device-single';
 
 const defaultValue: CardData = { id: '0', title: '', layout: "horizontalLayout", items: [] }
 
 @Component({
   selector: 'app-card',
   standalone: true,
-  imports: [SensorComponent, DeviceComponent, DeviceSingleComponent],
+  imports: [SensorComponent, DeviceComponent],
   templateUrl: './card.html',
   styleUrl: './card.scss',
 })
 export class CardComponent {
   public data = input<CardData>(defaultValue)
-  protected card: CardData & { single: boolean } = { ...defaultValue, single: true }
+  protected card: CardData = defaultValue
   protected groupToggle: CardItem = {
     type: "device",
     icon: 'power',
@@ -66,8 +65,7 @@ export class CardComponent {
   }
 
   ngOnInit() {
-    const data = this.data()
-    this.card = { ...data, single: data.items.length === 1 && data.items[0].type === 'device' }
+    this.card = this.data()
     const group = this.getDeviceGroup()
     if (!group.added && group.count > 1) {
       this.card.items.push(this.groupToggle)
