@@ -9,8 +9,8 @@ export class SensorValuePipe implements PipeTransform {
   constructor(private sanitizer: DomSanitizer) { }
 
   transform(amount: number, unit: string): SafeHtml {
-    return this.sanitizer.bypassSecurityTrustHtml(
-      `${amount} <span style="color: #888;">${unit}</span>`
-    );
+    const value = amount === 1 ? unit : `${amount} <span style="color: #888;">${unit}</span>`
+
+    return this.sanitizer.bypassSecurityTrustHtml(value);
   }
 }
