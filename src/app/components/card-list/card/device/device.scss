@@ -1,0 +1,18 @@
+.device {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  column-gap: 0.25rem;
+}
+
+.icon {
+  color: #888;
+}
+
+.icon_on {
+  color: var(--color-accent80);
+}
+
+.state {
+  margin-left: auto;
+}

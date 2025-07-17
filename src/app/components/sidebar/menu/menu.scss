@@ -1,0 +1,38 @@
+:host {
+  background: var(--color00);
+  min-height: 20rem;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+}
+
+.nav__item {
+  text-decoration: none;
+  color: inherit;
+  padding: 0.5rem 1rem;
+  display: flex;
+  align-items: center;
+  column-gap: 0.5rem;
+  transition: background-color linear 0.25s;
+  cursor: default;
+
+  &:hover {
+    background-color: var(--color-accent60a);
+  }
+}
+
+.nav__item_active {
+  background-color: var(--color-accent50a);
+}
+
+.icon {
+  width: 2rem;
+  text-align: center;
+}
+
+.label {
+  text-wrap-mode: nowrap;
+  overflow: hidden;
+}

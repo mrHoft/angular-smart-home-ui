@@ -1,0 +1,39 @@
+:host {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.footer {
+  height: 2.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1rem;
+  box-sizing: border-box;
+  background: var(--color10);
+  color: var(--color100);
+  border-top: var(--border-thickness) solid var(--color20);
+}
+
+.avatar {
+  margin-left: auto;
+  box-sizing: border-box;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 2rem;
+  background-image: url(/user.svg);
+  filter: invert(var(--color-scheme));
+  border: var(--border-thickness) solid var(--color30);
+  transition: border-color 0.25s linear, background-color 0.25s linear;
+  cursor: pointer;
+
+  &:hover {
+    border-color: var(--color-accent60);
+    background-color: var(--color-accent50a);
+  }
+}

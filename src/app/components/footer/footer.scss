@@ -1,0 +1,37 @@
+.footer {
+  height: 2.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1rem;
+  box-sizing: border-box;
+  background: var(--color10);
+  color: var(--color100);
+  border: var(--border-thickness) solid var(--color20);
+}
+
+.logo {
+  box-sizing: border-box;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 2rem;
+  border: var(--border-thickness) solid var(--color30);
+  transition: border-color 0.25s linear, background-color 0.25s linear;
+
+  &:hover {
+    border-color: var(--color-accent60);
+    background-color: var(--color-accent50a);
+  }
+}
+
+.github {
+  background-image: url(/github-logo.svg);
+  filter: invert(var(--color-scheme));
+}
+
+.rss {
+  background-image: url(/rss-logo.svg);
+}

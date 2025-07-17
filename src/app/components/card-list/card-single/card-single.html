@@ -1,0 +1,11 @@
+<div class="card" [class.highlight]="highlight()" (click)="onToggle()">
+  <h3 class="title">{{data().title}}</h3>
+  <div class="device">
+    <div>{{item.label}}</div>
+    @if(isLamp() && item.state){
+    <mat-icon class="icon" appLampHighlight aria-hidden="true">{{item.icon}}</mat-icon>
+    }@else{
+    <mat-icon class="icon" [class.icon_on]="item.state" aria-hidden="true">{{item.icon}}</mat-icon>
+    }
+  </div>
+</div>
