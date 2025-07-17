@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
-export class ScreenMonitorService {
+export class ScreenSizeService {
   private isWideScreenSubject = new BehaviorSubject<boolean>(false);
   public isWideScreen = this.isWideScreenSubject.asObservable();
 
