@@ -11,7 +11,7 @@ import { CardListComponent } from './card-list/card-list';
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss'
 })
-export class DashboardPage {
+export class PageDashboard {
   protected tabs: TabData[]
 
   constructor() {

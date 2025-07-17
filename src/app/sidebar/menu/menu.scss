@@ -3,23 +3,28 @@
   min-height: 20rem;
 }
 
-.menu_list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+.nav {
+  display: flex;
+  flex-direction: column;
 }
 
-.menu_list__item {
+.nav__item {
+  text-decoration: none;
+  color: inherit;
   padding: 0 1rem;
   display: flex;
   align-items: center;
   column-gap: 0.5rem;
   transition: background-color linear 0.25s;
   cursor: default;
+
+  &:hover {
+    background-color: var(--color-accent60a);
+  }
 }
 
-.menu_list__item:hover {
-  background-color: var(--color-accent50);
+.nav__item_active {
+  background-color: var(--color-accent50a);
 }
 
 .icon {
