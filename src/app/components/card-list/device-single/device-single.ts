@@ -1,8 +1,7 @@
 import { Component, input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import type { CardItem } from '~/api/api.types';
-import { LampHighlight } from '../directives/lamp-highlight';
+import { LampHighlight } from '~/app/entity/directives/lamp-highlight';
 
 const defaultCallback = (_item: CardItem) => { }
 const defaultValue: CardItem = {
@@ -13,13 +12,13 @@ const defaultValue: CardItem = {
 }
 
 @Component({
-  selector: 'app-device',
+  selector: 'app-device-single',
   standalone: true,
-  imports: [MatIconModule, MatSlideToggleModule, LampHighlight],
-  templateUrl: './device.html',
-  styleUrl: './device.scss'
+  imports: [MatIconModule, LampHighlight],
+  templateUrl: './device-single.html',
+  styleUrl: './device-single.scss'
 })
-export class DeviceComponent {
+export class DeviceSingleComponent {
   public onSwitch = input<(_item: CardItem) => void>(defaultCallback)
   public data = input<CardItem>(defaultValue)
   protected item: CardItem = defaultValue

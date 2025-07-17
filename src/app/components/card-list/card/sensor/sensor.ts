@@ -1,7 +1,7 @@
 import { Component, input } from '@angular/core';
 import type { CardItem, TLayout } from '~/api/api.types';
 import { MatIconModule } from '@angular/material/icon';
-import { SensorValuePipe } from '../pipes/sensor-value-pipe';
+import { SensorValuePipe } from '~/app/entity/pipes/sensor-value-pipe';
 
 const defaultData: CardItem = {
   type: "sensor",

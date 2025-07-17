@@ -1,8 +1,8 @@
 import { Component, signal } from '@angular/core';
-import { SidebarHeaderComponent } from '~/app/sidebar/header/sidebar-header';
+import { SidebarHeaderComponent } from './header/sidebar-header';
 import { SidebarFooterComponent } from './footer/sidebar-footer';
-import { MenuComponent } from '~/app/sidebar/menu/menu';
-import { ScreenMonitorService } from '~/app/services/screen-size';
+import { MenuComponent } from './menu/menu';
+import { ScreenMonitorService } from '~/app/entity/services/screen-size';
 
 @Component({
   selector: 'app-sidebar',
