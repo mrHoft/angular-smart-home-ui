@@ -10,7 +10,7 @@ export class SensorValuePipe implements PipeTransform {
 
   transform(amount: number, unit: string): SafeHtml {
     return this.sanitizer.bypassSecurityTrustHtml(
-      `${amount} <span style="color: #bbb;">${unit}</span>`
+      `${amount} <span style="color: #888;">${unit}</span>`
     );
   }
 }

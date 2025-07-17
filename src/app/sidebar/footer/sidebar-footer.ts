@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
@@ -9,5 +9,5 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrl: './sidebar-footer.scss'
 })
 export class SidebarFooterComponent {
-
+  public toggled = input<boolean>(false)
 }
