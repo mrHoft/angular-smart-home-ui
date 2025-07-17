@@ -2,7 +2,7 @@ import { Component, signal } from '@angular/core';
 import { SidebarHeaderComponent } from './header/sidebar-header';
 import { SidebarFooterComponent } from './footer/sidebar-footer';
 import { MenuComponent } from './menu/menu';
-import { ScreenMonitorService } from '~/app/entity/services/screen-size';
+import { ScreenSizeService } from '~/app/entity/services/screen-size';
 
 @Component({
   selector: 'app-sidebar',
@@ -14,7 +14,7 @@ import { ScreenMonitorService } from '~/app/entity/services/screen-size';
 export class SidebarComponent {
   protected toggled = signal(false)
 
-  constructor(private screenMonitor: ScreenMonitorService) { }
+  constructor(private screenMonitor: ScreenSizeService) { }
 
   onToggle = () => {
     this.toggled.set(!this.toggled())

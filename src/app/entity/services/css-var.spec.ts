@@ -1,13 +1,12 @@
 import { TestBed } from '@angular/core/testing';
-
-import { CssVar } from './css-var';
+import { CssVarService } from './css-var';
 
 describe('CssVar', () => {
-  let service: CssVar;
+  let service: CssVarService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(CssVar);
+    service = TestBed.inject(CssVarService);
   });
 
   it('should be created', () => {

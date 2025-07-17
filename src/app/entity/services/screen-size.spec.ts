@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ScreenSize } from './screen-size';
+import { ScreenSizeService } from './screen-size';
 
 describe('ScreenSize', () => {
-  let service: ScreenSize;
+  let service: ScreenSizeService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(ScreenSize);
+    service = TestBed.inject(ScreenSizeService);
   });
 
   it('should be created', () => {
