@@ -2,7 +2,7 @@ import { Component, input, signal } from '@angular/core';
 import type { CardData, CardItem } from '~/api/api.types';
 import { SensorComponent } from './sensor/sensor';
 import { DeviceComponent } from './device/device';
-import { DeviceSingleComponent } from './device-single/device-single';
+import { DeviceSingleComponent } from '../device-single/device-single';
 
 const defaultValue: CardData = { id: '0', title: '', layout: "horizontalLayout", items: [] }
 

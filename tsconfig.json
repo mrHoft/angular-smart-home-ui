@@ -18,8 +18,8 @@
       "~/*": [
         "./src/*"
       ],
-      "@/*": [
-        "./src/components/*"
+      "ui/*": [
+        "./src/app/components/*"
       ],
       "root/*": [
         "./*"
