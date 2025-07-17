@@ -1,4 +1,8 @@
-<div class="device" (click)="onClick()">
+<div class="device" (click)="onToggle()">
   <div>{{data().label}}</div>
+  @if(isLamp() && item.state){
+  <mat-icon class="icon" appLampHighlight aria-hidden="true">{{data().icon}}</mat-icon>
+  }@else{
   <mat-icon class="icon" [class.icon_on]="item.state" aria-hidden="true">{{data().icon}}</mat-icon>
+  }
 </div>
