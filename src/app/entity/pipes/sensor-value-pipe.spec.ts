@@ -1,3 +1,4 @@
+import type { DomSanitizer } from '@angular/platform-browser';
 import { SensorValuePipe } from './sensor-value-pipe';
 import { SafeHtml } from '@angular/platform-browser';
 
@@ -12,7 +13,7 @@ describe('SensorValuePipe', () => {
 
   beforeEach(() => {
     const sanitizer = new MockDomSanitizer();
-    pipe = new SensorValuePipe(sanitizer as any);
+    pipe = new SensorValuePipe(sanitizer as DomSanitizer);
   });
 
   it('should create an instance', () => {

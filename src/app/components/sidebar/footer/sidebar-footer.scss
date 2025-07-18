@@ -23,10 +23,6 @@
   width: 2rem;
   height: 2rem;
   border-radius: 50%;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: 2rem;
-  background-image: url(/user.svg);
   filter: invert(var(--color-scheme));
   border: var(--border-thickness) solid var(--color30);
   transition: border-color 0.25s linear, background-color 0.25s linear;
