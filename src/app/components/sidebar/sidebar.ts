@@ -6,7 +6,6 @@ import { ScreenSizeService } from '~/app/entity/services/screen-size';
 
 @Component({
   selector: 'app-sidebar',
-  standalone: true,
   imports: [SidebarHeaderComponent, MenuComponent, SidebarFooterComponent],
   templateUrl: './sidebar.html',
   styleUrl: './sidebar.scss'
@@ -17,12 +16,16 @@ export class SidebarComponent {
   constructor(private screenMonitor: ScreenSizeService) { }
 
   onToggle = () => {
-    this.toggled.set(!this.toggled())
+    this.toggled.update((value) => !value)
   }
 
   ngOnInit() {
-    this.screenMonitor.isWideScreen.subscribe((isWide) => {
+    this.screenMonitor.subscribe((isWide) => {
       this.toggled.set(isWide)
     });
+  }
+
+  ngOnDestroy() {
+    this.screenMonitor.unsubscribe()
   }
 }

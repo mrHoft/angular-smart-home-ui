@@ -3,7 +3,6 @@ import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-sidebar-footer',
-  standalone: true,
   imports: [MatIconModule],
   templateUrl: './sidebar-footer.html',
   styleUrl: './sidebar-footer.scss'

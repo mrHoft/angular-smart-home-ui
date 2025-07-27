@@ -4,14 +4,24 @@ import { BehaviorSubject } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class ScreenSizeService {
   private isWideScreenSubject = new BehaviorSubject<boolean>(false);
-  public isWideScreen = this.isWideScreenSubject.asObservable();
+  private mediaQuery = globalThis.matchMedia('(min-width: 741px)');
+  private isWideScreen = this.isWideScreenSubject.asObservable();
 
   constructor() {
-    const mediaQuery = globalThis.matchMedia('(min-width: 741px)');
-    this.isWideScreenSubject.next(mediaQuery.matches);
+    this.isWideScreenSubject.next(this.mediaQuery.matches);
 
-    mediaQuery.addEventListener('change', (e) => {
-      this.isWideScreenSubject.next(e.matches);
-    });
+    this.mediaQuery.addEventListener('change', this.callback);
+  }
+
+  private callback = (e: MediaQueryListEvent) => {
+    this.isWideScreenSubject.next(e.matches)
+  }
+
+  public subscribe = (callback: (_isWide: boolean) => void) => {
+    this.isWideScreen.subscribe(callback)
+  }
+
+  public unsubscribe = () => {
+    this.mediaQuery.removeEventListener('change', this.callback)
   }
 }

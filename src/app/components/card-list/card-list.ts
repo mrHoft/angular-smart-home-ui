@@ -5,11 +5,10 @@ import type { CardData } from '~/api/api.types';
 
 @Component({
   selector: 'app-card-list',
-  standalone: true,
   imports: [CardComponent, CardSingleComponent],
   templateUrl: './card-list.html',
   styleUrl: './card-list.scss'
 })
 export class CardListComponent {
-  public cards = input<CardData[]>([])
+  public cards = input.required<CardData[]>()
 }

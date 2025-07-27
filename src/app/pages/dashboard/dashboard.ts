@@ -6,7 +6,6 @@ import { CardListComponent } from 'ui/card-list/card-list';
 
 @Component({
   selector: 'app-dashboard',
-  standalone: true,
   imports: [MatTabsModule, CardListComponent],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss'

@@ -4,33 +4,19 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import type { CardItem } from '~/api/api.types';
 import { LampHighlight } from '~/app/entity/directives/lamp-highlight';
 
-const defaultCallback = (_item: CardItem) => { }
-const defaultValue: CardItem = {
-  type: "device",
-  icon: 'cloud',
-  label: '',
-  state: false
-}
-
 @Component({
   selector: 'app-device',
-  standalone: true,
   imports: [MatIconModule, MatSlideToggleModule, LampHighlight],
   templateUrl: './device.html',
   styleUrl: './device.scss'
 })
 export class DeviceComponent {
-  public onSwitch = input<(_item: CardItem) => void>(defaultCallback)
-  public data = input<CardItem>(defaultValue)
-  protected item: CardItem = defaultValue
+  public onSwitch = input.required<(_item: CardItem) => void>()
+  public data = input.required<CardItem>()
 
   onToggle() {
-    this.onSwitch()(this.item)
+    this.onSwitch()(this.data())
   }
 
-  isLamp = () => this.item.icon === 'lightbulb'
-
-  ngOnInit() {
-    this.item = this.data()
-  }
+  isLamp = () => this.data().icon === 'lightbulb'
 }

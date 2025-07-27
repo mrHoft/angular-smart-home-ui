@@ -3,18 +3,14 @@ import type { CardData, CardItem } from '~/api/api.types';
 import { SensorComponent } from './sensor/sensor';
 import { DeviceComponent } from './device/device';
 
-const defaultValue: CardData = { id: '0', title: '', layout: "horizontalLayout", items: [] }
-
 @Component({
   selector: 'app-card',
-  standalone: true,
   imports: [SensorComponent, DeviceComponent],
   templateUrl: './card.html',
   styleUrl: './card.scss',
 })
 export class CardComponent {
-  public data = input<CardData>(defaultValue)
-  protected card: CardData = defaultValue
+  public data = input.required<CardData>()
   protected groupToggle: CardItem = {
     type: "device",
     icon: 'power',
@@ -23,10 +19,10 @@ export class CardComponent {
   }
   protected highlight = signal(false)
 
-
   private onGroupToggle = () => {
     this.groupToggle.state = !this.groupToggle.state
-    for (const item of this.card.items) {
+    const card = this.data()
+    for (const item of card.items) {
       if (item.type === 'device') {
         item.state = this.groupToggle.state
       }
@@ -38,7 +34,8 @@ export class CardComponent {
     if (item.label === 'Group toggle') {
       this.onGroupToggle()
     } else {
-      const el = this.card.items.find(el => el.label === item.label)
+      const card = this.data()
+      const el = card.items.find(el => el.label === item.label)
       if (el) {
         el.state = !el.state
         const group = this.getDeviceGroup()
@@ -51,11 +48,13 @@ export class CardComponent {
   }
 
   private getDeviceGroup = () => {
-    const groupToggle = this.card.items.find(item => item.label === 'Group toggle')
+    const card = this.data()
+    const groupToggle = card.items.find(item => item.label === 'Group toggle')
     if (groupToggle) {
       this.groupToggle = groupToggle
     }
-    return this.card.items.reduce<{ count: number, state: boolean, added: boolean }>((acc, cur) => {
+
+    return card.items.reduce<{ count: number, state: boolean, added: boolean }>((acc, cur) => {
       if (cur.type === 'device' && cur.label !== 'Group toggle') {
         acc.count += 1
         acc.state = cur.state || acc.state
@@ -65,10 +64,10 @@ export class CardComponent {
   }
 
   ngOnInit() {
-    this.card = this.data()
     const group = this.getDeviceGroup()
     if (!group.added && group.count > 1) {
-      this.card.items.push(this.groupToggle)
+      const card = this.data()
+      card.items.push(this.groupToggle)
     }
     this.groupToggle.state = group.state
     this.highlight.set(group.state)

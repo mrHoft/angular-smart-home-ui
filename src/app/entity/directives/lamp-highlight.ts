@@ -2,7 +2,6 @@ import { Directive, HostBinding, input } from '@angular/core';
 
 @Directive({
   selector: '[appLampHighlight]',
-  standalone: true
 })
 export class LampHighlight {
   highlight = input<boolean>(true);

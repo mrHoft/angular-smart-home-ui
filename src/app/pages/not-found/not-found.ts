@@ -3,7 +3,6 @@ import { HeaderComponent } from '~/app/components/header/header';
 
 @Component({
   selector: 'app-not-found',
-  standalone: true,
   imports: [HeaderComponent],
   templateUrl: './not-found.html',
   styleUrl: './not-found.scss'

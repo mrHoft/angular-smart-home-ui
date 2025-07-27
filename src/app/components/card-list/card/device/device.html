@@ -1,10 +1,10 @@
 <div class="device">
-  @if(isLamp() && item.state){
-  <mat-icon class="icon" appLampHighlight aria-hidden="true">{{item.icon}}</mat-icon>
+  @if(isLamp() && data().state){
+  <mat-icon class="icon" appLampHighlight aria-hidden="true">{{data().icon}}</mat-icon>
   }@else{
-  <mat-icon class="icon" [class.icon_on]="item.state" aria-hidden="true">{{item.icon}}</mat-icon>
+  <mat-icon class="icon" [class.icon_on]="data().state" aria-hidden="true">{{data().icon}}</mat-icon>
   }
-  <div>{{item.label}}</div>
+  <div>{{data().label}}</div>
   <div class="state"></div>
-  <mat-slide-toggle [checked]="item.state" [hideIcon]="true" (click)="onToggle()" />
+  <mat-slide-toggle [checked]="data().state" [hideIcon]="true" (click)="onToggle()" />
 </div>

@@ -3,7 +3,6 @@ import packageJson from 'root/package.json' with { type: 'json' };
 
 @Component({
   selector: 'app-footer',
-  standalone: true,
   imports: [],
   templateUrl: './footer.html',
   styleUrl: './footer.scss'

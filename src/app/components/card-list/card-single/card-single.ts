@@ -3,35 +3,27 @@ import { MatIconModule } from '@angular/material/icon';
 import type { CardData, CardItem } from '~/api/api.types';
 import { LampHighlight } from '~/app/entity/directives/lamp-highlight';
 
-const defaultValue: CardData = { id: '0', title: '', layout: "horizontalLayout", items: [] }
-const defaultCard: CardItem = {
-  type: "device",
-  icon: 'cloud',
-  label: '',
-  state: false
-}
-
 @Component({
   selector: 'app-card-single',
-  standalone: true,
   imports: [MatIconModule, LampHighlight],
   templateUrl: './card-single.html',
   styleUrl: './card-single.scss'
 })
 export class CardSingleComponent {
-  public data = input<CardData>(defaultValue)
-  protected item: CardItem = defaultCard
+  public data = input.required<CardData>()
   protected highlight = signal(false)
 
+  protected item = () => this.data().items[0]
+
   onToggle() {
-    this.item.state = !this.item.state
-    this.highlight.set(this.item.state || false)
+    const item = this.data().items[0]
+    item.state = !item.state
+    this.highlight.set(item.state || false)
   }
 
-  isLamp = () => this.item.icon === 'lightbulb'
+  isLamp = () => this.data().items[0].icon === 'lightbulb'
 
   ngOnInit() {
-    this.item = this.data().items[0]
-    this.highlight.set(this.item.state || false)
+    this.highlight.set(this.data().items[0].state || false)
   }
 }
