@@ -1,6 +1,6 @@
 import { Component, input, signal } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import type { CardData, CardItem } from '~/api/api.types';
+import type { CardData } from '~/api/api.types';
 import { LampHighlight } from '~/app/entity/directives/lamp-highlight';
 
 @Component({
