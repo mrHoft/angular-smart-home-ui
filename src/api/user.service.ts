@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { signal } from '@angular/core';
 import { computed } from '@angular/core';
-import { tap, switchMap } from 'rxjs';
+import { tap, of, switchMap, catchError } from 'rxjs';
 import { TokenService } from './token.service';
 
 interface LoginRequest {
@@ -28,7 +28,7 @@ export class UserService {
 
   private profileData = signal<ProfileResponse | null>(null);
 
-  public isLoggedIn = computed(() => !!this.tokenService.get());
+  public authorized = computed(() => !!this.tokenService.get());
   public tokenValue = computed(() => this.tokenService.get());
   public profile = computed(() => this.profileData());
 
@@ -38,12 +38,12 @@ export class UserService {
         this.tokenService.set(response.token);
       }),
       switchMap(() => this.requestProfile())
-    ).subscribe();
+    );
   }
 
   public requestProfile() {
     const token = this.tokenService.get();
-    if (!token) throw new Error('No token available');
+    if (!token) return of(null);
 
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`
@@ -52,11 +52,15 @@ export class UserService {
     return this.http.get<ProfileResponse>('/user/profile', { headers }).pipe(
       tap(profile => {
         this.profileData.set(profile);
+      }),
+      catchError(() => {
+        this.tokenService.remove();
+        return of(null);
       })
     );
   }
 
-  public logout() {
+  public logout = () => {
     this.tokenService.remove();
     this.profileData.set(null);
   }

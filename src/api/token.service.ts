@@ -8,7 +8,7 @@ const APP_NAME = 'app-smart-home';
 export class TokenService {
   private storageKey = APP_NAME;
 
-  get(): string | null {
+  public get(): string | null {
     try {
       const data = localStorage.getItem(this.storageKey);
       if (!data) return null;
@@ -19,7 +19,7 @@ export class TokenService {
     }
   }
 
-  set(token: string): void {
+  public set(token: string) {
     try {
       const current = this.getStoredObject();
       current['auth_token'] = token;
@@ -29,7 +29,7 @@ export class TokenService {
     }
   }
 
-  remove(): void {
+  public remove() {
     try {
       const current = this.getStoredObject();
       delete current['auth_token'];

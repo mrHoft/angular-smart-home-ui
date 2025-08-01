@@ -1,4 +1,27 @@
-<div class="footer">
-  <div>{{profile()}}</div>
-  <img class="avatar" src="./assets/user.svg" alt="user" />
+@if(toggled()){
+<div>{{fullName()}}</div>
+}
+<div class="menu">
+  <div class="avatar">
+    @if(authorized()){
+    {{initials()}}
+    }
+    @else{
+    <img class="icon" src="./assets/user.svg" alt="user" />
+    }
+    <div class="popup">
+      @if(authorized()){
+      <div class="menu__item" (click)="logout()">
+        <img class="icon" src="./assets/logout.svg" alt="logout" />
+        <span>Logout</span>
+      </div>
+      }
+      @else{
+      <div class="menu__item" (click)="login()">
+        <img class="icon" src="./assets/login.svg" alt="login" />
+        <span>Login</span>
+      </div>
+      }
+    </div>
+  </div>
 </div>

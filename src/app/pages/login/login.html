@@ -1,8 +1,11 @@
 <div class="login">
-  <form class="login__form">
-    <h3>Please log in</h3>
-    <input name="userName" placeholder="name" required />
-    <input name="password" type="password" placeholder="password" required />
-    <button type="submit">Log in</button>
+  <form class="login__form" [formGroup]="form" (ngSubmit)="onSubmit()">
+    <h3 class="login__form_header">Please authorize</h3>
+    <input formControlName="userName" placeholder="name" required (input)="clearError()" />
+    <input formControlName="password" type="password" placeholder="password" required (input)="clearError()" />
+    <div class="login__form_error">{{ errorMessage() }}</div>
+    <div class="login__form_btns">
+      <button type="submit" [disabled]="form.invalid">Log in</button>
+    </div>
   </form>
 </div>
