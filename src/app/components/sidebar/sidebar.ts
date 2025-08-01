@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, inject, effect } from '@angular/core';
 import { SidebarHeaderComponent } from './header/sidebar-header';
 import { SidebarFooterComponent } from './footer/sidebar-footer';
 import { MenuComponent } from './menu/menu';
@@ -11,21 +11,17 @@ import { ScreenSizeService } from '~/app/entity/services/screen-size';
   styleUrl: './sidebar.scss'
 })
 export class SidebarComponent {
-  protected toggled = signal(false)
+  private screenSizeService = inject(ScreenSizeService)
+  protected toggled = signal(false);
 
-  constructor(private screenMonitor: ScreenSizeService) { }
-
-  onToggle = () => {
-    this.toggled.update((value) => !value)
-  }
-
-  ngOnInit() {
-    this.screenMonitor.subscribe((isWide) => {
-      this.toggled.set(isWide)
+  constructor() {
+    effect(() => {
+      const isWide = this.screenSizeService.isWideScreen();
+      this.toggled.set(isWide);
     });
   }
 
-  ngOnDestroy() {
-    this.screenMonitor.unsubscribe()
+  onToggle = () => {
+    this.toggled.update((value) => !value)
   }
 }

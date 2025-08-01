@@ -1,27 +1,16 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { Injectable, inject } from '@angular/core';
+import { BreakpointObserver } from '@angular/cdk/layout';
+import { map } from 'rxjs';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Injectable({ providedIn: 'root' })
 export class ScreenSizeService {
-  private isWideScreenSubject = new BehaviorSubject<boolean>(false);
-  private mediaQuery = globalThis.matchMedia('(min-width: 741px)');
-  private isWideScreen = this.isWideScreenSubject.asObservable();
+  private breakpointObserver = inject(BreakpointObserver);
 
-  constructor() {
-    this.isWideScreenSubject.next(this.mediaQuery.matches);
-
-    this.mediaQuery.addEventListener('change', this.callback);
-  }
-
-  private callback = (e: MediaQueryListEvent) => {
-    this.isWideScreenSubject.next(e.matches)
-  }
-
-  public subscribe = (callback: (_isWide: boolean) => void) => {
-    this.isWideScreen.subscribe(callback)
-  }
-
-  public unsubscribe = () => {
-    this.mediaQuery.removeEventListener('change', this.callback)
-  }
+  public readonly isWideScreen = toSignal(
+    this.breakpointObserver.observe('(min-width: 741px)').pipe(
+      map(result => result.matches)
+    ),
+    { initialValue: false }
+  );
 }
