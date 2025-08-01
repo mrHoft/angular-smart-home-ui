@@ -7,6 +7,6 @@ import { HeaderComponent } from '~/app/components/header/header';
   templateUrl: './about.html',
   styleUrl: './about.scss'
 })
-export class PageAbout {
+export class SectionAbout {
 
 }

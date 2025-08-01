@@ -1,14 +1,23 @@
 export type TLayout = "horizontalLayout" | "verticalLayout" | 'singleDevice'
 type TIconView = "thermostat" | "water_drop" | "cloud" | "co2" | "motion_photos_on" | "lightbulb" | 'power'
-export interface CardItem {
-  type: "sensor" | "device",
-  icon: TIconView,
-  label: string,
-  value?: {
-    amount: number,
-    unit: string
-  }
-  state?: boolean
+
+export type CardItem = DeviceItem | SensorItem;
+
+export interface DeviceItem {
+  type: "device";
+  icon: string;
+  label: string;
+  state: boolean;
+}
+
+export interface SensorItem {
+  type: "sensor";
+  icon: string;
+  label: string;
+  value: {
+    amount: number;
+    unit: string;
+  };
 }
 
 export interface CardData {

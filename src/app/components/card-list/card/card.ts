@@ -1,5 +1,5 @@
 import { Component, input, signal } from '@angular/core';
-import type { CardData, CardItem } from '~/api/api.types';
+import type { CardData, CardItem, DeviceItem } from '~/api/api.types';
 import { SensorComponent } from './sensor/sensor';
 import { DeviceComponent } from './device/device';
 
@@ -11,7 +11,7 @@ import { DeviceComponent } from './device/device';
 })
 export class CardComponent {
   public data = input.required<CardData>()
-  protected groupToggle: CardItem = {
+  protected groupToggle: DeviceItem = {
     type: "device",
     icon: 'power',
     label: 'Group toggle',
@@ -36,7 +36,7 @@ export class CardComponent {
     } else {
       const card = this.data()
       const el = card.items.find(el => el.label === item.label)
-      if (el) {
+      if (el && el.type === 'device') {
         el.state = !el.state
         const group = this.getDeviceGroup()
         if (group.count > 1) {
@@ -50,7 +50,7 @@ export class CardComponent {
   private getDeviceGroup = () => {
     const card = this.data()
     const groupToggle = card.items.find(item => item.label === 'Group toggle')
-    if (groupToggle) {
+    if (groupToggle && groupToggle.type === 'device') {
       this.groupToggle = groupToggle
     }
 

@@ -1,7 +1,7 @@
 import { Component, input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import type { CardItem } from '~/api/api.types';
+import type { DeviceItem } from '~/api/api.types';
 import { LampHighlight } from '~/app/entity/directives/lamp-highlight';
 
 @Component({
@@ -11,8 +11,8 @@ import { LampHighlight } from '~/app/entity/directives/lamp-highlight';
   styleUrl: './device.scss'
 })
 export class DeviceComponent {
-  public onSwitch = input.required<(_item: CardItem) => void>()
-  public data = input.required<CardItem>()
+  public onSwitch = input.required<(_item: DeviceItem) => void>()
+  public data = input.required<DeviceItem>()
 
   onToggle() {
     this.onSwitch()(this.data())

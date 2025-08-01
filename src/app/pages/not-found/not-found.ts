@@ -1,12 +1,17 @@
-import { Component } from '@angular/core';
-import { HeaderComponent } from '~/app/components/header/header';
+import { Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-not-found',
-  imports: [HeaderComponent],
+  imports: [],
   templateUrl: './not-found.html',
   styleUrl: './not-found.scss'
 })
 export class PageNotFound {
+  private router = inject(Router);
+
+  goHome() {
+    this.router.navigate(['/']);
+  }
 
 }

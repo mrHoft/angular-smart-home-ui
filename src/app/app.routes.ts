@@ -1,11 +1,20 @@
 import { Routes } from '@angular/router';
-import { PageDashboard } from './pages/dashboard/dashboard';
-import { PageAbout } from './pages/about/about';
+import { SectionDashboard } from './pages/dashboard/dashboard';
+import { SectionAbout } from './pages/about/about';
+import { PageLogin } from './pages/login/login';
 import { PageNotFound } from './pages/not-found/not-found';
+import { Layout } from './layout';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: "full" },
-  { path: 'dashboard', component: PageDashboard },
-  { path: 'about', component: PageAbout },
+  {
+    path: '',
+    component: Layout,
+    children: [
+      { path: 'dashboard', component: SectionDashboard },
+      { path: 'about', component: SectionAbout }
+    ]
+  },
+  { path: 'login', component: PageLogin },
   { path: '**', component: PageNotFound }
 ];

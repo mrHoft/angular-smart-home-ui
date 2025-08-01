@@ -1,5 +1,5 @@
 import { Component, input } from '@angular/core';
-import type { CardItem, TLayout } from '~/api/api.types';
+import type { SensorItem, TLayout } from '~/api/api.types';
 import { MatIconModule } from '@angular/material/icon';
 import { SensorValuePipe } from '~/app/entity/pipes/sensor-value-pipe';
 
@@ -11,5 +11,5 @@ import { SensorValuePipe } from '~/app/entity/pipes/sensor-value-pipe';
 })
 export class SensorComponent {
   public layout = input<TLayout>('verticalLayout')
-  public data = input.required<CardItem>()
+  public data = input.required<SensorItem>()
 }
