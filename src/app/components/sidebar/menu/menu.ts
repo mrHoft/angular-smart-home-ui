@@ -4,6 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { ApiService } from '~/api/api.service';
 import type { DashboardItem } from '~/api/api.types';
 import { defaultMenuItem } from './menu.const';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-menu',
@@ -17,11 +18,12 @@ export class MenuComponent {
   private router = inject(Router);
   protected currentRouteId: string;
   protected dashboards = signal<DashboardItem[]>([defaultMenuItem]);
+  private routerSubscription: Subscription
 
   constructor() {
     this.currentRouteId = this.router.url;
 
-    this.router.events.subscribe(event => {
+    this.routerSubscription = this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         const route = event.urlAfterRedirects || event.url
         this.currentRouteId = route.split('/')[2] || '';
@@ -37,6 +39,10 @@ export class MenuComponent {
         }
       }
     })
+  }
+
+  ngOnDestroy() {
+    this.routerSubscription.unsubscribe()
   }
 
   isActive = (id: string) => this.currentRouteId === id;

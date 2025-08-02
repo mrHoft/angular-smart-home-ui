@@ -6,6 +6,8 @@ import { HeaderComponent } from '~/app/components/header/header';
 import { CardListComponent } from 'ui/card-list/card-list';
 import { ApiService } from '~/api/api.service';
 import { i18n } from '~/i18n.en';
+import { Subscription } from 'rxjs';
+import { defaultMenuItem } from '~/app/components/sidebar/menu/menu.const';
 
 @Component({
   selector: 'app-dashboard',
@@ -19,15 +21,18 @@ export class SectionDashboard {
   private apiService = inject(ApiService)
   protected currentRouteId: string;
   protected nothing = i18n.noDashboards
+  private routerSubscription: Subscription
 
   constructor() {
     this.currentRouteId = this.router.url.split('/')[2] || '';
 
-    this.router.events.subscribe(event => {
+    this.routerSubscription = this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         const route = event.urlAfterRedirects || event.url
         this.currentRouteId = route.split('/')[2] || '';
-        this.getTabs(this.currentRouteId)
+        if (this.currentRouteId !== defaultMenuItem.id) {
+          this.getTabs(this.currentRouteId)
+        }
       }
     });
   }
@@ -38,5 +43,9 @@ export class SectionDashboard {
         this.tabs.set(data)
       }
     })
+  }
+
+  ngOnDestroy() {
+    this.routerSubscription.unsubscribe()
   }
 }
