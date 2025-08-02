@@ -35,7 +35,6 @@ export class SectionDashboard {
   private getTabs = (id: string) => {
     this.apiService.requestDashboardById(id).subscribe({
       next: (data) => {
-        console.log(data)
         this.tabs.set(data)
       }
     })

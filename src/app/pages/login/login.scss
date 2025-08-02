@@ -1,8 +1,17 @@
 :host {
+  position: relative;
   width: 100%;
+  height: 100dvh;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.bg_image {
+  position: absolute;
+  left: 2rem;
+  bottom: 2rem;
+  width: calc(min(30%, 10rem));
 }
 
 .login {
