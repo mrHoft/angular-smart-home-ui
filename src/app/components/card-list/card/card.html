@@ -1,12 +1,14 @@
+@let cardData=data();
+
 <div class="card" [class.highlight]="highlight()">
-  <h3 class="title">{{data().title}}</h3>
-  <div class="item_list" [class.item_list_vertical]="data().layout==='verticalLayout'">
-    @for(item of data().items; track item.label){
+  <h3 class="title">{{cardData.title}}</h3>
+  <div class="item_list" [class.item_list_vertical]="cardData.layout==='verticalLayout'">
+    @for(item of cardData.items; track item.label){
     @if(item.type==='device'){
     <app-device [onSwitch]="onToggle" [data]="item" />
     }
     @if(item.type==='sensor'){
-    <app-sensor [layout]="data().layout" [data]="item" />
+    <app-sensor [layout]="cardData.layout" [data]="item" />
     }
     }
   </div>

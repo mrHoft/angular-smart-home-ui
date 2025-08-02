@@ -1,11 +1,14 @@
+@let title=data().title;
+@let device=item();
+
 <div class="card" [class.highlight]="highlight()" (click)="onToggle()">
-  <h3 class="title">{{data().title}}</h3>
+  <h3 class="title">{{title}}</h3>
   <div class="device">
-    <div>{{item().label}}</div>
-    @if(isLamp() && item().state){
-    <mat-icon class="icon" appLampHighlight aria-hidden="true">{{item().icon}}</mat-icon>
+    <div>{{device.label}}</div>
+    @if(isLamp() && device.state){
+    <mat-icon class="icon" appLampHighlight aria-hidden="true">{{device.icon}}</mat-icon>
     }@else{
-    <mat-icon class="icon" [class.icon_on]="item().state" aria-hidden="true">{{item().icon}}</mat-icon>
+    <mat-icon class="icon" [class.icon_on]="device.state" aria-hidden="true">{{device.icon}}</mat-icon>
     }
   </div>
 </div>

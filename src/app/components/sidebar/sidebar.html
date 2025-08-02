@@ -1,5 +1,7 @@
-<aside class="sidebar" [class.toggled]="toggled()">
-  <app-sidebar-header [toggled]="toggled()" [onToggle]="onToggle" />
-  <app-menu [toggled]="toggled()" />
-  <app-sidebar-footer [toggled]="toggled()" />
+@let isToggled=toggled();
+
+<aside class="sidebar" [class.toggled]="isToggled">
+  <app-sidebar-header [toggled]="isToggled" [onToggle]="onToggle" />
+  <app-menu [toggled]="isToggled" />
+  <app-sidebar-footer [toggled]="isToggled" />
 </aside>

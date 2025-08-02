@@ -1,14 +1,16 @@
-@let value = data().value!;
+@let sensorData=data();
+@let value = sensorData.value!;
+
 @if(layout()==='verticalLayout'){
 <div class="sensor_row">
-  <mat-icon class="icon" aria-hidden="true">{{data().icon}}</mat-icon>
-  <div>{{data().label}}</div>
+  <mat-icon class="icon" aria-hidden="true">{{sensorData.icon}}</mat-icon>
+  <div>{{sensorData.label}}</div>
   <div class="state" [innerHTML]="value.amount | sensorValue:value.unit"></div>
 </div>
 }@else{
 <div class="sensor_column">
-  <div>{{data().label}}</div>
-  <mat-icon class="icon" aria-hidden="true">{{data().icon}}</mat-icon>
+  <div>{{sensorData.label}}</div>
+  <mat-icon class="icon" aria-hidden="true">{{sensorData.icon}}</mat-icon>
   <div [innerHTML]="value.amount | sensorValue:value.unit"></div>
 </div>
 }

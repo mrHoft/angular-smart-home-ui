@@ -1,6 +1,8 @@
+@let isToggled=toggled();
+
 <div class="header" (click)="onToggle()()">
   <mat-icon class="icon" aria-hidden="true">menu</mat-icon>
-  @if(toggled()){
+  @if(isToggled){
   <span class="label">Smart Home</span>
   }
 </div>

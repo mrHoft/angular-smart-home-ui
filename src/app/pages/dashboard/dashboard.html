@@ -1,7 +1,9 @@
+@let data=tabs();
+
 <section class="section">
-  @if(tabs().length){
+  @if(data.length){
   <mat-tab-group>
-    @for (tab of tabs(); track $index) {
+    @for (tab of data; track $index) {
     <mat-tab [label]="tab.title">
       <app-card-list [cards]="tab.cards" />
     </mat-tab>

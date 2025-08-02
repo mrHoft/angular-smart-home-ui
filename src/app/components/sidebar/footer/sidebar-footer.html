@@ -1,9 +1,12 @@
-@if(toggled()){
+@let isToggled=toggled();
+@let isAuthorized=authorized();
+
+@if(isToggled){
 <div>{{fullName()}}</div>
 }
 <div class="menu">
   <div class="avatar">
-    @if(authorized()){
+    @if(isAuthorized){
     {{initials()}}
     }
     @else{
@@ -11,10 +14,10 @@
     }
   </div>
   <div class="popup">
-    @if(authorized()){
+    @if(isAuthorized){
     <div class="menu__item" (click)="logout()">
       <img class="icon" src="./assets/logout.svg" alt="logout" />
-      @if(toggled()){
+      @if(isToggled){
       <span>Logout</span>
       }
     </div>
@@ -22,7 +25,7 @@
     @else{
     <div class="menu__item" (click)="login()">
       <img class="icon" src="./assets/login.svg" alt="login" />
-      @if(toggled()){
+      @if(isToggled){
       <span>Login</span>
       }
     </div>
