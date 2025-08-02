@@ -1,7 +1,5 @@
-import { Injectable, inject } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { signal } from '@angular/core';
-import { computed } from '@angular/core';
+import { Injectable, inject, signal, computed } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { tap, of, switchMap, catchError } from 'rxjs';
 import { TokenService } from './token.service';
 
@@ -45,11 +43,7 @@ export class UserService {
     const token = this.tokenService.get();
     if (!token) return of(null);
 
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${token}`
-    });
-
-    return this.http.get<ProfileResponse>('/user/profile', { headers }).pipe(
+    return this.http.get<ProfileResponse>('/user/profile').pipe(
       tap(profile => {
         this.profileData.set(profile);
       }),

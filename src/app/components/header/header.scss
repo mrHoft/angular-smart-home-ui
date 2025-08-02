@@ -1,5 +1,5 @@
 .header {
-  height: 2.5rem;
+  height: calc(2.5rem - var(--border-thickness));
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -8,6 +8,5 @@
   box-sizing: border-box;
   background: var(--color10);
   color: var(--color100);
-  border-top: var(--border-thickness) solid var(--color20);
   border-bottom: var(--border-thickness) solid var(--color20);
 }

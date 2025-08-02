@@ -1,19 +1,43 @@
-import { Component } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
+import { Router, NavigationEnd } from '@angular/router';
 import { MatTabsModule } from '@angular/material/tabs';
 import type { TabData } from '~/api/api.types';
-import { api } from '~/api/mock/api.service';
+import { HeaderComponent } from '~/app/components/header/header';
 import { CardListComponent } from 'ui/card-list/card-list';
+import { ApiService } from '~/api/api.service';
+import { i18n } from '~/i18n.en';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [MatTabsModule, CardListComponent],
+  imports: [MatTabsModule, CardListComponent, HeaderComponent],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss'
 })
 export class SectionDashboard {
-  protected tabs: TabData[]
+  private router = inject(Router);
+  protected tabs = signal<TabData[]>([])
+  private apiService = inject(ApiService)
+  protected currentRouteId: string;
+  protected nothing = i18n.noDashboards
 
   constructor() {
-    this.tabs = api.getTabs()
+    this.currentRouteId = this.router.url.split('/')[2] || '';
+
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        const route = event.urlAfterRedirects || event.url
+        this.currentRouteId = route.split('/')[2] || '';
+        this.getTabs(this.currentRouteId)
+      }
+    });
+  }
+
+  private getTabs = (id: string) => {
+    this.apiService.requestDashboardById(id).subscribe({
+      next: (data) => {
+        console.log(data)
+        this.tabs.set(data)
+      }
+    })
   }
 }

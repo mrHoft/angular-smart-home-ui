@@ -1,12 +1,8 @@
-export const MENU: { id: string; title: string; icon: string }[] = [
-  {
-    id: 'dashboard',
-    title: 'Dashboard',
-    icon: 'dashboard'
-  },
-  {
-    id: 'about',
-    title: 'About',
-    icon: 'info'
-  }
-]
+import type { DashboardItem } from '~/api/api.types';
+
+export const defaultMenuItem: DashboardItem =
+{
+  id: 'about',
+  title: 'About',
+  icon: 'info'
+}

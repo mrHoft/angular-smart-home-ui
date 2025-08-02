@@ -1,9 +1,15 @@
 <section class="section">
+  @if(tabs().length){
   <mat-tab-group>
-    @for (tab of tabs; track tab.id) {
+    @for (tab of tabs(); track tab.id) {
     <mat-tab [label]="tab.title">
       <app-card-list [cards]="tab.cards" />
     </mat-tab>
     }
   </mat-tab-group>
+  }
+  @else{
+  <app-header title="Nothing"></app-header>
+  <div class="message">{{nothing}}</div>
+  }
 </section>

@@ -9,19 +9,23 @@
     @else{
     <img class="icon" src="./assets/user.svg" alt="user" />
     }
-    <div class="popup">
-      @if(authorized()){
-      <div class="menu__item" (click)="logout()">
-        <img class="icon" src="./assets/logout.svg" alt="logout" />
-        <span>Logout</span>
-      </div>
-      }
-      @else{
-      <div class="menu__item" (click)="login()">
-        <img class="icon" src="./assets/login.svg" alt="login" />
-        <span>Login</span>
-      </div>
+  </div>
+  <div class="popup">
+    @if(authorized()){
+    <div class="menu__item" (click)="logout()">
+      <img class="icon" src="./assets/logout.svg" alt="logout" />
+      @if(toggled()){
+      <span>Logout</span>
       }
     </div>
+    }
+    @else{
+    <div class="menu__item" (click)="login()">
+      <img class="icon" src="./assets/login.svg" alt="login" />
+      @if(toggled()){
+      <span>Login</span>
+      }
+    </div>
+    }
   </div>
 </div>

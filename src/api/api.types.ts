@@ -27,13 +27,10 @@ export interface CardData {
   items: CardItem[]
 }
 
+export interface DashboardItem { id: string, title: string, icon: string }
 
 export interface TabData {
   id: string,
   title: string,
   cards: CardData[]
-}
-
-export interface APIData {
-  tabs: TabData[]
 }

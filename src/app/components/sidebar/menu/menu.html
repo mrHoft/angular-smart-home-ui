@@ -1,6 +1,6 @@
 <nav class="nav">
-  @for(item of menu; track item.id){
-  <a class="nav__item" [class.nav__item_active]="isActive(item.id)" [routerLink]="'/'+item.id">
+  @for(item of dashboards(); track item.id){
+  <a class="nav__item" [class.nav__item_active]="isActive(item.id)" [routerLink]="'/dashboard/'+item.id">
     <mat-icon class="icon" aria-hidden="true">{{item.icon}}</mat-icon>
     @if(toggled()){
     <span class="label">{{item.title}}</span>

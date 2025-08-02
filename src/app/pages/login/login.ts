@@ -2,6 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { ReactiveFormsModule, FormControl, FormGroup } from '@angular/forms';
 import { UserService } from '~/api/user.service';
 import { Router } from '@angular/router';
+import { i18n } from '~/i18n.en';
 
 const EXAMPLE_CREDENTIALS = {
   userName: 'Hobbs',
@@ -17,7 +18,6 @@ const EXAMPLE_CREDENTIALS = {
 export class PageLogin {
   private router = inject(Router);
   private userService = inject(UserService);
-  protected exampleCredentials = EXAMPLE_CREDENTIALS
   protected errorMessage = signal<string | null>(null);
 
   protected clearError() {
@@ -31,7 +31,7 @@ export class PageLogin {
 
 
   ngOnInit() {
-    this.form.patchValue(this.exampleCredentials);
+    this.form.patchValue(EXAMPLE_CREDENTIALS);
   }
 
   protected onSubmit() {
@@ -39,9 +39,9 @@ export class PageLogin {
     this.userService.login(value).subscribe({
       error: (error) => {
         if (error.status === 401) {
-          this.errorMessage.set('Invalid login or password.');
+          this.errorMessage.set(i18n.unauthorized);
         } else {
-          this.errorMessage.set('Unknown error occurred. Please try again later.');
+          this.errorMessage.set(i18n.unexpected);
         }
       },
       next: () => {

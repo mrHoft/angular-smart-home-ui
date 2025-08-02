@@ -15,6 +15,8 @@
 }
 
 .icon {
+  width: 1.5rem;
+  padding: 0 0.25rem;
   filter: invert(var(--color-scheme));
 }
 
@@ -51,7 +53,8 @@
 .popup {
   display: none;
   position: absolute;
-  bottom: 2.5rem;
+  bottom: calc(2.5rem - var(--border-thickness));
+  left: 0;
   right: 0;
   background: var(--color20);
 }
@@ -60,8 +63,9 @@
   display: flex;
   column-gap: 0.5rem;
   align-items: center;
-  padding: 0.25rem 0.5rem;
+  padding: 0.5rem 1rem;
   transition: background-color 0.25s linear;
+  cursor: pointer;
 
   &:hover {
     background-color: var(--color-accent50a);

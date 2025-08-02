@@ -1,11 +1,11 @@
-import { APIData } from "../api.types"
+import { TabData } from "../api.types"
 import data from './mock-data.json' with { type: 'json' };
 
 class Api {
-  private data: APIData
+  private data: TabData[]
 
   constructor() {
-    this.data = data as APIData
+    this.data = data.tabs as TabData[]
   }
 
   public getDashboards() {
@@ -13,7 +13,7 @@ class Api {
   }
 
   public getTabs() {
-    return this.data.tabs
+    return this.data
   }
 }
 
