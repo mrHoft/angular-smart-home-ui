@@ -3,8 +3,9 @@ import { HttpInterceptorFn, HttpErrorResponse } from '@angular/common/http';
 import { TokenService } from './token.service';
 import { tap } from 'rxjs';
 import { Router } from '@angular/router';
+import { environment } from '~/environments/environment';
 
-const API_URL = 'http://localhost:3004'
+const { API_URL } = environment
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const tokenService = inject(TokenService);

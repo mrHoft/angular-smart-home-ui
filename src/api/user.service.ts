@@ -54,7 +54,7 @@ export class UserService {
     );
   }
 
-  public logout = () => {
+  public readonly logout = () => {
     this.tokenService.remove();
     this.profileData.set(null);
   }
