@@ -26,9 +26,9 @@ export class UserService {
 
   private profileData = signal<ProfileResponse | null>(null);
 
-  public authorized = computed(() => !!this.tokenService.get());
-  public tokenValue = computed(() => this.tokenService.get());
-  public profile = computed(() => this.profileData());
+  public readonly authorized = computed(() => Boolean(this.tokenService.get()));
+  public readonly tokenValue = computed(() => this.tokenService.get());
+  public readonly profile = computed(() => this.profileData());
 
   public login(request: LoginRequest) {
     return this.http.post<LoginResponse>('/user/login', request).pipe(

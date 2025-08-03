@@ -15,7 +15,9 @@ export default tseslint.config([
       'unicorn/empty-brace-spaces': 'off',
       'unicorn/prevent-abbreviations': 'off',
       'unicorn/no-array-reduce': 'off',
-      'unicorn/prefer-top-level-await': 'off'
+      'unicorn/prefer-top-level-await': 'off',
+      'unicorn/consistent-function-scoping': 'off',
+      'unicorn/no-null': 'off'
     },
   },
 ]);

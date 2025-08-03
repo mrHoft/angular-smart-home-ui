@@ -7,15 +7,16 @@ import { FooterComponent } from 'ui/footer/footer';
   selector: 'app-layout',
   imports: [RouterOutlet, SidebarComponent, FooterComponent],
   template: /* html */`
-<div class="content">
-  <app-sidebar />
-  <router-outlet />
-</div>
-<app-footer />`,
+    <div class="content">
+      <app-sidebar />
+      <router-outlet />
+    </div>
+    <app-footer />
+  `,
   styles: /* css */`
-.content {
-  display: flex;
-}
-`
+    .content {
+      display: flex;
+    }
+  `
 })
 export class Layout { }

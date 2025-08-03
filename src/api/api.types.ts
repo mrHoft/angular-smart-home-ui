@@ -1,5 +1,5 @@
 export type TLayout = "horizontalLayout" | "verticalLayout" | 'singleDevice'
-type TIconView = "thermostat" | "water_drop" | "cloud" | "co2" | "motion_photos_on" | "lightbulb" | 'power'
+// type TIconView = "thermostat" | "water_drop" | "cloud" | "co2" | "motion_photos_on" | "lightbulb" | 'power'
 
 export type CardItem = DeviceItem | SensorItem;
 
