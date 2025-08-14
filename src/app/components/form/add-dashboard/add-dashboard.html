@@ -1,0 +1,9 @@
+<form class="form" [formGroup]="form" (ngSubmit)="onSubmit()">
+  <h3 class="form__header">Create Dashboard</h3>
+  <input formControlName="id" placeholder="id*" maxlength="30" required />
+  <input formControlName="title" placeholder="title*" maxlength="50" required />
+  <input formControlName="icon" placeholder="icon*" required />
+  <div class="form__btns">
+    <button type="submit" [disabled]="form.invalid">Create</button>
+  </div>
+</form>

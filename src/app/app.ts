@@ -2,12 +2,13 @@ import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { UserService } from '~/api/user.service';
 import { Router } from '@angular/router';
-import { Modal } from './components/modal/modal';
+import { ModalComponent } from './components/modal/modal';
+import { MessageComponent } from './components/message/message';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Modal],
-  template: '<router-outlet /><app-modal />',
+  imports: [RouterOutlet, ModalComponent, MessageComponent],
+  template: '<router-outlet /><app-modal /><app-message/>',
   styleUrl: './app.scss'
 })
 export class App {

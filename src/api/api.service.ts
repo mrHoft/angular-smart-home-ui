@@ -26,4 +26,8 @@ export class ApiService {
       map(response => response.tabs)
     );
   }
+
+  public addDashboard(data: DashboardItem) {
+    return this.http.post<DashboardItem>('/dashboards', data);
+  }
 }

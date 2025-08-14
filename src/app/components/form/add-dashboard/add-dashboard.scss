@@ -1,0 +1,17 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  row-gap: 1rem;
+  padding: 1rem 2rem;
+}
+
+.form__header {
+  text-align: center;
+  margin-top: 0;
+}
+
+.form__btns {
+  display: flex;
+  justify-content: center;
+}

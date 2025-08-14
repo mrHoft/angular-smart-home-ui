@@ -3,7 +3,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { UserService } from '~/api/user.service';
 import { Router } from '@angular/router';
 import { ModalService } from '~/app/components/modal/modal.service';
-import { Confirmation } from '~/app/components/form/confirmation/confirmation';
+import { MessageService } from '~/app/components/message/message.service';
+import { AddDashboard } from '~/app/components/form/add-dashboard/add-dashboard';
+import { ApiService } from '~/api/api.service';
+import { DashboardItem } from '~/api/api.types';
 
 @Component({
   selector: 'app-sidebar-footer',
@@ -13,7 +16,9 @@ import { Confirmation } from '~/app/components/form/confirmation/confirmation';
 })
 export class SidebarFooterComponent {
   private router = inject(Router)
+  private apiService = inject(ApiService)
   private modalService = inject(ModalService);
+  private messageService = inject(MessageService);
   private userService = inject(UserService);
   public toggled = input<boolean>(false)
 
@@ -39,6 +44,13 @@ export class SidebarFooterComponent {
   }
 
   protected handleModal = () => {
-    this.modalService.showComponent(Confirmation).then(console.log)
+    this.modalService.showComponent(AddDashboard).then((result) => {
+      this.apiService.addDashboard(result as DashboardItem).subscribe({
+        next: (response) => console.log('Success', response),
+        error: (error) => {
+          this.messageService.show(error.message, 'error')
+        }
+      });
+    })
   }
 }

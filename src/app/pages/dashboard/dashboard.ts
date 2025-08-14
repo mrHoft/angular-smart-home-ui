@@ -11,6 +11,7 @@ import { defaultMenuItem } from '~/app/components/sidebar/menu/menu.const';
 import { SquareButton } from '~/app/components/square-button/square-button';
 import { ModalService } from '~/app/components/modal/modal.service';
 import { Confirmation } from '~/app/components/form/confirmation/confirmation';
+import { MessageService } from '~/app/components/message/message.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -26,6 +27,7 @@ export class SectionDashboard {
   protected nothing = i18n.noDashboards
   private routerSubscription: Subscription
   private modalService = inject(ModalService);
+  private messageService = inject(MessageService);
 
   constructor() {
     this.currentRouteId = this.router.url.split('/')[2] || '';
@@ -50,11 +52,21 @@ export class SectionDashboard {
   }
 
   protected onDelete = () => {
-    this.modalService.showComponent(Confirmation).then(console.log)
+    this.modalService.showComponent(Confirmation).then(confirm => {
+      console.log(confirm)
+      if (confirm) {
+        this.messageService.show('Dashboard was deleted!', 'error')
+      }
+    })
   }
 
   protected onEdit = () => {
-    this.modalService.showComponent(Confirmation).then(console.log)
+    this.modalService.showComponent(Confirmation).then(confirm => {
+      console.log(confirm)
+      if (confirm) {
+        this.messageService.show('Dashboard was changed!', 'error')
+      }
+    })
   }
 
   ngOnDestroy() {
