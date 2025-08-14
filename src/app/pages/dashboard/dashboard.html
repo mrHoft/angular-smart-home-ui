@@ -9,6 +9,10 @@
     </mat-tab>
     }
   </mat-tab-group>
+  <div class="controls">
+    <app-square-button icon="edit" (onClick)="onEdit()" />
+    <app-square-button icon="del" (onClick)="onDelete()" />
+  </div>
   }
   @else{
   <app-header title="Nothing"></app-header>

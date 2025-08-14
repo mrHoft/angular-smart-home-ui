@@ -1,34 +1,43 @@
 @let isToggled=toggled();
 @let isAuthorized=authorized();
 
-@if(isToggled){
-<div>{{fullName()}}</div>
-}
-<div class="menu">
-  <div class="avatar">
-    @if(isAuthorized){
-    {{initials()}}
-    }
-    @else{
-    <img class="icon" src="./assets/user.svg" alt="user" />
-    }
-  </div>
-  <div class="popup">
-    @if(isAuthorized){
-    <div class="menu__item" (click)="logout()">
-      <img class="icon" src="./assets/logout.svg" alt="logout" />
-      @if(isToggled){
-      <span>Logout</span>
+<div class="menu__item" (click)="handleModal()">
+  <mat-icon class="menu__item_icon" aria-hidden="true">plus</mat-icon>
+  @if(isToggled){
+  <span class="menu__item_label">Add Dashboard</span>
+  }
+</div>
+
+<div class="user">
+  @if(isToggled){
+  <div>{{fullName()}}</div>
+  }
+  <div class="menu">
+    <div class="avatar">
+      @if(isAuthorized){
+      {{initials()}}
+      }
+      @else{
+      <img class="icon" src="./assets/user.svg" alt="user" />
       }
     </div>
-    }
-    @else{
-    <div class="menu__item" (click)="login()">
-      <img class="icon" src="./assets/login.svg" alt="login" />
-      @if(isToggled){
-      <span>Login</span>
+    <div class="popup">
+      @if(isAuthorized){
+      <div class="menu__item" (click)="logout()">
+        <img class="icon" src="./assets/logout.svg" alt="logout" />
+        @if(isToggled){
+        <span>Logout</span>
+        }
+      </div>
+      }
+      @else{
+      <div class="menu__item" (click)="login()">
+        <img class="icon" src="./assets/login.svg" alt="login" />
+        @if(isToggled){
+        <span>Login</span>
+        }
+      </div>
       }
     </div>
-    }
   </div>
 </div>

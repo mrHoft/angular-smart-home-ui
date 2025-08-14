@@ -8,10 +8,13 @@ import { ApiService } from '~/api/api.service';
 import { i18n } from '~/i18n.en';
 import { Subscription } from 'rxjs';
 import { defaultMenuItem } from '~/app/components/sidebar/menu/menu.const';
+import { SquareButton } from '~/app/components/square-button/square-button';
+import { ModalService } from '~/app/components/modal/modal.service';
+import { Confirmation } from '~/app/components/form/confirmation/confirmation';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [MatTabsModule, CardListComponent, HeaderComponent],
+  imports: [MatTabsModule, CardListComponent, HeaderComponent, SquareButton],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss'
 })
@@ -22,6 +25,7 @@ export class SectionDashboard {
   protected currentRouteId: string;
   protected nothing = i18n.noDashboards
   private routerSubscription: Subscription
+  private modalService = inject(ModalService);
 
   constructor() {
     this.currentRouteId = this.router.url.split('/')[2] || '';
@@ -43,6 +47,14 @@ export class SectionDashboard {
         this.tabs.set(data)
       }
     })
+  }
+
+  protected onDelete = () => {
+    this.modalService.showComponent(Confirmation).then(console.log)
+  }
+
+  protected onEdit = () => {
+    this.modalService.showComponent(Confirmation).then(console.log)
   }
 
   ngOnDestroy() {

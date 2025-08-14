@@ -2,6 +2,8 @@ import { Component, input, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { UserService } from '~/api/user.service';
 import { Router } from '@angular/router';
+import { ModalService } from '~/app/components/modal/modal.service';
+import { Confirmation } from '~/app/components/form/confirmation/confirmation';
 
 @Component({
   selector: 'app-sidebar-footer',
@@ -11,6 +13,7 @@ import { Router } from '@angular/router';
 })
 export class SidebarFooterComponent {
   private router = inject(Router)
+  private modalService = inject(ModalService);
   private userService = inject(UserService);
   public toggled = input<boolean>(false)
 
@@ -33,5 +36,9 @@ export class SidebarFooterComponent {
 
   protected login = () => {
     this.router.navigate(['/login'])
+  }
+
+  protected handleModal = () => {
+    this.modalService.showComponent(Confirmation).then(console.log)
   }
 }

@@ -3,6 +3,9 @@
   bottom: 0;
   left: 0;
   right: 0;
+}
+
+.user {
   height: 2.5rem;
   display: flex;
   justify-content: space-between;
@@ -68,6 +71,16 @@
   cursor: pointer;
 
   &:hover {
-    background-color: var(--color-accent50a);
+    background-color: var(--color-accent60a);
   }
+}
+
+.menu__item_icon {
+  width: 2rem;
+  text-align: center;
+}
+
+.menu__item_label {
+  text-wrap-mode: nowrap;
+  overflow: hidden;
 }
