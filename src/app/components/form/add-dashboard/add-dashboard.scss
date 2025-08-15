@@ -4,6 +4,13 @@
   justify-content: center;
   row-gap: 1rem;
   padding: 1rem 2rem;
+
+  input,
+  button,
+  select,
+  option {
+    font-size: 1rem;
+  }
 }
 
 .form__header {
@@ -14,4 +21,8 @@
 .form__btns {
   display: flex;
   justify-content: center;
+}
+
+.icon {
+  font-family: 'Material Icons';
 }

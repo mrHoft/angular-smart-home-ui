@@ -45,12 +45,14 @@ export class SidebarFooterComponent {
 
   protected handleModal = () => {
     this.modalService.showComponent(AddDashboard).then((result) => {
-      this.apiService.addDashboard(result as DashboardItem).subscribe({
-        next: (response) => console.log('Success', response),
-        error: (error) => {
-          this.messageService.show(error.message, 'error')
-        }
-      });
+      if (result) {
+        this.apiService.addDashboard(result as DashboardItem).subscribe({
+          next: (response) => console.log('Success', response),
+          error: (error) => {
+            this.messageService.show(error.message, 'error')
+          }
+        });
+      }
     })
   }
 }

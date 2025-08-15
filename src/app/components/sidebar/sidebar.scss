@@ -6,6 +6,8 @@
   position: relative;
   width: 4rem;
   height: 100%;
+  padding-bottom: 5.5rem;
+  box-sizing: border-box;
   border-left: var(--border-thickness) solid var(--color20);
   border-right: var(--border-thickness) solid var(--color20);
   transition: width 0.25s ease-out;

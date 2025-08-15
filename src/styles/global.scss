@@ -1,4 +1,5 @@
 @import url('./colors.scss');
+@import url('./icons.scss');
 @import url('./overrides.scss');
 
 :root {
@@ -40,6 +41,11 @@ a {
 }
 
 input,
+select,
 button {
   outline: none;
+}
+
+button {
+  padding: 0.125em 1em;
 }
