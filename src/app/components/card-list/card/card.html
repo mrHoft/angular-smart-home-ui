@@ -11,5 +11,8 @@
     <app-sensor [layout]="cardData.layout" [data]="item" />
     }
     }
+    @if(groupToggle){
+    <app-device [onSwitch]="onGroupToggle" [data]="groupToggle" />
+    }
   </div>
 </div>

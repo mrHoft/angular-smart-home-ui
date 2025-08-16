@@ -1,10 +1,8 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { MatTabsModule } from '@angular/material/tabs';
-import type { TabData } from '~/api/api.types';
 import { HeaderComponent } from '~/app/components/header/header';
 import { CardListComponent } from 'ui/card-list/card-list';
-import { ApiService } from '~/api/api.service';
 import { i18n } from '~/i18n.en';
 import { Subscription } from 'rxjs';
 import { defaultMenuItem } from '~/app/components/sidebar/menu/menu.const';
@@ -12,6 +10,10 @@ import { SquareButton } from '~/app/components/square-button/square-button';
 import { ModalService } from '~/app/components/modal/modal.service';
 import { Confirmation } from '~/app/components/form/confirmation/confirmation';
 import { MessageService } from '~/app/components/message/message.service';
+
+import { Store } from '@ngrx/store';
+import * as DashboardActions from '~/app/state/dashboard.actions';
+import { selectTabs, selectLoading, selectError } from '~/app/state/dashboard.selectors';
 
 @Component({
   selector: 'app-dashboard',
@@ -21,13 +23,16 @@ import { MessageService } from '~/app/components/message/message.service';
 })
 export class SectionDashboard {
   private router = inject(Router);
-  protected tabs = signal<TabData[]>([])
-  private apiService = inject(ApiService)
   protected currentRouteId: string;
   protected nothing = i18n.noDashboards
   private routerSubscription: Subscription
   private modalService = inject(ModalService);
   private messageService = inject(MessageService);
+
+  private readonly store = inject(Store);
+  readonly tabs = this.store.selectSignal(selectTabs);
+  readonly loading = this.store.selectSignal(selectLoading);
+  readonly error = this.store.selectSignal(selectError);
 
   constructor() {
     this.currentRouteId = this.router.url.split('/')[2] || '';
@@ -44,11 +49,7 @@ export class SectionDashboard {
   }
 
   private getTabs = (id: string) => {
-    this.apiService.requestDashboardById(id).subscribe({
-      next: (data) => {
-        this.tabs.set(data)
-      }
-    })
+    this.store.dispatch(DashboardActions.loadDashboard({ id }));
   }
 
   protected onDelete = () => {

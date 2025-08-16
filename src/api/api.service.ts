@@ -27,7 +27,11 @@ export class ApiService {
     );
   }
 
-  public addDashboard(data: DashboardItem) {
+  public createDashboard(data: DashboardItem) {
     return this.http.post<DashboardItem>('/dashboards', data);
+  }
+
+  public removeDashboard(id: string) {
+    return this.http.delete(`/dashboards/${id}`);
   }
 }
