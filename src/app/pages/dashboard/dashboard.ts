@@ -1,11 +1,8 @@
-import { Component, inject } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
+import { Component, inject, effect } from '@angular/core';
 import { MatTabsModule } from '@angular/material/tabs';
 import { HeaderComponent } from '~/app/components/header/header';
 import { CardListComponent } from 'ui/card-list/card-list';
 import { i18n } from '~/i18n.en';
-import { Subscription } from 'rxjs';
-import { defaultMenuItem } from '~/app/components/sidebar/menu/menu.const';
 import { SquareButton } from '~/app/components/square-button/square-button';
 import { ModalService } from '~/app/components/modal/modal.service';
 import { Confirmation } from '~/app/components/form/confirmation/confirmation';
@@ -13,7 +10,7 @@ import { MessageService } from '~/app/components/message/message.service';
 
 import { Store } from '@ngrx/store';
 import * as DashboardActions from '~/app/state/dashboard.actions';
-import { selectTabs, selectLoading, selectError } from '~/app/state/dashboard.selectors';
+import { selectTabs, /* selectLoading, selectError, */ selectActiveDashboardId } from '~/app/state/dashboard.selectors';
 
 @Component({
   selector: 'app-dashboard',
@@ -22,41 +19,30 @@ import { selectTabs, selectLoading, selectError } from '~/app/state/dashboard.se
   styleUrl: './dashboard.scss'
 })
 export class SectionDashboard {
-  private router = inject(Router);
-  protected currentRouteId: string;
-  protected nothing = i18n.noDashboards
-  private routerSubscription: Subscription
+  protected empty = i18n.empty
   private modalService = inject(ModalService);
   private messageService = inject(MessageService);
-
-  private readonly store = inject(Store);
-  readonly tabs = this.store.selectSignal(selectTabs);
-  readonly loading = this.store.selectSignal(selectLoading);
-  readonly error = this.store.selectSignal(selectError);
+  private store = inject(Store);
+  protected tabs = this.store.selectSignal(selectTabs);
+  // TODO: loading indicator
+  // protected loading = this.store.selectSignal(selectLoading);
+  // protected error = this.store.selectSignal(selectError);
+  protected activeDashboardId = this.store.selectSignal(selectActiveDashboardId);
 
   constructor() {
-    this.currentRouteId = this.router.url.split('/')[2] || '';
-
-    this.routerSubscription = this.router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
-        const route = event.urlAfterRedirects || event.url
-        this.currentRouteId = route.split('/')[2] || '';
-        if (this.currentRouteId !== defaultMenuItem.id) {
-          this.getTabs(this.currentRouteId)
-        }
+    effect(() => {
+      const id = this.activeDashboardId();
+      if (id) {
+        this.store.dispatch(DashboardActions.loadDashboardTabs({ id }));
       }
     });
   }
 
-  private getTabs = (id: string) => {
-    this.store.dispatch(DashboardActions.loadDashboard({ id }));
-  }
-
   protected onDelete = () => {
     this.modalService.showComponent(Confirmation).then(confirm => {
-      console.log(confirm)
-      if (confirm) {
-        this.messageService.show('Dashboard was deleted!', 'error')
+      const id = this.activeDashboardId();
+      if (confirm && id) {
+        this.store.dispatch(DashboardActions.removeDashboard({ id }))
       }
     })
   }
@@ -68,9 +54,5 @@ export class SectionDashboard {
         this.messageService.show('Dashboard was changed!', 'error')
       }
     })
-  }
-
-  ngOnDestroy() {
-    this.routerSubscription.unsubscribe()
   }
 }

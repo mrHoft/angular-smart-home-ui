@@ -4,15 +4,19 @@ import { Component, input, output } from '@angular/core';
   selector: 'app-confirmation',
   imports: [],
   template: /* html */`
-    <h3>{{text()}}</h3>
+    <h3 class="title">{{text()}}</h3>
     <div class="btns">
       <button type="button" (click)="onYes()">Yes</button>
       <button type="button" (click)="onCancel()">Cancel</button>
     </div>
   `,
   styles: /* css */`
+  .title {
+    text-align: center;
+  }
   .btns {
     display: flex;
+    column-gap: 1rem;
     justify-content: space-around;
   }
   `

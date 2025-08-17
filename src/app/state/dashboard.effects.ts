@@ -1,24 +1,9 @@
 import { inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { switchMap, map, catchError, of, tap } from 'rxjs';
-import { Router } from '@angular/router';
 import { ApiService } from '~/api/api.service';
 import * as DashboardActions from './dashboard.actions';
-
-export const loadDashboard$ = createEffect(
-  (actions$ = inject(Actions), apiService = inject(ApiService)) => {
-    return actions$.pipe(
-      ofType(DashboardActions.loadDashboard),
-      switchMap(({ id }) =>
-        apiService.requestDashboardById(id).pipe(
-          map((tabs) => DashboardActions.loadDashboardSuccess({ tabs })),
-          catchError((error) => of(DashboardActions.loadDashboardFailure({ error })))
-        )
-      )
-    );
-  },
-  { functional: true }
-);
+import { MessageService } from '~/app/components/message/message.service';
 
 export const loadDashboards$ = createEffect(
   (actions$ = inject(Actions), apiService = inject(ApiService)) => {
@@ -35,29 +20,66 @@ export const loadDashboards$ = createEffect(
   { functional: true }
 );
 
-export const navigateOnDashboardsLoad$ = createEffect(
-  (actions$ = inject(Actions), router = inject(Router)) => {
+export const loadDashboard$ = createEffect(
+  (actions$ = inject(Actions), apiService = inject(ApiService)) => {
     return actions$.pipe(
-      ofType(DashboardActions.loadDashboardsSuccess),
-      tap(({ dashboards }) => {
-        // Navigate to first dashboard if no active route
-        const firstDashboard = dashboards[0];
-        if (firstDashboard) {
-          router.navigate([`/dashboard/${firstDashboard.id}`]);
-        }
-      })
+      ofType(DashboardActions.loadDashboardTabs),
+      switchMap(({ id }) =>
+        apiService.requestDashboardById(id).pipe(
+          map((tabs) => DashboardActions.loadDashboardTabsSuccess({ tabs })),
+          catchError((error) => of(DashboardActions.loadDashboardTabsFailure({ error })))
+        )
+      )
+    );
+  },
+  { functional: true }
+);
+
+export const createDashboard$ = createEffect(
+  (actions$ = inject(Actions), apiService = inject(ApiService)) => {
+    return actions$.pipe(
+      ofType(DashboardActions.createDashboard),
+      switchMap(({ data }) =>
+        apiService.createDashboard(data).pipe(
+          map((dashboard) => DashboardActions.createDashboardSuccess({ dashboard })),
+          catchError((error) => of(DashboardActions.createDashboardFailure({ error })))
+        )
+      )
+    );
+  },
+  { functional: true }
+);
+
+export const showCreateSuccessMessage$ = createEffect(
+  (actions$ = inject(Actions), messageService = inject(MessageService)) => {
+    return actions$.pipe(
+      ofType(DashboardActions.createDashboardSuccess),
+      tap(({ dashboard: { id } }) => messageService.show(`Dashboard "${id}" was created!`))
     );
   },
   { functional: true, dispatch: false }
 );
 
-export const navigateOnActiveDashboardChange$ = createEffect(
-  (actions$ = inject(Actions), router = inject(Router)) => {
+export const removeDashboard$ = createEffect(
+  (actions$ = inject(Actions), apiService = inject(ApiService)) => {
     return actions$.pipe(
-      ofType(DashboardActions.setActiveDashboard),
-      tap(({ id }) => {
-        router.navigate([`/dashboard/${id}`]);
-      })
+      ofType(DashboardActions.removeDashboard),
+      switchMap(({ id }) =>
+        apiService.removeDashboard(id).pipe(
+          map(() => DashboardActions.removeDashboardSuccess({ id })),
+          catchError((error) => of(DashboardActions.removeDashboardFailure({ error })))
+        )
+      )
+    );
+  },
+  { functional: true }
+);
+
+export const showDeleteSuccessMessage$ = createEffect(
+  (actions$ = inject(Actions), messageService = inject(MessageService)) => {
+    return actions$.pipe(
+      ofType(DashboardActions.removeDashboardSuccess),
+      tap(({ id }) => messageService.show(`Dashboard "${id}" was deleted!`))
     );
   },
   { functional: true, dispatch: false }

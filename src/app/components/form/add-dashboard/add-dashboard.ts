@@ -13,11 +13,13 @@ import { icons } from '~/data/icons';
 export class AddDashboard {
   protected icons = icons
   public result = output<DashboardItem>()
+  private icon = icons[Math.floor(Math.random() * icons.length)]
+  private title = `${this.icon.charAt(0).toUpperCase()}${this.icon.slice(1).replace('_', ' ')}`
 
   protected form = new FormGroup({
-    id: new FormControl(Date.now().toString(), { nonNullable: true }),
-    title: new FormControl('Dashboard', { nonNullable: true }),
-    icon: new FormControl('home', { nonNullable: true }),
+    id: new FormControl(this.icon, { nonNullable: true }),
+    title: new FormControl(this.title, { nonNullable: true }),
+    icon: new FormControl(this.icon, { nonNullable: true }),
   });
 
   protected onSubmit() {

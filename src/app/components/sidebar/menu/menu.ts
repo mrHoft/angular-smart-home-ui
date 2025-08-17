@@ -1,10 +1,10 @@
-import { Component, signal, inject, input } from '@angular/core';
-import { Router, NavigationEnd, RouterLink } from '@angular/router';
+import { Component, inject, input, effect } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
-import { ApiService } from '~/api/api.service';
-import type { DashboardItem } from '~/api/api.types';
-import { defaultMenuItem } from './menu.const';
-import { Subscription } from 'rxjs';
+
+import { Store } from '@ngrx/store';
+import * as DashboardActions from '~/app/state/dashboard.actions';
+import { selectDashboards, selectActiveDashboardId } from '~/app/state/dashboard.selectors';
 
 @Component({
   selector: 'app-menu',
@@ -13,37 +13,40 @@ import { Subscription } from 'rxjs';
   styleUrl: './menu.scss'
 })
 export class MenuComponent {
-  private apiService = inject(ApiService)
   public toggled = input<boolean>(false)
   private router = inject(Router);
-  protected currentRouteId: string;
-  protected dashboards = signal<DashboardItem[]>([defaultMenuItem]);
-  private routerSubscription: Subscription
+  private store = inject(Store);
+  protected dashboards = this.store.selectSignal(selectDashboards);
+  protected activeDashboardId = this.store.selectSignal(selectActiveDashboardId);
 
   constructor() {
-    this.currentRouteId = this.router.url;
+    effect(() => {
+      const dashboards = this.dashboards();
+      if (dashboards.length === 0) return;
 
-    this.routerSubscription = this.router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
-        const route = event.urlAfterRedirects || event.url
-        this.currentRouteId = route.split('/')[2] || '';
+      const currentId = this.getCurrentDashboardId();
+      const isValidDashboard = dashboards.some(d => d.id === currentId);
+
+      if (!currentId || !isValidDashboard) {
+        const id = dashboards[0].id
+        this.router.navigate([`/dashboard/${id}`]);
+        this.setActiveDashboard(id)
+      } else {
+        this.setActiveDashboard(currentId)
       }
     });
-
-    this.apiService.requestDashboards().subscribe({
-      next: (dashboards) => {
-        this.dashboards.set([...dashboards, defaultMenuItem])
-        const defaultItem = dashboards[0]
-        if (this.currentRouteId === '' && defaultItem) {
-          this.router.navigate([`/dashboard/${defaultItem.id}`])
-        }
-      }
-    })
   }
 
-  ngOnDestroy() {
-    this.routerSubscription.unsubscribe()
+  ngOnInit() {
+    this.store.dispatch(DashboardActions.loadDashboards());
   }
 
-  isActive = (id: string) => this.currentRouteId === id;
+  protected setActiveDashboard(id: string) {
+    this.store.dispatch(DashboardActions.setActiveDashboard({ id }));
+  }
+
+  private getCurrentDashboardId(): string | null {
+    const parts = this.router.url.split('/');
+    return parts.length > 2 && parts[1] === 'dashboard' ? parts[2] : null;
+  }
 }

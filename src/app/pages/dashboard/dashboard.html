@@ -9,13 +9,12 @@
     </mat-tab>
     }
   </mat-tab-group>
+  }@else{
+  <app-header title="Empty"></app-header>
+  <div class="message">{{empty}}</div>
+  }
   <div class="controls">
     <app-square-button icon="edit" (onClick)="onEdit()" />
     <app-square-button icon="del" (onClick)="onDelete()" />
   </div>
-  }
-  @else{
-  <app-header title="Nothing"></app-header>
-  <div class="message">{{nothing}}</div>
-  }
 </section>
