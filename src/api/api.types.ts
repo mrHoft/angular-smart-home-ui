@@ -4,6 +4,7 @@ export type TLayout = "horizontalLayout" | "verticalLayout" | 'singleDevice'
 export type CardItem = DeviceItem | SensorItem;
 
 export interface DeviceItem {
+  id: string,
   type: "device";
   icon: string;
   label: string;
@@ -11,6 +12,7 @@ export interface DeviceItem {
 }
 
 export interface SensorItem {
+  id: string,
   type: "sensor";
   icon: string;
   label: string;

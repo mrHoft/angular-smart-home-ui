@@ -1,6 +1,5 @@
 @let title=data().title;
-@let device=item();
-
+@if(device){
 <div class="card" [class.highlight]="highlight()" (click)="onToggle()">
   <h3 class="title">{{title}}</h3>
   <div class="device">
@@ -12,3 +11,4 @@
     }
   </div>
 </div>
+}

@@ -7,7 +7,7 @@ import type { TabData, DashboardItem } from './api.types';
 @Injectable({
   providedIn: 'root'
 })
-export class ApiService {
+export class DashboardService {
   private http = inject(HttpClient);
   private tokenService = inject(TokenService);
 

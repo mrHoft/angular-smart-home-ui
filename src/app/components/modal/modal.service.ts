@@ -1,5 +1,9 @@
 import { Injectable, ComponentRef, Injector, Type, signal, ViewContainerRef, effect, runInInjectionContext } from '@angular/core';
-import { ModalDialog } from './modal-dialog';
+
+export interface ModalDialog<T = unknown, P = Record<string, string>> {
+  result: unknown; // Will be cast to OutputEmitterRef<T> at runtime
+  inputs?: P; // Input properties for the modal component
+}
 
 @Injectable({ providedIn: 'root' })
 export class ModalService {
@@ -7,7 +11,7 @@ export class ModalService {
   private hostViewContainerRef: ViewContainerRef | null = null;
   public readonly isVisible = signal(false);
 
-  public showComponent<T>(component: Type<ModalDialog<T>>, injector?: Injector): Promise<T> {
+  public showComponent<T, P>(component: Type<ModalDialog<T, P>>, props?: P, injector?: Injector): Promise<T> {
     this.clear();
     if (!this.hostViewContainerRef) {
       throw new Error('Modal host view container is not set.');
@@ -21,6 +25,15 @@ export class ModalService {
     this.componentRef = this.hostViewContainerRef.createComponent(component, {
       injector: mergedInjector,
     });
+
+    if (props && this.componentRef.instance) {
+      Object.entries(props).forEach(([key, value]) => {
+        const instance = this.componentRef!.instance as Record<string, unknown>;
+        if (key in instance) {
+          instance[key] = value;
+        }
+      });
+    }
 
     this.isVisible.set(true);
 

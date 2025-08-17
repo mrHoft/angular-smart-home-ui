@@ -58,6 +58,10 @@ export const dashboardReducer = createReducer(
     error,
     loading: false
   })),
+  on(DashboardActions.updateDashboardTabs, (state, { tabs }) => ({
+    ...state,
+    tabs
+  })),
   // Create dashboard reducers
   on(DashboardActions.createDashboard, (state) => ({
     ...state,
@@ -66,6 +70,7 @@ export const dashboardReducer = createReducer(
   on(DashboardActions.createDashboardSuccess, (state, { dashboard }) => ({
     ...state,
     dashboards: [...state.dashboards, dashboard],
+    activeDashboardId: dashboard.id,
     loading: false
   })),
   on(DashboardActions.createDashboardFailure, (state, { error }) => ({

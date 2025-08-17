@@ -1,12 +1,14 @@
 import { inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { Router } from '@angular/router';
 import { switchMap, map, catchError, of, tap } from 'rxjs';
-import { ApiService } from '~/api/api.service';
+import { DashboardService } from '~/api/dashboard.service';
 import * as DashboardActions from './dashboard.actions';
 import { MessageService } from '~/app/components/message/message.service';
 
+// Load dashboards
 export const loadDashboards$ = createEffect(
-  (actions$ = inject(Actions), apiService = inject(ApiService)) => {
+  (actions$ = inject(Actions), apiService = inject(DashboardService)) => {
     return actions$.pipe(
       ofType(DashboardActions.loadDashboards),
       switchMap(() =>
@@ -20,8 +22,22 @@ export const loadDashboards$ = createEffect(
   { functional: true }
 );
 
-export const loadDashboard$ = createEffect(
-  (actions$ = inject(Actions), apiService = inject(ApiService)) => {
+export const handleLoadDashboardsFailure$ = createEffect(
+  (actions$ = inject(Actions), messageService = inject(MessageService)) => {
+    return actions$.pipe(
+      ofType(DashboardActions.loadDashboardsFailure),
+      tap(({ error }) => {
+        console.error('Failed to load dashboards:', error);
+        messageService.show('Failed to load dashboards', 'error');
+      })
+    );
+  },
+  { functional: true, dispatch: false }
+);
+
+// Load dashboard tabs
+export const loadDashboardTabs$ = createEffect(
+  (actions$ = inject(Actions), apiService = inject(DashboardService)) => {
     return actions$.pipe(
       ofType(DashboardActions.loadDashboardTabs),
       switchMap(({ id }) =>
@@ -35,8 +51,22 @@ export const loadDashboard$ = createEffect(
   { functional: true }
 );
 
+export const handleLoadDashboardTabsFailure$ = createEffect(
+  (actions$ = inject(Actions), messageService = inject(MessageService)) => {
+    return actions$.pipe(
+      ofType(DashboardActions.loadDashboardTabsFailure),
+      tap(({ error }) => {
+        console.error('Failed to load dashboard tabs:', error);
+        messageService.show('Failed to load dashboard tabs', 'error');
+      })
+    );
+  },
+  { functional: true, dispatch: false }
+);
+
+// Create dashboard
 export const createDashboard$ = createEffect(
-  (actions$ = inject(Actions), apiService = inject(ApiService)) => {
+  (actions$ = inject(Actions), apiService = inject(DashboardService)) => {
     return actions$.pipe(
       ofType(DashboardActions.createDashboard),
       switchMap(({ data }) =>
@@ -50,18 +80,46 @@ export const createDashboard$ = createEffect(
   { functional: true }
 );
 
-export const showCreateSuccessMessage$ = createEffect(
+export const handleCreateDashboardFailure$ = createEffect(
   (actions$ = inject(Actions), messageService = inject(MessageService)) => {
     return actions$.pipe(
-      ofType(DashboardActions.createDashboardSuccess),
-      tap(({ dashboard: { id } }) => messageService.show(`Dashboard "${id}" was created!`))
+      ofType(DashboardActions.createDashboardFailure),
+      tap(({ error }) => {
+        console.error('Failed to create dashboard:', error);
+        messageService.show('Failed to create dashboard', 'error');
+      })
     );
   },
   { functional: true, dispatch: false }
 );
 
+export const navigateToNewDashboard$ = createEffect(
+  (actions$ = inject(Actions), router = inject(Router)) => {
+    return actions$.pipe(
+      ofType(DashboardActions.createDashboardSuccess),
+      tap(({ dashboard }) => {
+        router.navigate([`/dashboard/${dashboard.id}`]);
+      })
+    );
+  },
+  { functional: true, dispatch: false }
+);
+
+export const showCreateSuccessMessage$ = createEffect(
+  (actions$ = inject(Actions), messageService = inject(MessageService)) => {
+    return actions$.pipe(
+      ofType(DashboardActions.createDashboardSuccess),
+      tap(({ dashboard: { id } }) => {
+        messageService.show(`Dashboard "${id}" was created!`)
+      })
+    );
+  },
+  { functional: true, dispatch: false }
+);
+
+// Remove dashboard
 export const removeDashboard$ = createEffect(
-  (actions$ = inject(Actions), apiService = inject(ApiService)) => {
+  (actions$ = inject(Actions), apiService = inject(DashboardService)) => {
     return actions$.pipe(
       ofType(DashboardActions.removeDashboard),
       switchMap(({ id }) =>
@@ -73,6 +131,19 @@ export const removeDashboard$ = createEffect(
     );
   },
   { functional: true }
+);
+
+export const handleRemoveDashboardFailure$ = createEffect(
+  (actions$ = inject(Actions), messageService = inject(MessageService)) => {
+    return actions$.pipe(
+      ofType(DashboardActions.removeDashboardFailure),
+      tap(({ error }) => {
+        console.error('Failed to remove dashboard:', error);
+        messageService.show('Failed to remove dashboard', 'error');
+      })
+    );
+  },
+  { functional: true, dispatch: false }
 );
 
 export const showDeleteSuccessMessage$ = createEffect(

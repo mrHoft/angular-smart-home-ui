@@ -1,7 +1,9 @@
-import { Component, input, signal } from '@angular/core';
+import { Component, input, signal, inject } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { MatIconModule } from '@angular/material/icon';
 import type { CardData, DeviceItem } from '~/api/api.types';
 import { LampHighlight } from '~/app/entity/directives/lamp-highlight';
+import { toggleDevice } from '~/app/state/device.actions';
 
 @Component({
   selector: 'app-card-single',
@@ -10,24 +12,26 @@ import { LampHighlight } from '~/app/entity/directives/lamp-highlight';
   styleUrl: './card-single.scss'
 })
 export class CardSingleComponent {
+  private store = inject(Store);
   public data = input.required<CardData>()
+  protected device?: DeviceItem
   protected highlight = signal(false)
 
-  protected item = () => this.data().items[0] as DeviceItem
-
   onToggle() {
-    const item = this.data().items[0]
-    if (item.type === 'device') {
-      item.state = !item.state
-      this.highlight.set(item.state || false)
+    if (this.device) {
+      this.device.state = !this.device.state
+      this.highlight.set(this.device.state)
+      this.store.dispatch(toggleDevice({ id: this.device.id, state: this.device.state }));
     }
   }
 
-  isLamp = () => this.data().items[0].icon === 'lightbulb'
+  isLamp = () => this.device?.icon === 'lightbulb'
 
   ngOnInit() {
     const item = this.data().items[0]
-    const state = item.type === 'device' ? item.state : false
-    this.highlight.set(state)
+    if (item.type === 'device') {
+      this.device = { ...item }
+      this.highlight.set(item.state)
+    }
   }
 }

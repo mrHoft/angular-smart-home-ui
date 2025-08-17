@@ -2,7 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { ReactiveFormsModule, FormControl, FormGroup } from '@angular/forms';
 import { UserService } from '~/api/user.service';
 import { Router } from '@angular/router';
-import { i18n } from '~/i18n.en';
+import { i18n } from '~/data/i18n.en';
 
 const EXAMPLE_CREDENTIALS = {
   userName: 'Hobbs',

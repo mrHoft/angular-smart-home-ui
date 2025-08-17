@@ -19,7 +19,7 @@ export const selectActiveDashboard = createSelector(
   (dashboards, id) => dashboards.find(dashboard => dashboard.id === id)
 );
 
-export const selectTabs = createSelector(
+export const selectAllTabs = createSelector(
   selectDashboardFeature,
   (state) => state.tabs
 );

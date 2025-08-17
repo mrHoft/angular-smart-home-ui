@@ -2,7 +2,7 @@ import { Component, inject, effect } from '@angular/core';
 import { MatTabsModule } from '@angular/material/tabs';
 import { HeaderComponent } from '~/app/components/header/header';
 import { CardListComponent } from 'ui/card-list/card-list';
-import { i18n } from '~/i18n.en';
+import { i18n } from '~/data/i18n.en';
 import { SquareButton } from '~/app/components/square-button/square-button';
 import { ModalService } from '~/app/components/modal/modal.service';
 import { Confirmation } from '~/app/components/form/confirmation/confirmation';
@@ -10,7 +10,7 @@ import { MessageService } from '~/app/components/message/message.service';
 
 import { Store } from '@ngrx/store';
 import * as DashboardActions from '~/app/state/dashboard.actions';
-import { selectTabs, /* selectLoading, selectError, */ selectActiveDashboardId } from '~/app/state/dashboard.selectors';
+import { selectAllTabs, /* selectLoading, selectError, */ selectActiveDashboardId } from '~/app/state/dashboard.selectors';
 
 @Component({
   selector: 'app-dashboard',
@@ -23,7 +23,7 @@ export class SectionDashboard {
   private modalService = inject(ModalService);
   private messageService = inject(MessageService);
   private store = inject(Store);
-  protected tabs = this.store.selectSignal(selectTabs);
+  protected tabs = this.store.selectSignal(selectAllTabs);
   // TODO: loading indicator
   // protected loading = this.store.selectSignal(selectLoading);
   // protected error = this.store.selectSignal(selectError);
@@ -39,7 +39,7 @@ export class SectionDashboard {
   }
 
   protected onDelete = () => {
-    this.modalService.showComponent(Confirmation).then(confirm => {
+    this.modalService.showComponent(Confirmation, { title: "Deletion", message: `Are you sure want to delete current dashboard?` }).then(confirm => {
       const id = this.activeDashboardId();
       if (confirm && id) {
         this.store.dispatch(DashboardActions.removeDashboard({ id }))
@@ -48,7 +48,7 @@ export class SectionDashboard {
   }
 
   protected onEdit = () => {
-    this.modalService.showComponent(Confirmation).then(confirm => {
+    this.modalService.showComponent(Confirmation, { title: 'Confirmation', message: 'Entering edit mode.' }).then(confirm => {
       console.log(confirm)
       if (confirm) {
         this.messageService.show('Dashboard was changed!', 'error')

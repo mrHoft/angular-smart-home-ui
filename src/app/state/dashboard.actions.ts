@@ -11,7 +11,7 @@ export const loadDashboardsFailure = createAction(
   '[Dashboard] Load Dashboards Failure',
   props<{ error: unknown }>()
 );
-// Set active dashboard
+
 export const setActiveDashboard = createAction(
   '[Dashboard] Set Active Dashboard',
   props<{ id: string }>()
@@ -31,6 +31,11 @@ export const loadDashboardTabsSuccess = createAction(
 export const loadDashboardTabsFailure = createAction(
   '[Dashboard] Load Dashboard tabs Failure',
   props<{ error: unknown }>()
+);
+
+export const updateDashboardTabs = createAction(
+  '[Dashboard] Update Tabs',
+  props<{ tabs: TabData[] }>()
 );
 
 // Create dashboard

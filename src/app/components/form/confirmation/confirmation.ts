@@ -1,10 +1,11 @@
-import { Component, input, output } from '@angular/core';
+import { Component, output } from '@angular/core';
 
 @Component({
   selector: 'app-confirmation',
   imports: [],
   template: /* html */`
-    <h3 class="title">{{text()}}</h3>
+    <h3 class="title">{{ title }}</h3>
+    <p>{{ message }}</p>
     <div class="btns">
       <button type="button" (click)="onYes()">Yes</button>
       <button type="button" (click)="onCancel()">Cancel</button>
@@ -12,17 +13,19 @@ import { Component, input, output } from '@angular/core';
   `,
   styles: /* css */`
   .title {
+    margin-top: 0;
     text-align: center;
   }
   .btns {
     display: flex;
-    column-gap: 1rem;
-    justify-content: space-around;
+    column-gap: 2rem;
+    justify-content: center;
   }
   `
 })
 export class Confirmation {
-  public text = input<string>("Are you sure?")
+  public title = 'Are you sure?';
+  public message = '';
   public result = output<boolean>()
 
   protected onYes() {
