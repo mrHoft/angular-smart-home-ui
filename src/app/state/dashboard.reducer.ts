@@ -125,7 +125,7 @@ export const dashboardReducer = createReducer(
     tabs: [
       ...state.tabs,
       {
-        id: crypto.randomUUID(),
+        id: title.replaceAll(' ', '-'),
         title,
         cards: []
       }

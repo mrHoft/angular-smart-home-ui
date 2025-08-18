@@ -11,13 +11,25 @@
   border-right: var(--border-thickness) solid var(--color20);
 }
 
-.controls {
+.message {
+  text-align: center;
+}
+
+.controls_top,
+.controls_bot {
   position: absolute;
-  top: 0.5rem;
   right: 0.5rem;
   display: flex;
   justify-content: flex-end;
   flex-wrap: wrap;
   gap: 0.5rem;
   z-index: 100;
+}
+
+.controls_top {
+  top: 0.5rem;
+}
+
+.controls_bot {
+  bottom: 0.5rem;
 }

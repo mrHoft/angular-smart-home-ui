@@ -5,6 +5,10 @@
   padding: 0.25rem;
 }
 
+.message {
+  text-align: center;
+}
+
 @media (max-width: 860px) {
   .card_list {
     grid-template-columns: repeat(2, 50%);

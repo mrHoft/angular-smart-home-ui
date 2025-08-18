@@ -1,12 +1,6 @@
 <form class="form" [formGroup]="form" (ngSubmit)="onSubmit()">
-  <h3 class="form__header">Create Dashboard</h3>
-  <input name="id" formControlName="id" placeholder="id*" maxlength="30" required />
+  <h3 class="form__header">Create new tab</h3>
   <input name="title" formControlName="title" placeholder="title*" maxlength="50" required />
-  <select name="icon" formControlName="icon" placeholder="icon*" required>
-    @for (icon of icons; track icon){
-    <option class="icon" [value]="icon">{{icon}}</option>
-    }
-  </select>
   <div class="form__btns">
     <button type="submit" class="button" [disabled]="form.invalid">Create</button>
     <button type="button" class="button" (click)="onCancel()">Cancel</button>

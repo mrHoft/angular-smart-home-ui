@@ -5,8 +5,8 @@ import { CardListComponent } from 'ui/card-list/card-list';
 import { i18n } from '~/data/i18n.en';
 import { SquareButton } from '~/app/components/square-button/square-button';
 import { ModalService } from '~/app/components/modal/modal.service';
-import { Confirmation } from '~/app/components/form/confirmation/confirmation';
-import { MessageService } from '~/app/components/message/message.service';
+import { Confirmation, type TConfirmationProps } from '~/app/components/form/confirmation/confirmation';
+import { AddDashboardTab, type TAddDashboardTabResult } from '~/app/components/form/add-tab/add-tab';
 
 import { Store } from '@ngrx/store';
 import * as DashboardActions from '~/app/state/dashboard.actions';
@@ -19,9 +19,8 @@ import { selectAllTabs, /* selectLoading, selectError, */ selectActiveDashboardI
   styleUrl: './dashboard.scss'
 })
 export class SectionDashboard {
-  protected empty = i18n.empty
+  protected empty = i18n.empty.split('\n')
   private modalService = inject(ModalService);
-  private messageService = inject(MessageService);
   private store = inject(Store);
   protected tabs = this.store.selectSignal(selectAllTabs);
   // TODO: loading indicator
@@ -40,7 +39,7 @@ export class SectionDashboard {
   }
 
   protected onDelete = () => {
-    this.modalService.showComponent(
+    this.modalService.showComponent<boolean, TConfirmationProps>(
       Confirmation,
       { title: "Deletion", message: `Are you sure want to delete current dashboard?` }
     ).then(confirm => {
@@ -55,12 +54,18 @@ export class SectionDashboard {
     this.store.dispatch(DashboardActions.enterEditMode())
   }
 
+  protected onAddTab = () => {
+    this.modalService.showComponent<TAddDashboardTabResult, never>(AddDashboardTab).then(result => {
+      if (result) this.store.dispatch(DashboardActions.addTab(result))
+    })
+  }
+
   protected onAddCard = () => {
     console.log('add card')
   }
 
   protected onDiscard = () => {
-    this.modalService.showComponent(
+    this.modalService.showComponent<boolean, TConfirmationProps>(
       Confirmation,
       { title: 'Confirmation', message: 'Discard all changes?' }
     ).then(confirm => {

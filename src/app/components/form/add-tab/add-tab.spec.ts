@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CardSingleComponent } from './card-single';
+import { AddDashboardTab } from './add-tab';
 
-describe('Device', () => {
-  let component: CardSingleComponent;
-  let fixture: ComponentFixture<CardSingleComponent>;
+describe('AddDashboardTab', () => {
+  let component: AddDashboardTab;
+  let fixture: ComponentFixture<AddDashboardTab>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CardSingleComponent]
+      imports: [AddDashboardTab]
     })
       .compileComponents();
 
-    fixture = TestBed.createComponent(CardSingleComponent);
+    fixture = TestBed.createComponent(AddDashboardTab);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -3,7 +3,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { UserService } from '~/api/user.service';
 import { Router } from '@angular/router';
 import { ModalService } from '~/app/components/modal/modal.service';
-import { AddDashboard } from '~/app/components/form/add-dashboard/add-dashboard';
+import { AddDashboard, type TAddDashboardResult } from '~/app/components/form/add-dashboard/add-dashboard';
 import type { DashboardItem } from '~/api/api.types';
 
 import { Store } from '@ngrx/store';
@@ -44,9 +44,9 @@ export class SidebarFooterComponent {
   }
 
   protected handleModal = () => {
-    this.modalService.showComponent(AddDashboard).then(result => {
-      if (result) {
-        this.store.dispatch(createDashboard({ data: result as DashboardItem }))
+    this.modalService.showComponent<TAddDashboardResult, never>(AddDashboard).then(data => {
+      if (data) {
+        this.store.dispatch(createDashboard({ data }))
       }
     })
   }

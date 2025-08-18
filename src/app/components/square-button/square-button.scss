@@ -3,12 +3,8 @@
   height: 1.5rem;
   padding: 0.125rem;
   box-sizing: border-box;
+  background-color: unset;
   cursor: pointer;
-  transition: opacity 0.25s linear;
-
-  &:hover {
-    opacity: 0.6;
-  }
 
   &>img {
     width: 1.25rem;

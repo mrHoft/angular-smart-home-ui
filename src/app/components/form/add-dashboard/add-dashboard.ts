@@ -1,18 +1,19 @@
 import { Component, output } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
 import { ReactiveFormsModule, FormControl, FormGroup } from '@angular/forms';
 import { DashboardItem } from '~/api/api.types';
 import { icons } from '~/data/icons';
 
+export type TAddDashboardResult = DashboardItem | undefined
+
 @Component({
   selector: 'app-add-dashboard',
-  imports: [ReactiveFormsModule, MatIconModule],
+  imports: [ReactiveFormsModule],
   templateUrl: './add-dashboard.html',
   styleUrl: './add-dashboard.scss'
 })
 export class AddDashboard {
   protected icons = icons
-  public result = output<DashboardItem>()
+  public result = output<TAddDashboardResult>()
   private icon = icons[Math.floor(Math.random() * icons.length)]
   private title = `${this.icon.charAt(0).toUpperCase()}${this.icon.slice(1).replace('_', ' ')}`
 
@@ -25,5 +26,9 @@ export class AddDashboard {
   protected onSubmit() {
     const value = this.form.getRawValue();
     this.result.emit(value)
+  }
+
+  protected onCancel() {
+    this.result.emit(undefined);
   }
 }

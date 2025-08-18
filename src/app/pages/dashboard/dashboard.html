@@ -4,7 +4,7 @@
 <section class="section">
   @if(data.length){
   <mat-tab-group>
-    @for (tab of data; track $index) {
+    @for(tab of data; track $index) {
     <mat-tab [label]="tab.title">
       <app-card-list [cards]="tab.cards" />
     </mat-tab>
@@ -12,23 +12,33 @@
   </mat-tab-group>
   }@else{
   <app-header title="Empty"></app-header>
-  <div class="message">{{empty}}</div>
+  @for(line of empty; track $index){
+  <p class="message">{{line}}</p>
   }
-  <div class="controls">
-    @if(isEditMode){
-    <button type="button" class="button icon" (click)="onAddCard()">
+  }
+  @if(isEditMode){
+  <div class="controls_bot">
+    <button type="button" class="button icon" (click)="onAddTab()">
       <span>add</span>
-      <span> Add tab</span>
+      Add tab
     </button>
     <button type="button" class="button icon" (click)="onAddCard()">
       <span>add</span>
-      <span> Add card</span>
+      Add card
     </button>
-    <button type="button" class="button" (click)="onDiscard()">Discard</button>
-    <button type="button" class="button" (click)="onSave()">Save</button>
-    }@else{
+    <button type="button" class="button icon" (click)="onDiscard()">
+      <span>cancel</span>
+      Discard
+    </button>
+    <button type="button" class="button icon" (click)="onSave()">
+      <span>save</span>
+      Save
+    </button>
+  </div>
+  }@else{
+  <div class="controls_top">
     <app-square-button icon="edit" (onClick)="onEdit()" />
     <app-square-button icon="del" (onClick)="onDelete()" />
-    }
   </div>
+  }
 </section>

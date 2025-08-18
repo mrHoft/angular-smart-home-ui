@@ -1,5 +1,12 @@
+@let cardList=cards();
+
+@if(!cardList.length){
+@for(line of empty; track $index){
+<p class="message">{{line}}</p>
+}
+}@else{
 <div class="card_list">
-  @for (card of cards(); track card.id) {
+  @for (card of cardList; track card.id) {
   @if(card.layout==='singleDevice' && card.items[0].type === 'device'){
   <app-card-single [data]="card" />
   }@else{
@@ -7,3 +14,4 @@
   }
   }
 </div>
+}

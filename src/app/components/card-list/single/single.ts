@@ -8,8 +8,8 @@ import { toggleDevice } from '~/app/state/device.actions';
 @Component({
   selector: 'app-card-single',
   imports: [MatIconModule, LampHighlight],
-  templateUrl: './card-single.html',
-  styleUrl: './card-single.scss'
+  templateUrl: './single.html',
+  styleUrl: './single.scss'
 })
 export class CardSingleComponent {
   private store = inject(Store);

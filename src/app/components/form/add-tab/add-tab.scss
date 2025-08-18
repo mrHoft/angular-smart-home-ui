@@ -5,9 +5,7 @@
   row-gap: 1rem;
   padding: 1rem 2rem;
 
-  input,
-  select,
-  option {
+  input {
     font-size: 1rem;
   }
 }
@@ -21,8 +19,4 @@
   display: flex;
   column-gap: 2rem;
   justify-content: center;
-}
-
-.icon {
-  font-family: 'Material Icons';
 }

@@ -1,5 +1,8 @@
 import { Component, output } from '@angular/core';
 
+export type TConfirmationProps = { title: string, message?: string }
+export type TConfirmationResult = boolean
+
 @Component({
   selector: 'app-confirmation',
   imports: [],
@@ -24,9 +27,10 @@ import { Component, output } from '@angular/core';
   `
 })
 export class Confirmation {
+  // Mutable props (TConfirmationProps)
   public title = 'Are you sure?';
   public message = '';
-  public result = output<boolean>()
+  public result = output<TConfirmationResult>()
 
   protected onYes() {
     this.result.emit(true);
