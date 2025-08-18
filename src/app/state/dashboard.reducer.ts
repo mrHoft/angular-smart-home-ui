@@ -9,6 +9,8 @@ export interface DashboardState {
   tabs: TabData[];
   loading: boolean;
   error: unknown | null;
+  editMode: boolean;
+  tabsSnapshot: TabData[] | null;
 }
 
 export const initialState: DashboardState = {
@@ -16,7 +18,9 @@ export const initialState: DashboardState = {
   activeDashboardId: null,
   tabs: [],
   loading: false,
-  error: null
+  error: null,
+  editMode: false,
+  tabsSnapshot: null
 };
 
 export const dashboardReducer = createReducer(
@@ -95,5 +99,59 @@ export const dashboardReducer = createReducer(
     ...state,
     error,
     loading: false
+  })),
+
+  // Edit mode
+  on(DashboardActions.enterEditMode, (state) => ({
+    ...state,
+    editMode: true,
+    tabsSnapshot: state.tabs // Create deep copy
+  })),
+
+  on(DashboardActions.exitEditMode, (state) => ({
+    ...state,
+    editMode: false,
+    tabsSnapshot: null
+  })),
+
+  on(DashboardActions.discardChanges, (state) => ({
+    ...state,
+    editMode: false,
+    tabsSnapshot: null
+  })),
+
+  on(DashboardActions.addTab, (state, { title }) => ({
+    ...state,
+    tabs: [
+      ...state.tabs,
+      {
+        id: crypto.randomUUID(),
+        title,
+        cards: []
+      }
+    ]
+  })),
+
+  on(DashboardActions.removeTab, (state, { tabId }) => ({
+    ...state,
+    tabs: state.tabs.filter(tab => tab.id !== tabId)
+  })),
+
+  on(DashboardActions.saveDashboard, (state) => ({
+    ...state,
+    loading: true
+  })),
+
+  on(DashboardActions.saveDashboardSuccess, (state) => ({
+    ...state,
+    loading: false,
+    editMode: false,
+    tabsSnapshot: null
+  })),
+
+  on(DashboardActions.saveDashboardFailure, (state, { error }) => ({
+    ...state,
+    loading: false,
+    error
   }))
 );

@@ -10,7 +10,7 @@ import { MessageService } from '~/app/components/message/message.service';
 
 import { Store } from '@ngrx/store';
 import * as DashboardActions from '~/app/state/dashboard.actions';
-import { selectAllTabs, /* selectLoading, selectError, */ selectActiveDashboardId } from '~/app/state/dashboard.selectors';
+import { selectAllTabs, /* selectLoading, selectError, */ selectActiveDashboardId, selectEditMode } from '~/app/state/dashboard.selectors';
 
 @Component({
   selector: 'app-dashboard',
@@ -28,6 +28,7 @@ export class SectionDashboard {
   // protected loading = this.store.selectSignal(selectLoading);
   // protected error = this.store.selectSignal(selectError);
   protected activeDashboardId = this.store.selectSignal(selectActiveDashboardId);
+  protected editMode = this.store.selectSignal(selectEditMode);
 
   constructor() {
     effect(() => {
@@ -39,7 +40,10 @@ export class SectionDashboard {
   }
 
   protected onDelete = () => {
-    this.modalService.showComponent(Confirmation, { title: "Deletion", message: `Are you sure want to delete current dashboard?` }).then(confirm => {
+    this.modalService.showComponent(
+      Confirmation,
+      { title: "Deletion", message: `Are you sure want to delete current dashboard?` }
+    ).then(confirm => {
       const id = this.activeDashboardId();
       if (confirm && id) {
         this.store.dispatch(DashboardActions.removeDashboard({ id }))
@@ -48,11 +52,26 @@ export class SectionDashboard {
   }
 
   protected onEdit = () => {
-    this.modalService.showComponent(Confirmation, { title: 'Confirmation', message: 'Entering edit mode.' }).then(confirm => {
-      console.log(confirm)
-      if (confirm) {
-        this.messageService.show('Dashboard was changed!', 'error')
-      }
+    this.store.dispatch(DashboardActions.enterEditMode())
+  }
+
+  protected onAddCard = () => {
+    console.log('add card')
+  }
+
+  protected onDiscard = () => {
+    this.modalService.showComponent(
+      Confirmation,
+      { title: 'Confirmation', message: 'Discard all changes?' }
+    ).then(confirm => {
+      if (confirm) this.store.dispatch(DashboardActions.discardChanges())
     })
+  }
+
+  protected onSave = () => {
+    const id = this.activeDashboardId();
+    if (id) {
+      this.store.dispatch(DashboardActions.saveDashboard({ id }))
+    }
   }
 }

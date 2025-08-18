@@ -1,9 +1,11 @@
 import { inject } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Router } from '@angular/router';
-import { switchMap, map, catchError, of, tap } from 'rxjs';
+import { switchMap, map, catchError, of, tap, withLatestFrom } from 'rxjs';
 import { DashboardService } from '~/api/dashboard.service';
 import * as DashboardActions from './dashboard.actions';
+import { selectAllTabs, selectActiveDashboardId } from './dashboard.selectors';
 import { MessageService } from '~/app/components/message/message.service';
 
 // Load dashboards
@@ -66,11 +68,11 @@ export const handleLoadDashboardTabsFailure$ = createEffect(
 
 // Create dashboard
 export const createDashboard$ = createEffect(
-  (actions$ = inject(Actions), apiService = inject(DashboardService)) => {
+  (actions$ = inject(Actions), dashboardService = inject(DashboardService)) => {
     return actions$.pipe(
       ofType(DashboardActions.createDashboard),
       switchMap(({ data }) =>
-        apiService.createDashboard(data).pipe(
+        dashboardService.createDashboard(data).pipe(
           map((dashboard) => DashboardActions.createDashboardSuccess({ dashboard })),
           catchError((error) => of(DashboardActions.createDashboardFailure({ error })))
         )
@@ -93,24 +95,24 @@ export const handleCreateDashboardFailure$ = createEffect(
   { functional: true, dispatch: false }
 );
 
-export const navigateToNewDashboard$ = createEffect(
-  (actions$ = inject(Actions), router = inject(Router)) => {
-    return actions$.pipe(
-      ofType(DashboardActions.createDashboardSuccess),
-      tap(({ dashboard }) => {
-        router.navigate([`/dashboard/${dashboard.id}`]);
-      })
-    );
-  },
-  { functional: true, dispatch: false }
-);
-
 export const showCreateSuccessMessage$ = createEffect(
   (actions$ = inject(Actions), messageService = inject(MessageService)) => {
     return actions$.pipe(
       ofType(DashboardActions.createDashboardSuccess),
       tap(({ dashboard: { id } }) => {
         messageService.show(`Dashboard "${id}" was created!`)
+      })
+    );
+  },
+  { functional: true, dispatch: false }
+);
+
+export const navigateToNewDashboard$ = createEffect(
+  (actions$ = inject(Actions), router = inject(Router)) => {
+    return actions$.pipe(
+      ofType(DashboardActions.createDashboardSuccess),
+      tap(({ dashboard }) => {
+        router.navigate([`/dashboard/${dashboard.id}`]);
       })
     );
   },
@@ -151,6 +153,46 @@ export const showDeleteSuccessMessage$ = createEffect(
     return actions$.pipe(
       ofType(DashboardActions.removeDashboardSuccess),
       tap(({ id }) => messageService.show(`Dashboard "${id}" was deleted!`))
+    );
+  },
+  { functional: true, dispatch: false }
+);
+
+// Edit mode
+export const saveDashboard$ = createEffect(
+  (actions$ = inject(Actions), dashboardService = inject(DashboardService), store = inject(Store)) => {
+    return actions$.pipe(
+      ofType(DashboardActions.saveDashboard),
+      withLatestFrom(store.select(selectAllTabs), store.select(selectActiveDashboardId)),
+      switchMap(([_, tabs, dashboardId]) =>
+        dashboardService.updateDashboard(dashboardId!, { tabs }).pipe(
+          map(() => DashboardActions.saveDashboardSuccess()),
+          catchError((error) => of(DashboardActions.saveDashboardFailure({ error })))
+        )
+      )
+    );
+  },
+  { functional: true }
+);
+
+export const handleSaveSuccess$ = createEffect(
+  (actions$ = inject(Actions), messageService = inject(MessageService)) => {
+    return actions$.pipe(
+      ofType(DashboardActions.saveDashboardSuccess),
+      tap(() => messageService.show('Dashboard saved successfully!'))
+    );
+  },
+  { functional: true, dispatch: false }
+);
+
+export const handleSaveFailure$ = createEffect(
+  (actions$ = inject(Actions), messageService = inject(MessageService)) => {
+    return actions$.pipe(
+      ofType(DashboardActions.saveDashboardFailure),
+      tap(({ error }) => {
+        console.error('Save failed:', error);
+        messageService.show('Failed to save dashboard', 'error');
+      })
     );
   },
   { functional: true, dispatch: false }

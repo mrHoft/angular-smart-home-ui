@@ -7,8 +7,8 @@ import { Component, output } from '@angular/core';
     <h3 class="title">{{ title }}</h3>
     <p>{{ message }}</p>
     <div class="btns">
-      <button type="button" (click)="onYes()">Yes</button>
-      <button type="button" (click)="onCancel()">Cancel</button>
+      <button type="button" class="button" (click)="onYes()">Yes</button>
+      <button type="button" class="button" (click)="onCancel()">Cancel</button>
     </div>
   `,
   styles: /* css */`

@@ -33,3 +33,14 @@ export const selectError = createSelector(
   selectDashboardFeature,
   (state) => state.error
 );
+
+// Edit mode
+export const selectEditMode = createSelector(
+  selectDashboardFeature,
+  (state) => state.editMode
+);
+
+export const selectHasUnsavedChanges = createSelector(
+  selectDashboardFeature,
+  (state) => state.editMode && JSON.stringify(state.tabs) !== JSON.stringify(state.tabsSnapshot)
+);

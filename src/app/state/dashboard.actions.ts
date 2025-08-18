@@ -69,3 +69,25 @@ export const removeDashboardFailure = createAction(
   '[Dashboard] Remove Dashboard Failure',
   props<{ error: unknown }>()
 );
+
+// Edit mode
+export const enterEditMode = createAction('[Dashboard] Enter Edit Mode');
+export const exitEditMode = createAction('[Dashboard] Exit Edit Mode');
+export const saveDashboard = createAction(
+  '[Dashboard] Save Dashboard',
+  props<{ id: string }>()
+);
+export const saveDashboardSuccess = createAction('[Dashboard] Save Dashboard Success');
+export const saveDashboardFailure = createAction(
+  '[Dashboard] Save Dashboard Failure',
+  props<{ error: unknown }>()
+);
+export const discardChanges = createAction('[Dashboard] Discard Changes');
+export const addTab = createAction(
+  '[Dashboard] Add Tab',
+  props<{ title: string }>()
+);
+export const removeTab = createAction(
+  '[Dashboard] Remove Tab',
+  props<{ tabId: string }>()
+);

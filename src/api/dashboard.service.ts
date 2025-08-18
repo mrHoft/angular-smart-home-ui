@@ -27,6 +27,15 @@ export class DashboardService {
     );
   }
 
+  public updateDashboard(id: string, data: { tabs: TabData[] }) {
+    return this.http.put(`/dashboards/${id}`, data);
+  }
+
+  // TODO: ???
+  public updateDashboardTitle(id: string, data: { title: string }) {
+    return this.http.put(`/dashboards/${id}`, data);
+  }
+
   public createDashboard(data: DashboardItem) {
     return this.http.post<DashboardItem>('/dashboards', data);
   }

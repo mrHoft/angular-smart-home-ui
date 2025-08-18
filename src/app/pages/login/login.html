@@ -6,7 +6,7 @@
     <input formControlName="password" type="password" placeholder="password*" required (input)="clearError()" />
     <div class="login__form_error">{{ errorMessage() }}</div>
     <div class="login__form_btns">
-      <button type="submit" [disabled]="form.invalid">Log in</button>
+      <button type="submit" class="button" [disabled]="form.invalid">Log in</button>
     </div>
   </form>
 </div>

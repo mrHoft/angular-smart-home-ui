@@ -16,6 +16,8 @@
   top: 0.5rem;
   right: 0.5rem;
   display: flex;
-  column-gap: 0.5rem;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 0.5rem;
   z-index: 100;
 }

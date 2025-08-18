@@ -46,6 +46,16 @@ button {
   outline: none;
 }
 
-button {
-  padding: 0.125em 1em;
+.button {
+  border: none;
+  font-size: 1rem;
+  padding: 0.125rem 1rem;
+  border-radius: var(--border-radius);
+  background-color: var(--color30);
+  transition: background-color 0.25s linear;
+
+  &:hover:not(:disabled) {
+    cursor: pointer;
+    background-color: var(--color-accent60);
+  }
 }

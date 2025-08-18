@@ -1,3 +1,4 @@
+@let isEditMode=editMode();
 @let data=tabs();
 
 <section class="section">
@@ -14,7 +15,20 @@
   <div class="message">{{empty}}</div>
   }
   <div class="controls">
+    @if(isEditMode){
+    <button type="button" class="button icon" (click)="onAddCard()">
+      <span>add</span>
+      <span> Add tab</span>
+    </button>
+    <button type="button" class="button icon" (click)="onAddCard()">
+      <span>add</span>
+      <span> Add card</span>
+    </button>
+    <button type="button" class="button" (click)="onDiscard()">Discard</button>
+    <button type="button" class="button" (click)="onSave()">Save</button>
+    }@else{
     <app-square-button icon="edit" (onClick)="onEdit()" />
     <app-square-button icon="del" (onClick)="onDelete()" />
+    }
   </div>
 </section>
