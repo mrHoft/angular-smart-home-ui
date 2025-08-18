@@ -59,3 +59,9 @@ button {
     background-color: var(--color-accent60);
   }
 }
+
+.button.icon>span:first-child {
+  font-size: larger;
+  font-family: "Material Icons";
+  vertical-align: text-bottom;
+}

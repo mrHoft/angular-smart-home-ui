@@ -2,7 +2,7 @@
 @let isAuthorized=authorized();
 
 <div class="menu__item" (click)="handleModal()">
-  <mat-icon class="menu__item_icon" aria-hidden="true">add</mat-icon>
+  <app-icon class="menu__item_icon" aria-hidden="true">add</app-icon>
   @if(isToggled){
   <span class="menu__item_label">Add Dashboard</span>
   }

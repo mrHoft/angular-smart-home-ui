@@ -3,14 +3,14 @@
 
 @if(layout()==='verticalLayout'){
 <div class="sensor_row">
-  <mat-icon class="icon" aria-hidden="true">{{sensorData.icon}}</mat-icon>
+  <app-icon class="icon" aria-hidden="true">{{sensorData.icon}}</app-icon>
   <div>{{sensorData.label}}</div>
   <div class="state" [innerHTML]="value.amount | sensorValue:value.unit"></div>
 </div>
 }@else{
 <div class="sensor_column">
   <div>{{sensorData.label}}</div>
-  <mat-icon class="icon" aria-hidden="true">{{sensorData.icon}}</mat-icon>
+  <app-icon class="icon" aria-hidden="true">{{sensorData.icon}}</app-icon>
   <div [innerHTML]="value.amount | sensorValue:value.unit"></div>
 </div>
 }

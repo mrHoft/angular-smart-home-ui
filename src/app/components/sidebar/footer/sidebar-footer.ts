@@ -1,17 +1,16 @@
 import { Component, input, inject } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
+import { Icon } from '~/app/components/icon/icon';
 import { UserService } from '~/api/user.service';
 import { Router } from '@angular/router';
 import { ModalService } from '~/app/components/modal/modal.service';
 import { AddDashboard, type TAddDashboardResult } from '~/app/components/form/add-dashboard/add-dashboard';
-import type { DashboardItem } from '~/api/api.types';
 
 import { Store } from '@ngrx/store';
 import { createDashboard } from '~/app/state/dashboard.actions';
 
 @Component({
   selector: 'app-sidebar-footer',
-  imports: [MatIconModule],
+  imports: [Icon],
   templateUrl: './sidebar-footer.html',
   styleUrl: './sidebar-footer.scss'
 })

@@ -2,9 +2,9 @@
 
 <div class="device">
   @if(isLamp() && deviceData.state){
-  <mat-icon class="icon" appLampHighlight aria-hidden="true">{{deviceData.icon}}</mat-icon>
+  <app-icon class="icon" appLampHighlight aria-hidden="true">{{deviceData.icon}}</app-icon>
   }@else{
-  <mat-icon class="icon" [class.icon_on]="deviceData.state" aria-hidden="true">{{deviceData.icon}}</mat-icon>
+  <app-icon class="icon" [class.icon_on]="deviceData.state" aria-hidden="true">{{deviceData.icon}}</app-icon>
   }
   <div>{{deviceData.label}}</div>
   <div class="state"></div>

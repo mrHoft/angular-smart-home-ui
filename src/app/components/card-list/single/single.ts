@@ -1,13 +1,13 @@
 import { Component, input, signal, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { MatIconModule } from '@angular/material/icon';
+import { Icon } from '~/app/components/icon/icon';
 import type { CardData, DeviceItem } from '~/api/api.types';
 import { LampHighlight } from '~/app/entity/directives/lamp-highlight';
 import { toggleDevice } from '~/app/state/device.actions';
 
 @Component({
   selector: 'app-card-single',
-  imports: [MatIconModule, LampHighlight],
+  imports: [Icon, LampHighlight],
   templateUrl: './single.html',
   styleUrl: './single.scss'
 })

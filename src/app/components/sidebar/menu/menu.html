@@ -4,7 +4,7 @@
   @for(item of dashboards(); track item.id){
   <a class="nav__item" [class.nav__item_active]="item.id === activeDashboardId()" [routerLink]="'/dashboard/'+item.id"
     (click)="setActiveDashboard(item.id)">
-    <mat-icon class="icon" aria-hidden="true">{{item.icon}}</mat-icon>
+    <app-icon class="icon">{{item.icon}}</app-icon>
     @if(isToggled){
     <span class="label">{{item.title}}</span>
     }

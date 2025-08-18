@@ -1,12 +1,12 @@
 import { Component, input } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import type { DeviceItem } from '~/api/api.types';
 import { LampHighlight } from '~/app/entity/directives/lamp-highlight';
+import { Icon } from '~/app/components/icon/icon';
 
 @Component({
   selector: 'app-device',
-  imports: [MatIconModule, MatSlideToggleModule, LampHighlight],
+  imports: [Icon, MatSlideToggleModule, LampHighlight],
   templateUrl: './device.html',
   styleUrl: './device.scss'
 })

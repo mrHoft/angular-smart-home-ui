@@ -1,9 +1,9 @@
 import { Component, input } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
+import { Icon } from '~/app/components/icon/icon';
 
 @Component({
   selector: 'app-sidebar-header',
-  imports: [MatIconModule],
+  imports: [Icon],
   templateUrl: './sidebar-header.html',
   styleUrl: './sidebar-header.scss'
 })

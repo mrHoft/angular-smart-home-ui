@@ -1,6 +1,6 @@
 import { Component, inject, input, effect } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { MatIconModule } from '@angular/material/icon';
+import { Icon } from '~/app/components/icon/icon';
 
 import { Store } from '@ngrx/store';
 import * as DashboardActions from '~/app/state/dashboard.actions';
@@ -8,7 +8,7 @@ import { selectDashboards, selectActiveDashboardId } from '~/app/state/dashboard
 
 @Component({
   selector: 'app-menu',
-  imports: [MatIconModule, RouterLink],
+  imports: [RouterLink, Icon],
   templateUrl: './menu.html',
   styleUrl: './menu.scss'
 })

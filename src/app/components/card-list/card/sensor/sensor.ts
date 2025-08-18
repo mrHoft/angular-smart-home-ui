@@ -1,11 +1,11 @@
 import { Component, input } from '@angular/core';
 import type { SensorItem, TLayout } from '~/api/api.types';
-import { MatIconModule } from '@angular/material/icon';
+import { Icon } from '~/app/components/icon/icon';
 import { SensorValuePipe } from '~/app/entity/pipes/sensor-value-pipe';
 
 @Component({
   selector: 'app-sensor',
-  imports: [MatIconModule, SensorValuePipe],
+  imports: [Icon, SensorValuePipe],
   templateUrl: './sensor.html',
   styleUrl: './sensor.scss'
 })
