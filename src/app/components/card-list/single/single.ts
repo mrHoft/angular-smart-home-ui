@@ -18,7 +18,7 @@ export class CardSingleComponent {
   protected highlight = signal(false)
 
   onToggle() {
-    if (this.device) {
+    if (this.device && !this.device.id.startsWith('example')) {
       this.device.state = !this.device.state
       this.highlight.set(this.device.state)
       this.store.dispatch(toggleDevice({ id: this.device.id, state: this.device.state }));

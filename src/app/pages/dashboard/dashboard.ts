@@ -7,6 +7,7 @@ import { SquareButton } from '~/app/components/square-button/square-button';
 import { ModalService } from '~/app/components/modal/modal.service';
 import { Confirmation, type TConfirmationProps } from '~/app/components/form/confirmation/confirmation';
 import { AddDashboardTab, type TAddDashboardTabResult } from '~/app/components/form/add-tab/add-tab';
+import { AddDashboardCard, type TAddDashboardCardResult } from '~/app/components/form/add-card/add-card';
 
 import { Store } from '@ngrx/store';
 import * as DashboardActions from '~/app/state/dashboard.actions';
@@ -19,7 +20,7 @@ import { selectAllTabs, /* selectLoading, selectError, */ selectActiveDashboardI
   styleUrl: './dashboard.scss'
 })
 export class SectionDashboard {
-  protected empty = i18n.empty.split('\n')
+  protected empty = i18n.emptyDashboard.split('\n')
   private modalService = inject(ModalService);
   private store = inject(Store);
   protected tabs = this.store.selectSignal(selectAllTabs);
@@ -61,7 +62,11 @@ export class SectionDashboard {
   }
 
   protected onAddCard = () => {
-    console.log('add card')
+    this.modalService.showComponent<TAddDashboardCardResult, never>(AddDashboardCard).then(result => {
+      if (result) {
+        // this.store.dispatch(DashboardActions.addTab(result))
+      }
+    })
   }
 
   protected onDiscard = () => {

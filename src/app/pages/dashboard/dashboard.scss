@@ -33,3 +33,11 @@
 .controls_bot {
   bottom: 0.5rem;
 }
+
+.bg_image {
+  position: absolute;
+  left: 0.5rem;
+  bottom: 0.5rem;
+  height: 12rem;
+  z-index: -1;
+}

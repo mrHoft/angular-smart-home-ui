@@ -1,6 +1,6 @@
 .card_list {
   display: grid;
-  grid-template-columns: repeat(3, minmax(33%, max-content));
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
   gap: 0.25rem;
   padding: 0.25rem;
 }
@@ -9,16 +9,8 @@
   text-align: center;
 }
 
-@media (max-width: 860px) {
-  .card_list {
-    grid-template-columns: repeat(2, 50%);
-  }
-}
-
-@media (max-width: 660px) {
-  .card_list {
-    grid-template-columns: unset;
-    display: flex;
-    flex-direction: column;
-  }
+.bg_image {
+  margin: 0.5rem;
+  height: 12rem;
+  z-index: -1;
 }

@@ -42,6 +42,7 @@ export class MenuComponent {
   }
 
   protected setActiveDashboard(id: string) {
+    this.store.dispatch(DashboardActions.exitEditMode());
     this.store.dispatch(DashboardActions.setActiveDashboard({ id }));
   }
 

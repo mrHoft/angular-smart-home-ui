@@ -13,3 +13,13 @@
 .content {
   padding: 0.5rem;
 }
+
+.page__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+
+  img {
+    height: 12rem;
+  }
+}

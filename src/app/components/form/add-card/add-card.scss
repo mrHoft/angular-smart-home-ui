@@ -1,0 +1,19 @@
+.title {
+  text-align: center;
+}
+
+.card_list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: 0.25rem;
+  padding: 0.25rem;
+}
+
+.card_item {
+  cursor: pointer;
+
+  &:hover>:first-child {
+    transition: background-color 0.25s linear;
+    background-color: var(--color-accent60a) !important;
+  }
+}
