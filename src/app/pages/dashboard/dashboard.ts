@@ -1,6 +1,6 @@
 import { Component, inject, effect } from '@angular/core';
-import { MatTabsModule } from '@angular/material/tabs';
 import { HeaderComponent } from '~/app/components/header/header';
+import { TabsComponent, TabComponent } from '~/app/components/tabs/tabs';
 import { CardListComponent } from 'ui/card-list/card-list';
 import { i18n } from '~/data/i18n.en';
 import { SquareButton } from '~/app/components/square-button/square-button';
@@ -15,7 +15,7 @@ import { selectAllTabs, /* selectLoading, selectError, */ selectActiveDashboardI
 
 @Component({
   selector: 'app-dashboard',
-  imports: [MatTabsModule, CardListComponent, HeaderComponent, SquareButton],
+  imports: [TabsComponent, TabComponent, CardListComponent, HeaderComponent, SquareButton],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss'
 })

@@ -3,13 +3,16 @@
 
 <section class="section">
   @if(data.length){
-  <mat-tab-group>
+  <app-tabs>
     @for(tab of data; track $index) {
-    <mat-tab [label]="tab.title">
-      <app-card-list [cards]="tab.cards" />
-    </mat-tab>
+    <app-tab id="tab.id">
+      <ng-template #header>{{tab.title}}</ng-template>
+      <ng-template #content>
+        <app-card-list [cards]="tab.cards" />
+      </ng-template>
+    </app-tab>
     }
-  </mat-tab-group>
+  </app-tabs>
   }@else{
   <app-header title="Empty"></app-header>
   @for(line of empty; track $index){

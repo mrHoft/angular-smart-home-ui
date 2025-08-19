@@ -1,0 +1,15 @@
+<div class="tabs-header" role="tablist">
+  @for (tab of tabs(); let i = $index; track i) {
+  <div class="tab-button" [class.active]="activeTabIndex() === i" (click)="setActiveTab(i)">
+    <ng-container [ngTemplateOutlet]="tab.headerTemplate" />
+  </div>
+  }
+</div>
+
+<div class="tabs-content">
+  @for (tab of tabs(); let i = $index; track i) {
+  <div class="tab-content" [class.active]="activeTabIndex() === i" role="tabpanel">
+    <ng-container [ngTemplateOutlet]="tab.contentTemplate" />
+  </div>
+  }
+</div>

@@ -1,0 +1,38 @@
+.tabs-header {
+  height: calc(2.5rem - var(--border-thickness));
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  box-sizing: border-box;
+  background-color: var(--color10);
+  color: var(--color100);
+  border-bottom: var(--border-thickness) solid var(--color20);
+}
+
+.tab-button {
+  font-size: 1rem;
+  line-height: 1;
+  padding: 0.5rem 0;
+  text-align: center;
+  cursor: pointer;
+  position: relative;
+
+  &.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: var(--color-accent60);
+  }
+}
+
+.tab-content {
+  &.active {
+    display: block;
+  }
+
+  &:not(.active) {
+    display: none;
+  }
+}
