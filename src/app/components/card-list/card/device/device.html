@@ -8,5 +8,5 @@
   }
   <div>{{deviceData.label}}</div>
   <div class="state"></div>
-  <mat-slide-toggle [checked]="deviceData.state" [hideIcon]="true" (click)="onToggle()" />
+  <app-toggle [checked]="deviceData.state" (onChange)="onToggle()" />
 </div>

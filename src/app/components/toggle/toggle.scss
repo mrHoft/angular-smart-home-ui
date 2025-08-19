@@ -1,0 +1,42 @@
+:host {
+  position: relative;
+  display: inline-block;
+  width: 2.2em;
+  height: 1.1em;
+  border-radius: 1em;
+  border: var(--border-thickness) solid var(--color50);
+}
+
+.toggle {
+  position: absolute;
+  margin: 0;
+  outline: none;
+  appearance: none;
+  font-size: 1em;
+  width: 2.2em;
+  height: 1.1em;
+  box-sizing: unset;
+  border-radius: 1em;
+  background-color: var(--color50);
+  cursor: pointer;
+
+  &:checked {
+    background-color: var(--color-accent60);
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    width: 1.1em;
+    height: 1.1em;
+    border-radius: 1em;
+    background-color: var(--color30);
+    transition: transform 0.2s linear;
+  }
+
+  &:checked::after {
+    transform: translateX(1.1em);
+    background-color: var(--color-accent50);
+  }
+}
