@@ -26,80 +26,47 @@ export const initialState: DashboardState = {
 export const dashboardReducer = createReducer(
   initialState,
   // Load dashboards
-  on(DashboardActions.loadDashboards, (state) => ({
-    ...state,
-    loading: true,
-    error: null
-  })),
-  on(DashboardActions.loadDashboardsSuccess, (state, { dashboards }) => ({
-    ...state,
-    dashboards: [...dashboards, defaultMenuItem],
-    loading: false
-  })),
-  on(DashboardActions.loadDashboardsFailure, (state, { error }) => ({
-    ...state,
-    error,
-    loading: false
-  })),
+  on(DashboardActions.loadDashboards, (state) => ({ ...state, loading: true, error: null })),
+
+  on(DashboardActions.loadDashboardsSuccess, (state, { dashboards }) => ({ ...state, dashboards: [...dashboards, defaultMenuItem], loading: false })),
+
+  on(DashboardActions.loadDashboardsFailure, (state, { error }) => ({ ...state, error, loading: false })),
+
   // Set active dashboard
-  on(DashboardActions.setActiveDashboard, (state, { id }) => ({
-    ...state,
-    activeDashboardId: id
-  })),
+  on(DashboardActions.setActiveDashboard, (state, { id }) => ({ ...state, activeDashboardId: id })),
+
   // Load dashboard tabs
-  on(DashboardActions.loadDashboardTabs, (state) => ({
-    ...state,
-    loading: true,
-    error: null
-  })),
-  on(DashboardActions.loadDashboardTabsSuccess, (state, { tabs }) => ({
-    ...state,
-    tabs,
-    loading: false
-  })),
-  on(DashboardActions.loadDashboardTabsFailure, (state, { error }) => ({
-    ...state,
-    error,
-    loading: false
-  })),
-  on(DashboardActions.updateDashboardTabs, (state, { tabs }) => ({
-    ...state,
-    tabs
-  })),
+  on(DashboardActions.loadDashboardTabs, (state) => ({ ...state, loading: true, error: null })),
+
+  on(DashboardActions.loadDashboardTabsSuccess, (state, { tabs }) => ({ ...state, tabs, loading: false })),
+
+  on(DashboardActions.loadDashboardTabsFailure, (state, { error }) => ({ ...state, error, loading: false })),
+
+  on(DashboardActions.updateDashboardTabs, (state, { tabs }) => ({ ...state, tabs })),
+
   // Create dashboard reducers
-  on(DashboardActions.createDashboard, (state) => ({
-    ...state,
-    loading: true
-  })),
+  on(DashboardActions.createDashboard, (state) => ({ ...state, loading: true })),
+
   on(DashboardActions.createDashboardSuccess, (state, { dashboard }) => ({
     ...state,
     dashboards: [...state.dashboards, dashboard],
     activeDashboardId: dashboard.id,
     loading: false
   })),
-  on(DashboardActions.createDashboardFailure, (state, { error }) => ({
-    ...state,
-    error,
-    loading: false
-  })),
+
+  on(DashboardActions.createDashboardFailure, (state, { error }) => ({ ...state, error, loading: false })),
 
   // Remove dashboard reducers
-  on(DashboardActions.removeDashboard, (state) => ({
-    ...state,
-    loading: true
-  })),
+  on(DashboardActions.removeDashboard, (state) => ({ ...state, loading: true })),
+
   on(DashboardActions.removeDashboardSuccess, (state, { id }) => ({
     ...state,
     dashboards: state.dashboards.filter(d => d.id !== id),
     loading: false,
-    // Reset active dashboard if it was removed
     activeDashboardId: state.activeDashboardId === id ? null : state.activeDashboardId
   })),
-  on(DashboardActions.removeDashboardFailure, (state, { error }) => ({
-    ...state,
-    error,
-    loading: false
-  })),
+
+  on(DashboardActions.removeDashboardFailure, (state, { error }) => ({ ...state, error, loading: false })),
 
   // Edit mode
   on(DashboardActions.enterEditMode, (state) => ({
@@ -108,52 +75,20 @@ export const dashboardReducer = createReducer(
     tabsSnapshot: state.tabs // Create deep copy
   })),
 
-  on(DashboardActions.exitEditMode, (state) => ({
-    ...state,
-    editMode: false,
-    tabsSnapshot: null
-  })),
+  on(DashboardActions.exitEditMode, (state) => ({ ...state, editMode: false, tabsSnapshot: null })),
 
-  on(DashboardActions.discardChanges, (state) => ({
-    ...state,
-    editMode: false,
-    tabsSnapshot: null
-  })),
+  on(DashboardActions.discardChanges, (state) => ({ ...state, editMode: false, tabsSnapshot: null })),
 
-  on(DashboardActions.addTab, (state, { title }) => ({
-    ...state,
-    tabs: [
-      ...state.tabs,
-      {
-        id: title.replaceAll(' ', '-'),
-        title,
-        cards: []
-      }
-    ]
-  })),
+  on(DashboardActions.saveDashboard, (state) => ({ ...state, loading: true })),
 
-  on(DashboardActions.removeTab, (state, { tabId }) => ({
-    ...state,
-    tabs: state.tabs.filter(tab => tab.id !== tabId)
-  })),
+  on(DashboardActions.saveDashboardSuccess, (state) => ({ ...state, loading: false, editMode: false, tabsSnapshot: null })),
 
-  on(DashboardActions.saveDashboard, (state) => ({
-    ...state,
-    loading: true
-  })),
+  on(DashboardActions.saveDashboardFailure, (state, { error }) => ({ ...state, loading: false, error })),
 
-  on(DashboardActions.saveDashboardSuccess, (state) => ({
-    ...state,
-    loading: false,
-    editMode: false,
-    tabsSnapshot: null
-  })),
+  // Manage tabs
+  on(DashboardActions.addTabSuccess, (state, { tabId, title }) => ({ ...state, tabs: [...state.tabs, { id: tabId, title, cards: [] }] })),
 
-  on(DashboardActions.saveDashboardFailure, (state, { error }) => ({
-    ...state,
-    loading: false,
-    error
-  })),
+  on(DashboardActions.removeTab, (state, { tabId }) => ({ ...state, tabs: state.tabs.filter(tab => tab.id !== tabId) })),
 
   on(DashboardActions.reorderTab, (state, { tabId, direction }) => {
     const tabs = state.tabs;
@@ -181,4 +116,10 @@ export const dashboardReducer = createReducer(
 
     return { ...state, tabs: newTabs };
   }),
+
+  on(DashboardActions.renameTabSuccess, (state, { tabId, newId, title }) => ({
+    ...state,
+    tabs: state.tabs.map(tab => tab.id === tabId ? { ...tab, id: newId, title } : tab)
+  })
+  ),
 );

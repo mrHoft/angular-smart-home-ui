@@ -6,7 +6,7 @@ import { i18n } from '~/data/i18n.en';
 import { SquareButton } from '~/app/components/square-button/square-button';
 import { ModalService } from '~/app/components/modal/modal.service';
 import { Confirmation, type TConfirmationProps } from '~/app/components/form/confirmation/confirmation';
-import { AddDashboardTab, type TAddDashboardTabResult } from '~/app/components/form/add-tab/add-tab';
+import { AddDashboardTab, type TAddDashboardTabResult, type TAddDashboardTabProps } from '~/app/components/form/add-tab/add-tab';
 import { AddDashboardCard, type TAddDashboardCardResult } from '~/app/components/form/add-card/add-card';
 
 import { Store } from '@ngrx/store';
@@ -72,16 +72,20 @@ export class SectionDashboard {
   }
 
   protected onAddTab = () => {
-    this.modalService.showComponent<TAddDashboardTabResult, never>(AddDashboardTab).then(result => {
+    this.modalService.showComponent<TAddDashboardTabResult, TAddDashboardTabProps>(
+      AddDashboardTab,
+      { title: 'Create new tab' }
+    ).then(result => {
       if (result) this.store.dispatch(DashboardActions.addTab(result))
     })
   }
 
-  protected onAddCard = () => {
-    this.modalService.showComponent<TAddDashboardCardResult, never>(AddDashboardCard).then(result => {
-      if (result) {
-        // this.store.dispatch(DashboardActions.addTab(result))
-      }
+  protected renameTab = (tabId: string) => {
+    this.modalService.showComponent<TAddDashboardTabResult, TAddDashboardTabProps>(
+      AddDashboardTab,
+      { title: 'Edit tab title' }
+    ).then(result => {
+      if (result) this.store.dispatch(DashboardActions.renameTab({ tabId, title: result.title }))
     })
   }
 
@@ -99,13 +103,19 @@ export class SectionDashboard {
 
   protected canMoveTabLeft(tabId: string): boolean {
     const tabs = this.tabs();
-    const index = tabs.findIndex(tab => tab.id === tabId);
-    return index > 0;
+    return tabs.findIndex(tab => tab.id === tabId) > 0;
   }
 
   protected canMoveTabRight(tabId: string): boolean {
     const tabs = this.tabs();
-    const index = tabs.findIndex(tab => tab.id === tabId);
-    return index < tabs.length - 1;
+    return tabs.findIndex(tab => tab.id === tabId) < tabs.length - 1;
+  }
+
+  protected onAddCard = () => {
+    this.modalService.showComponent<TAddDashboardCardResult, never>(AddDashboardCard).then(result => {
+      if (result) {
+        // this.store.dispatch(DashboardActions.addTab(result))
+      }
+    })
   }
 }

@@ -1,6 +1,7 @@
 import { Component, output } from '@angular/core';
 import { ReactiveFormsModule, FormControl, FormGroup } from '@angular/forms';
 
+export type TAddDashboardTabProps = { title?: string } | undefined
 export type TAddDashboardTabResult = { title: string } | undefined
 
 @Component({
@@ -10,6 +11,7 @@ export type TAddDashboardTabResult = { title: string } | undefined
   styleUrl: './add-tab.scss'
 })
 export class AddDashboardTab {
+  public title = 'Create new tab'
   public result = output<TAddDashboardTabResult>()
 
   protected form = new FormGroup({

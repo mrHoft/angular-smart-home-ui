@@ -14,6 +14,9 @@
         }
         {{tab.title}}
         @if(isEditMode){
+        <button (click)="renameTab(tab.id)" title="Edit title">
+          edit
+        </button>
         <button (click)="moveTabRight(tab.id)" [disabled]="!canMoveTabRight(tab.id)" title="Move right">
           →
         </button>

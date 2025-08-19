@@ -83,9 +83,19 @@ export const saveDashboardFailure = createAction(
   props<{ error: unknown }>()
 );
 export const discardChanges = createAction('[Dashboard] Discard Changes');
+
+// Manage tabs
 export const addTab = createAction(
   '[Dashboard] Add Tab',
   props<{ title: string }>()
+);
+export const addTabSuccess = createAction(
+  '[Dashboard] Add Tab Success',
+  props<{ tabId: string; title: string }>()
+);
+export const addTabFailure = createAction(
+  '[Dashboard] Add Tab Failure',
+  props<{ error: string }>()
 );
 export const removeTab = createAction(
   '[Dashboard] Remove Tab',
@@ -94,4 +104,16 @@ export const removeTab = createAction(
 export const reorderTab = createAction(
   '[Dashboard] Reorder Tab',
   props<{ tabId: string; direction: 'left' | 'right' }>()
+);
+export const renameTab = createAction(
+  '[Dashboard] Rename Tab',
+  props<{ tabId: string; title: string }>()
+);
+export const renameTabSuccess = createAction(
+  '[Dashboard] Rename Tab Success',
+  props<{ tabId: string; newId: string; title: string }>()
+);
+export const renameTabFailure = createAction(
+  '[Dashboard] Rename Tab Failure',
+  props<{ error: string; tabId: string }>()
 );

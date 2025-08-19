@@ -2,7 +2,7 @@ import { inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Router } from '@angular/router';
-import { switchMap, map, catchError, of, tap, withLatestFrom } from 'rxjs';
+import { switchMap, map, catchError, of, tap, withLatestFrom, mergeMap } from 'rxjs';
 import { DashboardService } from '~/api/dashboard.service';
 import * as DashboardActions from './dashboard.actions';
 import { selectAllTabs, selectActiveDashboardId } from './dashboard.selectors';
@@ -196,4 +196,91 @@ export const handleSaveFailure$ = createEffect(
     );
   },
   { functional: true, dispatch: false }
+);
+
+export const addTab$ = createEffect(
+  (actions$ = inject(Actions), store = inject(Store), messageService = inject(MessageService)) => {
+    return actions$.pipe(
+      ofType(DashboardActions.addTab),
+      withLatestFrom(store.select(selectAllTabs)),
+      mergeMap(([{ title }, tabs]) => {
+        try {
+          const sanitizedTitle = title.trim();
+          if (!sanitizedTitle) throw new Error('Tab title cannot be empty');
+
+          const tabId = sanitizedTitle.replaceAll(' ', '_').replace(/[^a-zA-Z0-9_-]/g, '').toLowerCase();
+
+          if (!tabId) throw new Error('Invalid tab title - cannot generate ID.');
+
+          const idExists = tabs.some(tab => tab.id === tabId);
+          if (idExists) {
+            const existingTab = tabs.find(tab => tab.id === tabId);
+            throw new Error(`Tab "${existingTab?.title || tabId}" already exists.`);
+          }
+
+          const titleExists = tabs.some(tab => tab.title === sanitizedTitle);
+          if (titleExists) {
+            throw new Error(`Tab with title "${sanitizedTitle}" already exists`);
+          }
+          messageService.show(`Tab "${sanitizedTitle}" added successfully`);
+          return of(DashboardActions.addTabSuccess({ tabId, title: sanitizedTitle }));
+
+        } catch (error) {
+          const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+          messageService.show(errorMessage, 'error');
+          return of(DashboardActions.addTabFailure({ error: errorMessage }));
+        }
+      })
+    );
+  },
+  { functional: true }
+);
+
+export const renameTab$ = createEffect(
+  (
+    actions$ = inject(Actions),
+    store = inject(Store),
+    messageService = inject(MessageService)
+  ) => {
+    return actions$.pipe(
+      ofType(DashboardActions.renameTab),
+      withLatestFrom(store.select(selectAllTabs)),
+      mergeMap(([{ tabId, title }, tabs]) => {
+        try {
+          if (!title.trim()) throw new Error('Tab title cannot be empty');
+
+          const tabIndex = tabs.findIndex(tab => tab.id === tabId);
+          if (tabIndex === -1) throw new Error(`Tab ${tabId} not found`);
+
+          const sanitizedTitle = title.trim();
+          const newId = sanitizedTitle
+            .replaceAll(' ', '_')
+            .replace(/[^a-zA-Z0-9_-]/g, '')
+            .toLowerCase();
+
+          if (!newId) throw new Error('Invalid tab title - cannot generate ID');
+
+          const idConflict = tabs.some((tab, index) =>
+            index !== tabIndex && tab.id === newId
+          );
+          if (idConflict) throw new Error(`Tab ID "${newId}" already exists`);
+
+          return of(DashboardActions.renameTabSuccess({
+            tabId,
+            newId,
+            title: sanitizedTitle
+          }));
+
+        } catch (error) {
+          const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+          messageService.show(errorMessage, 'error');
+          return of(DashboardActions.renameTabFailure({
+            error: errorMessage,
+            tabId
+          }));
+        }
+      })
+    );
+  },
+  { functional: true }
 );
