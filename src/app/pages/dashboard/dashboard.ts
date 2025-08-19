@@ -55,20 +55,6 @@ export class SectionDashboard {
     this.store.dispatch(DashboardActions.enterEditMode())
   }
 
-  protected onAddTab = () => {
-    this.modalService.showComponent<TAddDashboardTabResult, never>(AddDashboardTab).then(result => {
-      if (result) this.store.dispatch(DashboardActions.addTab(result))
-    })
-  }
-
-  protected onAddCard = () => {
-    this.modalService.showComponent<TAddDashboardCardResult, never>(AddDashboardCard).then(result => {
-      if (result) {
-        // this.store.dispatch(DashboardActions.addTab(result))
-      }
-    })
-  }
-
   protected onDiscard = () => {
     this.modalService.showComponent<boolean, TConfirmationProps>(
       Confirmation,
@@ -83,5 +69,43 @@ export class SectionDashboard {
     if (id) {
       this.store.dispatch(DashboardActions.saveDashboard({ id }))
     }
+  }
+
+  protected onAddTab = () => {
+    this.modalService.showComponent<TAddDashboardTabResult, never>(AddDashboardTab).then(result => {
+      if (result) this.store.dispatch(DashboardActions.addTab(result))
+    })
+  }
+
+  protected onAddCard = () => {
+    this.modalService.showComponent<TAddDashboardCardResult, never>(AddDashboardCard).then(result => {
+      if (result) {
+        // this.store.dispatch(DashboardActions.addTab(result))
+      }
+    })
+  }
+
+  protected removeTab = (tabId: string) => {
+    this.store.dispatch(DashboardActions.removeTab({ tabId }))
+  }
+
+  protected moveTabLeft(tabId: string) {
+    this.store.dispatch(DashboardActions.reorderTab({ tabId, direction: 'left' }));
+  }
+
+  protected moveTabRight(tabId: string) {
+    this.store.dispatch(DashboardActions.reorderTab({ tabId, direction: 'right' }));
+  }
+
+  protected canMoveTabLeft(tabId: string): boolean {
+    const tabs = this.tabs();
+    const index = tabs.findIndex(tab => tab.id === tabId);
+    return index > 0;
+  }
+
+  protected canMoveTabRight(tabId: string): boolean {
+    const tabs = this.tabs();
+    const index = tabs.findIndex(tab => tab.id === tabId);
+    return index < tabs.length - 1;
   }
 }

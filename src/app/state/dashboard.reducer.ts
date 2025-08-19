@@ -153,5 +153,32 @@ export const dashboardReducer = createReducer(
     ...state,
     loading: false,
     error
-  }))
+  })),
+
+  on(DashboardActions.reorderTab, (state, { tabId, direction }) => {
+    const tabs = state.tabs;
+    const currentIndex = tabs.findIndex(tab => tab.id === tabId);
+
+    if (currentIndex === -1) {
+      console.warn(`Tab ${tabId} not found`);
+      return state;
+    }
+
+    let newIndex: number;
+    if (direction === 'left') {
+      newIndex = Math.max(0, currentIndex - 1);
+    } else {
+      newIndex = Math.min(tabs.length - 1, currentIndex + 1);
+    }
+
+    if (currentIndex === newIndex) {
+      return state;
+    }
+
+    const newTabs = [...tabs];
+    const [movedTab] = newTabs.splice(currentIndex, 1);
+    newTabs.splice(newIndex, 0, movedTab);
+
+    return { ...state, tabs: newTabs };
+  }),
 );

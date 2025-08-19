@@ -91,3 +91,7 @@ export const removeTab = createAction(
   '[Dashboard] Remove Tab',
   props<{ tabId: string }>()
 );
+export const reorderTab = createAction(
+  '[Dashboard] Reorder Tab',
+  props<{ tabId: string; direction: 'left' | 'right' }>()
+);

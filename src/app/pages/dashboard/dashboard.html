@@ -6,7 +6,22 @@
   <app-tabs>
     @for(tab of data; track $index) {
     <app-tab id="tab.id">
-      <ng-template #header>{{tab.title}}</ng-template>
+      <ng-template #header>
+        @if(isEditMode){
+        <button (click)="moveTabLeft(tab.id)" [disabled]="!canMoveTabLeft(tab.id)" title="Move left">
+          ←
+        </button>
+        }
+        {{tab.title}}
+        @if(isEditMode){
+        <button (click)="moveTabRight(tab.id)" [disabled]="!canMoveTabRight(tab.id)" title="Move right">
+          →
+        </button>
+        <button (click)="removeTab(tab.id)" title="Delete tab">
+          x
+        </button>
+        }
+      </ng-template>
       <ng-template #content>
         <app-card-list [cards]="tab.cards" />
       </ng-template>
