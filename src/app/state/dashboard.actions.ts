@@ -163,3 +163,18 @@ export const reorderCardFailure = createAction(
   '[Dashboard] Reorder Card Failure',
   props<{ error: string; tabId: string; cardId: string }>()
 );
+
+export const renameCard = createAction(
+  '[Dashboard] Rename Card',
+  props<{ cardId: string; title: string }>()
+);
+
+export const renameCardSuccess = createAction(
+  '[Dashboard] Rename Card Success',
+  props<{ cardId: string; title: string }>()
+);
+
+export const renameCardFailure = createAction(
+  '[Dashboard] Rename Card Failure',
+  props<{ error: string }>()
+);

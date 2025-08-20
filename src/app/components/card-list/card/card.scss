@@ -16,10 +16,6 @@
   background-color: var(--color20);
 }
 
-.title {
-  margin-top: 0;
-}
-
 .item_list {
   display: flex;
   gap: 0.725rem;
@@ -28,4 +24,13 @@
 
 .item_list_vertical {
   flex-direction: column;
+}
+
+.title {
+  display: flex;
+  column-gap: 0.5rem;
+
+  h3 {
+    margin-top: 0;
+  }
 }

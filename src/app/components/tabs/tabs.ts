@@ -1,7 +1,7 @@
-import { Component, output, signal, ContentChildren, QueryList, AfterContentInit } from '@angular/core';
+import { Component, output, signal, ContentChildren, QueryList, AfterContentInit, effect, untracked, runInInjectionContext, EffectRef, inject, EnvironmentInjector } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
 import { TabComponent } from './tab/tab';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, takeUntil, startWith } from 'rxjs';
 export { TabComponent }
 
 @Component({
@@ -17,6 +17,15 @@ export class TabsComponent implements AfterContentInit {
   tabs = signal<TabComponent[]>([]);
   onChange = output<string>();
   private destroy$ = new Subject<void>();
+
+  constructor() {
+    effect(() => {
+      this.tabs().map(tab => tab.id());
+      untracked(() => {
+        this.updateTabs(this.tabs());
+      });
+    });
+  }
 
   ngAfterContentInit(): void {
     this.updateTabs(this.tabComponents.toArray());

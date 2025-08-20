@@ -69,11 +69,7 @@ export const dashboardReducer = createReducer(
   on(DashboardActions.removeDashboardFailure, (state, { error }) => ({ ...state, error, loading: false })),
 
   // Edit mode
-  on(DashboardActions.enterEditMode, (state) => ({
-    ...state,
-    editMode: true,
-    tabsSnapshot: state.tabs // Create deep copy
-  })),
+  on(DashboardActions.enterEditMode, (state) => ({ ...state, editMode: true, tabsSnapshot: state.tabs })),
 
   on(DashboardActions.exitEditMode, (state) => ({ ...state, editMode: false, tabsSnapshot: null })),
 
@@ -126,20 +122,12 @@ export const dashboardReducer = createReducer(
   // Manage cards
   on(DashboardActions.addCardSuccess, (state, { tabId, card }) => ({
     ...state,
-    tabs: state.tabs.map(tab =>
-      tab.id === tabId
-        ? { ...tab, cards: [...tab.cards, card] }
-        : tab
-    )
+    tabs: state.tabs.map(tab => tab.id === tabId ? { ...tab, cards: [...tab.cards, card] } : tab)
   })),
 
   on(DashboardActions.removeCardSuccess, (state, { tabId, cardId }) => ({
     ...state,
-    tabs: state.tabs.map(tab =>
-      tab.id === tabId
-        ? { ...tab, cards: tab.cards.filter(card => card.id !== cardId) }
-        : tab
-    )
+    tabs: state.tabs.map(tab => tab.id === tabId ? { ...tab, cards: tab.cards.filter(card => card.id !== cardId) } : tab)
   })),
 
   on(DashboardActions.reorderCardSuccess, (state, { tabId, cardId, newIndex }) => {
@@ -152,19 +140,23 @@ export const dashboardReducer = createReducer(
 
     if (cardIndex === -1 || cardIndex === newIndex) return state;
 
-    // Reorder the cards array
     const newCards = [...tab.cards];
     const [movedCard] = newCards.splice(cardIndex, 1);
     newCards.splice(newIndex, 0, movedCard);
 
     return {
       ...state,
-      tabs: state.tabs.map((t, index) =>
-        index === tabIndex
-          ? { ...t, cards: newCards }
-          : t
+      tabs: state.tabs.map((t, index) => index === tabIndex ? { ...t, cards: newCards } : t
       )
     };
   }),
 
+  on(DashboardActions.renameCardSuccess, (state, { cardId, title }) => ({
+    ...state,
+    tabs: state.tabs.map(tab =>
+      tab.cards.some(card => card.id === cardId)
+        ? { ...tab, cards: tab.cards.map(card => card.id === cardId ? { ...card, title: title.trim() } : card) }
+        : tab
+    )
+  })),
 );

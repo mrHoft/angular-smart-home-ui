@@ -74,7 +74,6 @@ export class SectionDashboard {
 
   // Manage tabs
   protected onTabChange = (tabId: string) => {
-    console.log('activeTabId:', tabId)
     this.activeTabId = tabId
   }
 

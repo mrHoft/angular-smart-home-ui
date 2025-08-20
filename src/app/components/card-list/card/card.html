@@ -1,6 +1,21 @@
+@let isEditMode=editMode();
+@let isTitleEditMode=editTitleMode();
+
 <div class="card" [class.highlight]="highlight()">
   @if(card){
-  <h3 class="title">{{card.title}}</h3>
+
+  <div class="title">
+    @if(isTitleEditMode){
+    <input type="text" name="title" [value]="card.title" placeholder="Card title" maxlength="50"
+      (change)="onTitleChange($event)" (blur)="onTitleChange($event)" />
+    }@else{
+    <h3>{{card.title}}</h3>
+    @if(isEditMode){
+    <app-square-button icon="edit" (onClick)="handleTitleEdit()" />
+    }
+    }
+  </div>
+
   @if(card.items.length){
   <div class="item_list" [class.item_list_vertical]="card.layout==='verticalLayout'">
     @for(item of card.items; track item.id){
@@ -18,5 +33,6 @@
   }@else{
   {{empty}}
   }
+
   }
 </div>

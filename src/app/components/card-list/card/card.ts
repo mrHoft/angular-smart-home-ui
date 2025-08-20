@@ -5,10 +5,13 @@ import { SensorComponent } from './sensor/sensor';
 import { DeviceComponent } from './device/device';
 import { toggleDevice } from '~/app/state/device.actions';
 import { i18n } from '~/data/i18n.en';
+import { SquareButton } from '../../square-button/square-button';
+import { selectEditMode } from '~/app/state/dashboard.selectors';
+import { renameCard } from '~/app/state/dashboard.actions';
 
 @Component({
   selector: 'app-card',
-  imports: [SensorComponent, DeviceComponent],
+  imports: [SensorComponent, DeviceComponent, SquareButton],
   templateUrl: './card.html',
   styleUrl: './card.scss',
 })
@@ -19,6 +22,8 @@ export class CardComponent {
   protected card?: CardData
   protected groupToggle?: DeviceItem
   protected highlight = signal(false)
+  protected editMode = this.store.selectSignal(selectEditMode);
+  protected editTitleMode = signal(false)
 
   public onGroupToggle = () => {
     if (this.groupToggle) {
@@ -81,5 +86,17 @@ export class CardComponent {
       }
     }
     this.highlight.set(group.state)
+  }
+
+  protected handleTitleEdit = () => this.editTitleMode.update(cur => !cur)
+
+  protected onTitleChange = (event: Event) => {
+    if (!this.editTitleMode()) return
+    const el = event.target as HTMLInputElement
+    this.editTitleMode.set(false)
+    if (this.card) {
+      this.card.title = el.value
+      this.store.dispatch(renameCard({ cardId: this.card.id, title: el.value }))
+    }
   }
 }

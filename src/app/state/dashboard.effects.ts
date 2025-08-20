@@ -299,7 +299,7 @@ export const addCard$ = createEffect(
           items: []
         };
 
-        messageService.show(`Card added to tab`);
+        messageService.show(`Card added to tab ${tabId}`);
         return DashboardActions.addCardSuccess({ tabId, card: newCard });
       }),
       catchError((error) => {
@@ -373,6 +373,35 @@ export const reorderCard$ = createEffect(
           tabId: 'unknown',
           cardId: 'unknown'
         }));
+      })
+    );
+  },
+  { functional: true }
+);
+
+export const renameCard$ = createEffect(
+  (actions$ = inject(Actions), store = inject(Store), messageService = inject(MessageService)) => {
+    return actions$.pipe(
+      ofType(DashboardActions.renameCard),
+      withLatestFrom(store.select(selectAllTabs)),
+      mergeMap(([{ cardId, title }, tabs]) => {
+        const tab = tabs.find(t => t.cards.some(card => card.id === cardId));
+        if (!tab) {
+          throw new Error(`Card ${cardId} not found`);
+        }
+
+        const sanitizedTitle = title.trim();
+
+        if (!sanitizedTitle) {
+          throw new Error('Card title cannot be empty');
+        }
+
+        return of(DashboardActions.renameCardSuccess({ cardId, title: sanitizedTitle }));
+      }),
+      catchError((error) => {
+        const errorMessage = error instanceof Error ? error.message : 'Failed to rename card';
+        messageService.show(errorMessage, 'error');
+        return of(DashboardActions.renameCardFailure({ error: errorMessage }));
       })
     );
   },

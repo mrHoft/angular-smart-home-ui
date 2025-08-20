@@ -17,7 +17,6 @@ export class AddDashboardCard {
   protected cards = Object.values(cardExamples)
 
   protected onClick(layout: TLayout) {
-    console.log(layout)
     this.result.emit({ layout })
   }
 }
