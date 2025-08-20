@@ -11,6 +11,15 @@
   padding: 0.5rem;
 }
 
+.card.single {
+  transition: background-color 0.25s linear;
+
+  &:hover:not([data-disabled="true"]) {
+    cursor: pointer;
+    background-color: var(--color-accent50a);
+  }
+}
+
 .highlight {
   border-radius: var(--border-radius);
   background-color: var(--color20);
@@ -33,4 +42,26 @@
   h3 {
     margin-top: 0;
   }
+}
+
+.device {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  column-gap: 0.25rem;
+}
+
+.icon {
+  margin-left: auto;
+  color: #888;
+  padding: 0.25rem;
+  border-radius: 1rem;
+}
+
+.icon.on {
+  color: var(--color-accent80);
+}
+
+.icon.lamp {
+  color: #ee0;
 }

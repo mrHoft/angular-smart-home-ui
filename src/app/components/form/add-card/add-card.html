@@ -2,11 +2,7 @@
 <div class="card_list">
   @for (card of cards; track card.id) {
   <div class="card_item" (click)="onClick(card.layout)">
-    @if(card.layout==='singleDevice' && card.items[0].type === 'device'){
-    <app-card-single [data]="card" />
-    }@else{
     <app-card [data]="card" />
-    }
   </div>
   }
 </div>

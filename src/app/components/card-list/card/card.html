@@ -1,13 +1,15 @@
 @let isEditMode=editMode();
 @let isTitleEditMode=editTitleMode();
+@let device=singleDevice();
 
-<div class="card" [class.highlight]="highlight()">
+<div class="card" [class.single]="device" [class.highlight]="highlight()"
+  [attr.data-disabled]="isEditMode ? 'true' : null" (click)="handleSingleDeviceToggle()">
   @if(card){
 
   <div class="title">
     @if(isTitleEditMode){
     <input type="text" name="title" [value]="card.title" placeholder="Card title" maxlength="50"
-      (change)="onTitleChange($event)" (blur)="onTitleChange($event)" />
+      (change)="handleTitleChange($event)" (blur)="handleTitleChange($event)" />
     }@else{
     <h3>{{card.title}}</h3>
     @if(isEditMode){
@@ -16,7 +18,20 @@
     }
   </div>
 
-  @if(card.items.length){
+  @if(!card.items.length){
+  {{empty}}
+  }@else{
+
+  @if(device){
+  <div class="device">
+    @if(isEditMode && !device.id.startsWith('example')){
+    <button (click)="removeDevice(device.id)"><span class="font-icon">delete</span></button>
+    }
+    <div>{{device.label}}</div>
+    <app-icon class="icon" [class.on]="device.state && device.icon !== 'lightbulb'"
+      [class.lamp]="device.state && device.icon === 'lightbulb'">{{device.icon}}</app-icon>
+  </div>
+  }@else{
   <div class="item_list" [class.item_list_vertical]="card.layout==='verticalLayout'">
     @for(item of card.items; track item.id){
     @if(item.type==='device'){
@@ -38,9 +53,9 @@
     <app-device [onSwitch]="onGroupToggle" [data]="groupToggle" />
     }
   </div>
-  }@else{
-  {{empty}}
   }
+  }
+
   <ng-content />
   }
 </div>

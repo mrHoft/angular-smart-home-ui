@@ -15,7 +15,7 @@ export class AddDashboardTab {
   public result = output<TAddDashboardTabResult>()
 
   protected form = new FormGroup({
-    title: new FormControl(`tab #${Math.floor(Math.random() * 10)}`, { nonNullable: true }),
+    title: new FormControl(`Tab ${Math.floor(Math.random() * 10)}`, { nonNullable: true }),
   });
 
   protected onSubmit() {

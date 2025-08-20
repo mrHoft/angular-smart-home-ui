@@ -1,7 +1,6 @@
 import { Component, input, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { CardComponent } from './card/card';
-import { CardSingleComponent } from './single/single';
 import type { CardData } from '~/api/api.types';
 import { i18n } from '~/data/i18n.en';
 import { selectEditMode } from '~/app/state/dashboard.selectors';
@@ -12,7 +11,7 @@ import { addItemToCard } from '~/app/state/dashboard.actions';
 
 @Component({
   selector: 'app-card-list',
-  imports: [CardComponent, CardSingleComponent],
+  imports: [CardComponent],
   templateUrl: './card-list.html',
   styleUrl: './card-list.scss'
 })

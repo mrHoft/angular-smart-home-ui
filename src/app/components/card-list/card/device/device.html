@@ -1,13 +1,10 @@
-@let deviceData=data();
+@let device=data();
 
 <div class="device">
   <ng-content />
-  @if(isLamp() && deviceData.state){
-  <app-icon class="icon" appLampHighlight aria-hidden="true">{{deviceData.icon}}</app-icon>
-  }@else{
-  <app-icon class="icon" [class.icon_on]="deviceData.state" aria-hidden="true">{{deviceData.icon}}</app-icon>
-  }
-  <div>{{deviceData.label}}</div>
+  <app-icon class="icon" [class.on]="device.state && device.icon !== 'lightbulb'"
+    [class.lamp]="device.state && device.icon === 'lightbulb'">{{device.icon}}</app-icon>
+  <div>{{device.label}}</div>
   <div class="state"></div>
-  <app-toggle [checked]="deviceData.state" (onChange)="onToggle()" />
+  <app-toggle [checked]="device.state" (onChange)="onToggle()" />
 </div>

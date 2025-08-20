@@ -5,13 +5,14 @@ import { SensorComponent } from './sensor/sensor';
 import { DeviceComponent } from './device/device';
 import { toggleDevice } from '~/app/state/device.actions';
 import { i18n } from '~/data/i18n.en';
-import { SquareButton } from '../../square-button/square-button';
+import { SquareButton } from '~/app/components/square-button/square-button';
 import { selectEditMode } from '~/app/state/dashboard.selectors';
 import { renameCard } from '~/app/state/dashboard.actions';
+import { Icon } from '~/app/components/icon/icon';
 
 @Component({
   selector: 'app-card',
-  imports: [SensorComponent, DeviceComponent, SquareButton],
+  imports: [SensorComponent, DeviceComponent, SquareButton, Icon],
   templateUrl: './card.html',
   styleUrl: './card.scss',
 })
@@ -29,6 +30,7 @@ export class CardComponent {
     effect(() => {
       const data = this.data();
       this.card = { ...data, items: data.items.map(item => ({ ...item })) };
+      this.init()
     });
   }
 
@@ -79,7 +81,7 @@ export class CardComponent {
     }, { count: 0, state: false })
   }
 
-  ngOnInit() {
+  private init = () => {
     const group = this.getDeviceGroup()
     if (group.count > 1) {
       this.groupToggle = {
@@ -93,9 +95,13 @@ export class CardComponent {
     this.highlight.set(group.state)
   }
 
+  ngOnInit() {
+    this.init()
+  }
+
   protected handleTitleEdit = () => this.editTitleMode.update(cur => !cur)
 
-  protected onTitleChange = (event: Event) => {
+  protected handleTitleChange = (event: Event) => {
     if (!this.editTitleMode()) return
     const el = event.target as HTMLInputElement
     this.editTitleMode.set(false)
@@ -107,5 +113,17 @@ export class CardComponent {
 
   protected removeDevice = (id: string) => {
     console.log(id)
+  }
+
+  protected singleDevice = () => this.card?.layout === 'singleDevice' && this.card.items[0]?.type === 'device' && this.card.items[0]
+
+  protected handleSingleDeviceToggle() {
+    if (this.editMode()) return
+    const device = this.singleDevice()
+    if (device && !device.id.startsWith('example')) {
+      device.state = !device.state
+      this.highlight.set(device.state)
+      this.store.dispatch(toggleDevice({ id: device.id, state: device.state }));
+    }
   }
 }

@@ -10,20 +10,20 @@
 <div class="card_list" [class.edit_mode]="isEditMode">
   @for (card of cardList; track card.id; let i = $index;) {
   <div>
-    @if(card.layout==='singleDevice'){
-    <app-card-single [data]="card" />
-    }@else{
     <app-card [data]="card">
       @if(isEditMode){
       <div class="card_controls">
         <button (click)="moveCardUp(card.id)" [disabled]="i === 0">↑</button>
-        <button (click)="addDevice(card.id)"><span class="font-icon">add</span></button>
+        <button (click)="addDevice(card.id)" [disabled]="card.layout==='singleDevice' && card.items.length">
+          <span class="font-icon">add</span>
+        </button>
         <button (click)="moveCardDown(card.id)" [disabled]="i === cardList.length - 1">↓</button>
-        <button (click)="removeCard(card.id)"><span class="font-icon">delete</span></button>
+        <button (click)="removeCard(card.id)">
+          <span class="font-icon">delete</span>
+        </button>
       </div>
       }
     </app-card>
-    }
   </div>
   }
 </div>

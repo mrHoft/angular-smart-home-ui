@@ -9,8 +9,12 @@
   color: #888;
 }
 
-.icon_on {
+.icon.on {
   color: var(--color-accent80);
+}
+
+.icon.lamp {
+  color: #ee0;
 }
 
 .state {
