@@ -20,10 +20,18 @@
   <div class="item_list" [class.item_list_vertical]="card.layout==='verticalLayout'">
     @for(item of card.items; track item.id){
     @if(item.type==='device'){
-    <app-device [onSwitch]="onToggle" [data]="item" />
+    <app-device [onSwitch]="onToggle" [data]="item">
+      @if(isEditMode && !item.id.startsWith('example')){
+      <button (click)="removeDevice(item.id)"><span class="font-icon">delete</span></button>
+      }
+    </app-device>
     }
     @if(item.type==='sensor'){
-    <app-sensor [layout]="card.layout" [data]="item" />
+    <app-sensor [layout]="card.layout" [data]="item">
+      @if(isEditMode && !item.id.startsWith('example')){
+      <button (click)="removeDevice(item.id)"><span class="font-icon">delete</span></button>
+      }
+    </app-sensor>
     }
     }
     @if(groupToggle){
@@ -33,6 +41,6 @@
   }@else{
   {{empty}}
   }
-
+  <ng-content />
   }
 </div>

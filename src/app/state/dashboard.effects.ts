@@ -321,7 +321,6 @@ export const removeCard$ = createEffect(
       ofType(DashboardActions.removeCard),
       mergeMap(({ tabId, cardId }) =>
         of({ tabId, cardId }).pipe(
-          tap(() => messageService.show('Card removed')),
           map(({ tabId, cardId }) => DashboardActions.removeCardSuccess({ tabId, cardId })),
           catchError((error) => {
             const errorMessage = error instanceof Error ? error.message : 'Failed to remove card';
@@ -402,6 +401,80 @@ export const renameCard$ = createEffect(
         const errorMessage = error instanceof Error ? error.message : 'Failed to rename card';
         messageService.show(errorMessage, 'error');
         return of(DashboardActions.renameCardFailure({ error: errorMessage }));
+      })
+    );
+  },
+  { functional: true }
+);
+
+// Manage devices
+export const addItemToCard$ = createEffect(
+  (actions$ = inject(Actions), store = inject(Store), messageService = inject(MessageService)) => {
+    return actions$.pipe(
+      ofType(DashboardActions.addItemToCard),
+      withLatestFrom(store.select(selectAllTabs)),
+      mergeMap(([{ cardId, item }, tabs]) => {
+        const cardExists = tabs.some(tab => tab.cards.some(card => card.id === cardId));
+
+        if (!cardExists) {
+          const error = `Card ${cardId} not found.`;
+          messageService.show(error, 'error');
+          return of(DashboardActions.addItemToCardFailure({ error, cardId }));
+        }
+
+        const tabWithCard = tabs.find(tab => tab.cards.some(card => card.id === cardId));
+        const card = tabWithCard?.cards.find(c => c.id === cardId);
+        const itemExists = card?.items.some(i => i.id === item.id);
+
+        if (itemExists) {
+          const error = `Item ${item.id} already exists in card.`;
+          messageService.show(error, 'error');
+          return of(DashboardActions.addItemToCardFailure({ error, cardId }));
+        }
+
+        messageService.show(`Item added to card`);
+        return of(DashboardActions.addItemToCardSuccess({ cardId, item }));
+      }),
+      catchError((error) => {
+        const errorMessage = error instanceof Error ? error.message : 'Failed to add item to card.';
+        messageService.show(errorMessage, 'error');
+        return of(DashboardActions.addItemToCardFailure({ error: errorMessage, cardId: 'unknown' }));
+      })
+    );
+  },
+  { functional: true }
+);
+
+export const removeItemFromCard$ = createEffect(
+  (actions$ = inject(Actions), store = inject(Store), messageService = inject(MessageService)) => {
+    return actions$.pipe(
+      ofType(DashboardActions.removeItemFromCard),
+      withLatestFrom(store.select(selectAllTabs)),
+      mergeMap(([{ cardId, itemId }, tabs]) => {
+        const cardExists = tabs.some(tab => tab.cards.some(card => card.id === cardId));
+
+        if (!cardExists) {
+          const error = `Card ${cardId} not found.`;
+          messageService.show(error, 'error');
+          return of(DashboardActions.removeItemFromCardFailure({ error, cardId, itemId }));
+        }
+
+        const tabWithCard = tabs.find(tab => tab.cards.some(card => card.id === cardId));
+        const card = tabWithCard?.cards.find(c => c.id === cardId);
+        const itemExists = card?.items.some(item => item.id === itemId);
+
+        if (!itemExists) {
+          const error = `Item ${itemId} not found in card.`;
+          messageService.show(error, 'error');
+          return of(DashboardActions.removeItemFromCardFailure({ error, cardId, itemId }));
+        }
+
+        return of(DashboardActions.removeItemFromCardSuccess({ cardId, itemId }));
+      }),
+      catchError((error) => {
+        const errorMessage = error instanceof Error ? error.message : 'Failed to remove item from card.';
+        messageService.show(errorMessage, 'error');
+        return of(DashboardActions.removeItemFromCardFailure({ error: errorMessage, cardId: 'unknown', itemId: 'unknown' }));
       })
     );
   },

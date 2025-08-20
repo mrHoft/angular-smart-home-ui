@@ -15,13 +15,13 @@
         {{tab.title}}
         @if(isEditMode){
         <button (click)="renameTab(tab.id)" title="Edit title">
-          edit
+          <span class="font-icon">edit</span>
         </button>
         <button (click)="moveTabRight(tab.id)" [disabled]="!canMoveTabRight(tab.id)" title="Move right">
           →
         </button>
         <button (click)="removeTab(tab.id)" title="Delete tab">
-          x
+          <span class="font-icon">delete</span>
         </button>
         }
       </ng-template>
@@ -42,20 +42,20 @@
   }
   @if(isEditMode){
   <div class="controls_bot">
-    <button type="button" class="button icon" (click)="onAddTab()">
-      <span>add</span>
+    <button type="button" class="button" (click)="onAddTab()">
+      <span class="font-icon">add</span>
       Add tab
     </button>
-    <button type="button" class="button icon" (click)="onAddCard()">
-      <span>add</span>
+    <button type="button" class="button" (click)="onAddCard()">
+      <span class="font-icon">add</span>
       Add card
     </button>
-    <button type="button" class="button icon" (click)="onDiscard()">
-      <span>cancel</span>
+    <button type="button" class="button" (click)="onDiscard()">
+      <span class="font-icon">cancel</span>
       Discard
     </button>
-    <button type="button" class="button icon" (click)="onSave()">
-      <span>save</span>
+    <button type="button" class="button" (click)="onSave()">
+      <span class="font-icon">save</span>
       Save
     </button>
   </div>

@@ -1,4 +1,4 @@
-import { Component, input, signal, inject } from '@angular/core';
+import { Component, input, signal, inject, effect } from '@angular/core';
 import { Store } from '@ngrx/store';
 import type { CardData, CardItem, DeviceItem } from '~/api/api.types';
 import { SensorComponent } from './sensor/sensor';
@@ -24,6 +24,13 @@ export class CardComponent {
   protected highlight = signal(false)
   protected editMode = this.store.selectSignal(selectEditMode);
   protected editTitleMode = signal(false)
+
+  constructor() {
+    effect(() => {
+      const data = this.data();
+      this.card = { ...data, items: data.items.map(item => ({ ...item })) };
+    });
+  }
 
   public onGroupToggle = () => {
     if (this.groupToggle) {
@@ -73,8 +80,6 @@ export class CardComponent {
   }
 
   ngOnInit() {
-    const data = this.data()
-    this.card = { ...data, items: data.items.map(item => ({ ...item })) }
     const group = this.getDeviceGroup()
     if (group.count > 1) {
       this.groupToggle = {
@@ -98,5 +103,9 @@ export class CardComponent {
       this.card.title = el.value
       this.store.dispatch(renameCard({ cardId: this.card.id, title: el.value }))
     }
+  }
+
+  protected removeDevice = (id: string) => {
+    console.log(id)
   }
 }

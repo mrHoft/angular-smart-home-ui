@@ -69,11 +69,22 @@ export const dashboardReducer = createReducer(
   on(DashboardActions.removeDashboardFailure, (state, { error }) => ({ ...state, error, loading: false })),
 
   // Edit mode
-  on(DashboardActions.enterEditMode, (state) => ({ ...state, editMode: true, tabsSnapshot: state.tabs })),
+  on(DashboardActions.enterEditMode, (state) => ({
+    ...state,
+    editMode: true,
+    tabsSnapshot: JSON.parse(JSON.stringify(state.tabs))
+  })),
 
   on(DashboardActions.exitEditMode, (state) => ({ ...state, editMode: false, tabsSnapshot: null })),
 
-  on(DashboardActions.discardChanges, (state) => ({ ...state, editMode: false, tabsSnapshot: null })),
+  on(DashboardActions.discardChanges, (state) => {
+    if (!state.tabsSnapshot) {
+      console.warn('No snapshot available to discard to.');
+      return { ...state, editMode: false, tabsSnapshot: null };
+    }
+
+    return { ...state, editMode: false, tabs: state.tabsSnapshot, tabsSnapshot: null };
+  }),
 
   on(DashboardActions.saveDashboard, (state) => ({ ...state, loading: true })),
 
@@ -159,4 +170,53 @@ export const dashboardReducer = createReducer(
         : tab
     )
   })),
+
+  // Manage devices
+  on(DashboardActions.addItemToCardSuccess, (state, { cardId, item }) => {
+    let cardFound = false;
+
+    const newTabs = state.tabs.map(tab => ({
+      ...tab,
+      cards: tab.cards.map(card => {
+        if (card.id === cardId) {
+          cardFound = true;
+          const itemExists = card.items.some(existingItem => existingItem.id === item.id);
+          if (itemExists) {
+            return card;
+          }
+          return { ...card, items: [...card.items, item] };
+        }
+        return card;
+      })
+    }));
+
+    if (!cardFound) {
+      console.warn(`Card ${cardId} not found for adding item`);
+      return state;
+    }
+
+    return { ...state, tabs: newTabs };
+  }),
+
+  on(DashboardActions.removeItemFromCardSuccess, (state, { cardId, itemId }) => {
+    let cardFound = false;
+
+    const newTabs = state.tabs.map(tab => ({
+      ...tab,
+      cards: tab.cards.map(card => {
+        if (card.id === cardId) {
+          cardFound = true;
+          return { ...card, items: card.items.filter(item => item.id !== itemId) };
+        }
+        return card;
+      })
+    }));
+
+    if (!cardFound) {
+      console.warn(`Card ${cardId} not found for removing item`);
+      return state;
+    }
+
+    return { ...state, tabs: newTabs };
+  }),
 );

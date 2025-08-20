@@ -1,0 +1,48 @@
+.title {
+  text-align: center;
+  margin-top: 0;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.5rem;
+}
+
+.device_list {
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.25rem;
+  max-height: 20rem;
+  overflow-y: auto;
+}
+
+.device_input {
+  display: none;
+}
+
+.device_item {
+  display: flex;
+  align-items: center;
+  column-gap: 0.25rem;
+  padding: 0.125rem 0.5rem;
+  border-radius: var(--border-radius);
+  background-color: var(--color30);
+  transition: background-color 0.25s linear;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--color-accent60a);
+  }
+}
+
+.device_input:checked+.device_item {
+  background-color: var(--color-accent50a);
+}
+
+
+.btns {
+  display: flex;
+  column-gap: 2rem;
+  justify-content: center;
+}

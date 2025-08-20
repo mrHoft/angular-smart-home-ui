@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import type { TabData, DashboardItem, TLayout, CardData } from '~/api/api.types';
+import type { TabData, DashboardItem, TLayout, CardData, DeviceItem, SensorItem } from '~/api/api.types';
 
 // Load dashboards
 export const loadDashboards = createAction('[Dashboard] Load Dashboards');
@@ -177,4 +177,35 @@ export const renameCardSuccess = createAction(
 export const renameCardFailure = createAction(
   '[Dashboard] Rename Card Failure',
   props<{ error: string }>()
+);
+
+// Manage devices
+export const addItemToCard = createAction(
+  '[Dashboard] Add Item To Card',
+  props<{ cardId: string; item: DeviceItem | SensorItem }>()
+);
+
+export const addItemToCardSuccess = createAction(
+  '[Dashboard] Add Item To Card Success',
+  props<{ cardId: string; item: DeviceItem | SensorItem }>()
+);
+
+export const addItemToCardFailure = createAction(
+  '[Dashboard] Add Item To Card Failure',
+  props<{ error: string; cardId: string }>()
+);
+
+export const removeItemFromCard = createAction(
+  '[Dashboard] Remove Item From Card',
+  props<{ cardId: string; itemId: string }>()
+);
+
+export const removeItemFromCardSuccess = createAction(
+  '[Dashboard] Remove Item From Card Success',
+  props<{ cardId: string; itemId: string }>()
+);
+
+export const removeItemFromCardFailure = createAction(
+  '[Dashboard] Remove Item From Card Failure',
+  props<{ error: string; cardId: string; itemId: string }>()
 );

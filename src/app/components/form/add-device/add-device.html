@@ -1,0 +1,18 @@
+@let items=devices();
+<h3 class="title">Select device</h3>
+<form class="form" (submit)="onSubmit($event)">
+  <div class="device_list">
+    @for(item of items; track item.id){
+    <input class="device_input" name="device" type="radio" [id]="item.id" [value]="item.id" />
+    <label [for]="item.id" class="device_item">
+      <div>{{item.type}}</div>
+      <app-icon>{{item.icon}}</app-icon>
+      <div>{{item.label}}</div>
+    </label>
+    }
+  </div>
+  <div class="btns">
+    <button type="submit" class="button">Create</button>
+    <button type="button" class="button" (click)="onCancel()">Cancel</button>
+  </div>
+</form>

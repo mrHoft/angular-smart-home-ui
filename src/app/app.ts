@@ -4,6 +4,8 @@ import { UserService } from '~/api/user.service';
 import { Router } from '@angular/router';
 import { ModalComponent } from './components/modal/modal';
 import { MessageComponent } from './components/message/message';
+import { Store } from '@ngrx/store';
+import { loadDevices } from './state/device.actions';
 
 @Component({
   selector: 'app-root',
@@ -13,6 +15,7 @@ import { MessageComponent } from './components/message/message';
 })
 export class App {
   private router = inject(Router);
+  private store = inject(Store)
   private userService = inject(UserService);
 
   constructor() {
@@ -28,5 +31,7 @@ export class App {
         }
       }
     })
+
+    this.store.dispatch(loadDevices());
   }
 }

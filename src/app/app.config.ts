@@ -7,13 +7,14 @@ import { provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 import { dashboardReducer } from './state/dashboard.reducer';
 import * as DashboardEffects from './state/dashboard.effects';
+import { deviceReducer } from './state/device.reducer';
 import * as DeviceEffects from './state/device.effects';
 
 import { routes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideStore({ dashboard: dashboardReducer }),
+    provideStore({ dashboard: dashboardReducer, devices: deviceReducer }),
     provideEffects(DashboardEffects, DeviceEffects),
 
     provideBrowserGlobalErrorListeners(),

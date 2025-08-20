@@ -1,18 +1,16 @@
 import { inject } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
-import { catchError, map, switchMap, mergeMap, tap, withLatestFrom, filter } from 'rxjs/operators';
+import { catchError, map, switchMap, mergeMap, tap, take } from 'rxjs/operators';
 import { DeviceService } from '~/api/device.service';
 import { MessageService } from '~/app/components/message/message.service';
 import * as DeviceActions from './device.actions';
-import { selectAllTabs } from './dashboard.selectors';
-import { updateDashboardTabs } from './dashboard.actions';
 
 export const loadDevices$ = createEffect(
   (actions$ = inject(Actions), deviceService = inject(DeviceService)) => {
     return actions$.pipe(
       ofType(DeviceActions.loadDevices),
+      take(1),
       switchMap(() =>
         deviceService.requestDevices().pipe(
           map((devices) => DeviceActions.loadDevicesSuccess({ devices })),
@@ -42,7 +40,6 @@ export const toggleDevice$ = createEffect(
   { functional: true }
 );
 
-// Error handling effects
 export const handleLoadDevicesFailure$ = createEffect(
   (actions$ = inject(Actions), messageService = inject(MessageService)) => {
     return actions$.pipe(

@@ -5,6 +5,10 @@
   padding: 0.25rem;
 }
 
+.card_list.edit_mode {
+  padding-bottom: 2.75rem;
+}
+
 .message {
   text-align: center;
 }
@@ -19,5 +23,5 @@
   display: flex;
   column-gap: 0.125rem;
   justify-content: flex-end;
-  margin: 0.125rem var(--border-radius);
+  margin-top: 0.5rem;
 }

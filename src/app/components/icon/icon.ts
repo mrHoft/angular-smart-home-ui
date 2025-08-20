@@ -10,8 +10,6 @@ import { Component } from '@angular/core';
     font-size: 1.5em;
     line-height: 1;
     font-family: "Material Icons";
-    width: 24px;
-    height: 24px;
   }`
 })
 export class Icon { }

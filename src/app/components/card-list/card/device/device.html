@@ -1,6 +1,7 @@
 @let deviceData=data();
 
 <div class="device">
+  <ng-content />
   @if(isLamp() && deviceData.state){
   <app-icon class="icon" appLampHighlight aria-hidden="true">{{deviceData.icon}}</app-icon>
   }@else{

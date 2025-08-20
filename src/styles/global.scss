@@ -59,8 +59,14 @@ button {
   }
 }
 
-.button.icon>span:first-child {
+.font-icon {
   font-size: larger;
   font-family: "Material Icons";
   vertical-align: text-bottom;
+}
+
+.vertical-align {
+  display: flex;
+  align-items: center;
+  gap: 0.125rem;
 }
