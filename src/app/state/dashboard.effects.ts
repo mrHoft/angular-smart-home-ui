@@ -209,7 +209,7 @@ export const addTab$ = createEffect(
           const sanitizedTitle = title.trim();
           if (!sanitizedTitle) throw new Error('Tab title cannot be empty');
 
-          const tabId = sanitizedTitle.replaceAll(' ', '_').replaceAll(/[^a-zA-Z0-9_-]/, '').toLowerCase();
+          const tabId = sanitizedTitle.replaceAll(' ', '_').replaceAll(/[^a-zA-Z0-9_-]/g, '').toLowerCase();
 
           if (!tabId) throw new Error('Invalid tab title - cannot generate ID.');
 
@@ -250,7 +250,7 @@ export const renameTab$ = createEffect(
           if (tabIndex === -1) throw new Error(`Tab ${tabId} not found`);
 
           const sanitizedTitle = title.trim();
-          const newId = sanitizedTitle.replaceAll(' ', '_').replaceAll(/[^a-zA-Z0-9_-]/, '').toLowerCase();
+          const newId = sanitizedTitle.replaceAll(' ', '_').replaceAll(/[^a-zA-Z0-9_-]/g, '').toLowerCase();
 
           if (!newId) throw new Error('Invalid tab title - cannot generate ID');
 
@@ -274,23 +274,33 @@ export const renameTab$ = createEffect(
 
 // Manage cards
 export const addCard$ = createEffect(
-  (actions$ = inject(Actions), messageService = inject(MessageService)) => {
+  (actions$ = inject(Actions), store = inject(Store), messageService = inject(MessageService)) => {
     return actions$.pipe(
       ofType(DashboardActions.addCard),
-      map(({ tabId, layout }) => {
-        const newCard: CardData = {
-          id: crypto.randomUUID(),
-          title: 'New card',
-          layout,
-          items: []
-        };
+      withLatestFrom(store.select(selectAllTabs)),
+      mergeMap(([{ tabId, layout }, tabs]) => {
+        try {
+          if (!tabs.length) {
+            throw new Error('Create a new tab first.');
+          }
+          const tabExists = tabs.some(tab => tab.id === tabId);
+          if (!tabExists) {
+            throw new Error(`Tab ${tabId} not found.`);
+          }
 
-        return DashboardActions.addCardSuccess({ tabId, card: newCard });
-      }),
-      catchError((error) => {
-        const errorMessage = error instanceof Error ? error.message : 'Failed to add card';
-        messageService.show(errorMessage, 'error');
-        return of(DashboardActions.addCardFailure({ error: errorMessage, tabId: 'unknown' }));
+          const newCard: CardData = {
+            id: `card_${layout}_${Date.now()}`,
+            title: 'New card',
+            layout,
+            items: []
+          };
+
+          return of(DashboardActions.addCardSuccess({ tabId, card: newCard }));
+        } catch (error) {
+          const errorMessage = error instanceof Error ? error.message : 'Failed to add card.';
+          messageService.show(errorMessage, 'error');
+          return of(DashboardActions.addCardFailure({ error: errorMessage, tabId }));
+        }
       })
     );
   },

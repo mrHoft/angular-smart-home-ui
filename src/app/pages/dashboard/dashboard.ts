@@ -1,4 +1,6 @@
 import { Component, inject, effect } from '@angular/core';
+import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { HeaderComponent } from '~/app/components/header/header';
 import { TabsComponent, TabComponent } from '~/app/components/tabs';
 import { CardListComponent } from 'ui/card-list/card-list';
@@ -8,8 +10,6 @@ import { ModalService } from '~/app/components/modal';
 import { Confirmation, type TConfirmationProps } from '~/app/components/form/confirmation/confirmation';
 import { AddDashboardTab, type TAddDashboardTabResult, type TAddDashboardTabProps } from '~/app/components/form/add-tab/add-tab';
 import { AddDashboardCard, type TAddDashboardCardResult } from '~/app/components/form/add-card/add-card';
-
-import { Store } from '@ngrx/store';
 import * as DashboardActions from '~/app/state/dashboard.actions';
 import { selectAllTabs, /* selectLoading, selectError, */ selectActiveDashboardId, selectHasUnsavedChanges, selectEditMode } from '~/app/state/dashboard.selectors';
 
@@ -23,6 +23,7 @@ export class SectionDashboard {
   protected empty = i18n.emptyDashboard.split('\n')
   private modalService = inject(ModalService);
   private store = inject(Store);
+  private router = inject(Router)
   protected tabs = this.store.selectSignal(selectAllTabs);
   // TODO: loading indicator
   // protected loading = this.store.selectSignal(selectLoading);
@@ -80,6 +81,7 @@ export class SectionDashboard {
   // Manage tabs
   protected onTabChange = (tabId: string) => {
     this.activeTabId = tabId
+    this.router.navigate([`/dashboard/${this.activeDashboardId()}/${tabId}`])
   }
 
   protected onAddTab = () => {

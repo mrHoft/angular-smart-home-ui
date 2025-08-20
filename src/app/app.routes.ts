@@ -14,6 +14,7 @@ export const routes: Routes = [
     canActivate: [authGuard],
     children: [
       { path: 'dashboard/about', component: SectionAbout },
+      { path: 'dashboard/:id/:tab*', component: SectionDashboard },
       { path: 'dashboard/:id', component: SectionDashboard },
       { path: 'dashboard', component: SectionDashboard }
     ]
