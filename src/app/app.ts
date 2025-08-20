@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { UserService } from '~/api/user.service';
 import { Router } from '@angular/router';
-import { ModalComponent } from './components/modal/modal';
+import { ModalComponent } from './components/modal';
 import { MessageComponent } from './components/message/message';
 import { Store } from '@ngrx/store';
 import { loadDevices } from './state/device.actions';

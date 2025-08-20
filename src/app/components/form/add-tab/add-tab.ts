@@ -2,7 +2,7 @@ import { Component, output } from '@angular/core';
 import { ReactiveFormsModule, FormControl, FormGroup } from '@angular/forms';
 
 export type TAddDashboardTabProps = { title?: string } | undefined
-export type TAddDashboardTabResult = { title: string } | undefined
+export type TAddDashboardTabResult = { title: string } | null
 
 @Component({
   selector: 'app-add-tab',
@@ -24,6 +24,6 @@ export class AddDashboardTab {
   }
 
   protected onCancel() {
-    this.result.emit(undefined);
+    this.result.emit(null);
   }
 }

@@ -72,7 +72,7 @@ export const dashboardReducer = createReducer(
   on(DashboardActions.enterEditMode, (state) => ({
     ...state,
     editMode: true,
-    tabsSnapshot: JSON.parse(JSON.stringify(state.tabs))
+    tabsSnapshot: structuredClone(state.tabs)  // JSON.parse(JSON.stringify(state.tabs))
   })),
 
   on(DashboardActions.exitEditMode, (state) => ({ ...state, editMode: false, tabsSnapshot: null })),
@@ -106,13 +106,7 @@ export const dashboardReducer = createReducer(
       return state;
     }
 
-    let newIndex: number;
-    if (direction === 'left') {
-      newIndex = Math.max(0, currentIndex - 1);
-    } else {
-      newIndex = Math.min(tabs.length - 1, currentIndex + 1);
-    }
-
+    const newIndex = direction === 'left' ? Math.max(0, currentIndex - 1) : Math.min(tabs.length - 1, currentIndex + 1);
     if (currentIndex === newIndex) {
       return state;
     }

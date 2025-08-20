@@ -42,5 +42,36 @@ export const selectEditMode = createSelector(
 
 export const selectHasUnsavedChanges = createSelector(
   selectDashboardFeature,
-  (state) => state.editMode && JSON.stringify(state.tabs) !== JSON.stringify(state.tabsSnapshot)
+  (state) => {
+    if (!state.editMode || !state.tabsSnapshot) return false;
+
+    // return JSON.stringify(state.tabs) !== JSON.stringify(state.tabsSnapshot)
+
+    if (state.tabs.length !== state.tabsSnapshot.length) return true;
+
+    for (let i = 0; i < state.tabs.length; i++) {
+      const currentTab = state.tabs[i];
+      const snapshotTab = state.tabsSnapshot[i];
+
+      if (currentTab.id !== snapshotTab.id ||
+        currentTab.title !== snapshotTab.title ||
+        currentTab.cards.length !== snapshotTab.cards.length) {
+        return true;
+      }
+
+      for (let j = 0; j < currentTab.cards.length; j++) {
+        const currentCard = currentTab.cards[j];
+        const snapshotCard = snapshotTab.cards[j];
+
+        if (currentCard.id !== snapshotCard.id ||
+          currentCard.title !== snapshotCard.title ||
+          currentCard.layout !== snapshotCard.layout ||
+          currentCard.items.length !== snapshotCard.items.length) {
+          return true;
+        }
+      }
+    }
+
+    return false;
+  }
 );

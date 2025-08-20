@@ -5,14 +5,14 @@ import { SensorComponent } from './sensor/sensor';
 import { DeviceComponent } from './device/device';
 import { toggleDevice } from '~/app/state/device.actions';
 import { i18n } from '~/data/i18n.en';
-import { SquareButton } from '~/app/components/square-button/square-button';
 import { selectEditMode } from '~/app/state/dashboard.selectors';
 import { renameCard } from '~/app/state/dashboard.actions';
 import { Icon } from '~/app/components/icon/icon';
+import { removeItemFromCard } from '~/app/state/dashboard.actions';
 
 @Component({
   selector: 'app-card',
-  imports: [SensorComponent, DeviceComponent, SquareButton, Icon],
+  imports: [SensorComponent, DeviceComponent, Icon],
   templateUrl: './card.html',
   styleUrl: './card.scss',
 })
@@ -111,8 +111,10 @@ export class CardComponent {
     }
   }
 
-  protected removeDevice = (id: string) => {
-    console.log(id)
+  protected removeDevice = (itemId: string) => {
+    if (this.card) {
+      this.store.dispatch(removeItemFromCard({ cardId: this.card.id, itemId }))
+    }
   }
 
   protected singleDevice = () => this.card?.layout === 'singleDevice' && this.card.items[0]?.type === 'device' && this.card.items[0]

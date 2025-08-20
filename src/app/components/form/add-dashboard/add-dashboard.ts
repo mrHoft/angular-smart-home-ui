@@ -3,7 +3,7 @@ import { ReactiveFormsModule, FormControl, FormGroup } from '@angular/forms';
 import { DashboardItem } from '~/api/api.types';
 import { icons } from '~/data/icons';
 
-export type TAddDashboardResult = DashboardItem | undefined
+export type TAddDashboardResult = DashboardItem | null
 
 @Component({
   selector: 'app-add-dashboard',
@@ -29,6 +29,6 @@ export class AddDashboard {
   }
 
   protected onCancel() {
-    this.result.emit(undefined);
+    this.result.emit(null);
   }
 }

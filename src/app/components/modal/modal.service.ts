@@ -1,13 +1,13 @@
-import { Injectable, ComponentRef, Injector, Type, signal, ViewContainerRef, effect, runInInjectionContext } from '@angular/core';
+import { Injectable, ComponentRef, Injector, Type, signal, ViewContainerRef, effect, runInInjectionContext, OutputEmitterRef } from '@angular/core';
 
-export interface ModalDialog<T = unknown, P = Record<string, string>> {
+export interface ModalDialog<_T = unknown, P = Record<string, string>> {
   result: unknown; // Will be cast to OutputEmitterRef<T> at runtime
   inputs?: P; // Input properties for the modal component
 }
 
 @Injectable({ providedIn: 'root' })
 export class ModalService {
-  private componentRef: ComponentRef<any> | null = null;
+  private componentRef: ComponentRef<ModalDialog<unknown, unknown>> | null = null;
   private hostViewContainerRef: ViewContainerRef | null = null;
   public readonly isVisible = signal(false);
 
@@ -27,18 +27,19 @@ export class ModalService {
     });
 
     if (props && this.componentRef.instance) {
-      Object.entries(props).forEach(([key, value]) => {
-        const instance = this.componentRef!.instance as Record<string, unknown>;
+      for (const [key, value] of Object.entries(props)) {
+        const instance = this.componentRef!.instance as unknown as Record<string, unknown>;
         if (key in instance) {
           instance[key] = value;
         }
-      });
+      };
     }
 
     this.isVisible.set(true);
 
     return new Promise<T>((resolve) => {
-      const outputSub = this.componentRef!.instance.result.subscribe((result: T) => {
+      const instance = this.componentRef!.instance as unknown as { result: OutputEmitterRef<T> }
+      const outputSub = instance.result.subscribe((result: T) => {
         outputSub.unsubscribe();
         this.close();
         resolve(result);
@@ -49,7 +50,7 @@ export class ModalService {
           if (!this.isVisible()) {
             destroyEffect.destroy();
             outputSub.unsubscribe();
-            resolve(undefined as T);
+            resolve(null as T);
           }
         });
       });

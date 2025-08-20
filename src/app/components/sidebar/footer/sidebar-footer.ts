@@ -2,7 +2,7 @@ import { Component, input, inject } from '@angular/core';
 import { Icon } from '~/app/components/icon/icon';
 import { UserService } from '~/api/user.service';
 import { Router } from '@angular/router';
-import { ModalService } from '~/app/components/modal/modal.service';
+import { ModalService } from '~/app/components/modal';
 import { AddDashboard, type TAddDashboardResult } from '~/app/components/form/add-dashboard/add-dashboard';
 
 import { Store } from '@ngrx/store';

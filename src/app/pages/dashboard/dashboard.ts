@@ -1,17 +1,17 @@
 import { Component, inject, effect } from '@angular/core';
 import { HeaderComponent } from '~/app/components/header/header';
-import { TabsComponent, TabComponent } from '~/app/components/tabs/tabs';
+import { TabsComponent, TabComponent } from '~/app/components/tabs';
 import { CardListComponent } from 'ui/card-list/card-list';
 import { i18n } from '~/data/i18n.en';
 import { SquareButton } from '~/app/components/square-button/square-button';
-import { ModalService } from '~/app/components/modal/modal.service';
+import { ModalService } from '~/app/components/modal';
 import { Confirmation, type TConfirmationProps } from '~/app/components/form/confirmation/confirmation';
 import { AddDashboardTab, type TAddDashboardTabResult, type TAddDashboardTabProps } from '~/app/components/form/add-tab/add-tab';
 import { AddDashboardCard, type TAddDashboardCardResult } from '~/app/components/form/add-card/add-card';
 
 import { Store } from '@ngrx/store';
 import * as DashboardActions from '~/app/state/dashboard.actions';
-import { selectAllTabs, /* selectLoading, selectError, */ selectActiveDashboardId, selectEditMode } from '~/app/state/dashboard.selectors';
+import { selectAllTabs, /* selectLoading, selectError, */ selectActiveDashboardId, selectHasUnsavedChanges, selectEditMode } from '~/app/state/dashboard.selectors';
 
 @Component({
   selector: 'app-dashboard',
@@ -28,6 +28,7 @@ export class SectionDashboard {
   // protected loading = this.store.selectSignal(selectLoading);
   // protected error = this.store.selectSignal(selectError);
   protected activeDashboardId = this.store.selectSignal(selectActiveDashboardId);
+  private hasUnsavedChanges = this.store.selectSignal(selectHasUnsavedChanges);
   protected editMode = this.store.selectSignal(selectEditMode);
   private activeTabId = ''
 
@@ -57,12 +58,16 @@ export class SectionDashboard {
   }
 
   protected onDiscard = () => {
-    this.modalService.showComponent<boolean, TConfirmationProps>(
-      Confirmation,
-      { title: 'Confirmation', message: 'Discard all changes?' }
-    ).then(confirm => {
-      if (confirm) this.store.dispatch(DashboardActions.discardChanges())
-    })
+    if (this.hasUnsavedChanges()) {
+      this.modalService.showComponent<boolean, TConfirmationProps>(
+        Confirmation,
+        { title: 'Confirmation', message: 'Discard all changes?' }
+      ).then(confirm => {
+        if (confirm) this.store.dispatch(DashboardActions.discardChanges())
+      })
+    } else {
+      this.store.dispatch(DashboardActions.discardChanges())
+    }
   }
 
   protected onSave = () => {
@@ -124,19 +129,5 @@ export class SectionDashboard {
         this.store.dispatch(DashboardActions.addCard({ tabId: this.activeTabId, layout: result.layout }))
       }
     })
-  }
-
-  canMoveCardUp(tabId: string, cardId: string): boolean {
-    const tab = this.tabs().find(t => t.id === tabId);
-    if (!tab) return false;
-    const index = tab.cards.findIndex(card => card.id === cardId);
-    return index > 0;
-  }
-
-  canMoveCardDown(tabId: string, cardId: string): boolean {
-    const tab = this.tabs().find(t => t.id === tabId);
-    if (!tab) return false;
-    const index = tab.cards.findIndex(card => card.id === cardId);
-    return index < tab.cards.length - 1;
   }
 }

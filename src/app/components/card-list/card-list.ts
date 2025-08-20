@@ -5,7 +5,7 @@ import type { CardData } from '~/api/api.types';
 import { i18n } from '~/data/i18n.en';
 import { selectEditMode } from '~/app/state/dashboard.selectors';
 import { reorderCard, removeCard } from '~/app/state/dashboard.actions';
-import { ModalService } from '~/app/components/modal/modal.service';
+import { ModalService } from '~/app/components/modal';
 import { AddDevice, type TAddDeviceResult } from '~/app/components/form/add-device/add-device';
 import { addItemToCard } from '~/app/state/dashboard.actions';
 

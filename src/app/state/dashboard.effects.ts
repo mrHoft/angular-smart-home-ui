@@ -209,7 +209,7 @@ export const addTab$ = createEffect(
           const sanitizedTitle = title.trim();
           if (!sanitizedTitle) throw new Error('Tab title cannot be empty');
 
-          const tabId = sanitizedTitle.replaceAll(' ', '_').replace(/[^a-zA-Z0-9_-]/g, '').toLowerCase();
+          const tabId = sanitizedTitle.replaceAll(' ', '_').replaceAll(/[^a-zA-Z0-9_-]/, '').toLowerCase();
 
           if (!tabId) throw new Error('Invalid tab title - cannot generate ID.');
 
@@ -238,11 +238,7 @@ export const addTab$ = createEffect(
 );
 
 export const renameTab$ = createEffect(
-  (
-    actions$ = inject(Actions),
-    store = inject(Store),
-    messageService = inject(MessageService)
-  ) => {
+  (actions$ = inject(Actions), store = inject(Store), messageService = inject(MessageService)) => {
     return actions$.pipe(
       ofType(DashboardActions.renameTab),
       withLatestFrom(store.select(selectAllTabs)),
@@ -254,10 +250,7 @@ export const renameTab$ = createEffect(
           if (tabIndex === -1) throw new Error(`Tab ${tabId} not found`);
 
           const sanitizedTitle = title.trim();
-          const newId = sanitizedTitle
-            .replaceAll(' ', '_')
-            .replace(/[^a-zA-Z0-9_-]/g, '')
-            .toLowerCase();
+          const newId = sanitizedTitle.replaceAll(' ', '_').replaceAll(/[^a-zA-Z0-9_-]/, '').toLowerCase();
 
           if (!newId) throw new Error('Invalid tab title - cannot generate ID');
 
@@ -266,19 +259,12 @@ export const renameTab$ = createEffect(
           );
           if (idConflict) throw new Error(`Tab ID "${newId}" already exists`);
 
-          return of(DashboardActions.renameTabSuccess({
-            tabId,
-            newId,
-            title: sanitizedTitle
-          }));
+          return of(DashboardActions.renameTabSuccess({ tabId, newId, title: sanitizedTitle }));
 
         } catch (error) {
           const errorMessage = error instanceof Error ? error.message : 'Unknown error';
           messageService.show(errorMessage, 'error');
-          return of(DashboardActions.renameTabFailure({
-            error: errorMessage,
-            tabId
-          }));
+          return of(DashboardActions.renameTabFailure({ error: errorMessage, tabId }));
         }
       })
     );
@@ -299,16 +285,12 @@ export const addCard$ = createEffect(
           items: []
         };
 
-        messageService.show(`Card added to tab ${tabId}`);
         return DashboardActions.addCardSuccess({ tabId, card: newCard });
       }),
       catchError((error) => {
         const errorMessage = error instanceof Error ? error.message : 'Failed to add card';
         messageService.show(errorMessage, 'error');
-        return of(DashboardActions.addCardFailure({
-          error: errorMessage,
-          tabId: 'unknown'
-        }));
+        return of(DashboardActions.addCardFailure({ error: errorMessage, tabId: 'unknown' }));
       })
     );
   },
@@ -325,11 +307,7 @@ export const removeCard$ = createEffect(
           catchError((error) => {
             const errorMessage = error instanceof Error ? error.message : 'Failed to remove card';
             messageService.show(errorMessage, 'error');
-            return of(DashboardActions.removeCardFailure({
-              error: errorMessage,
-              tabId,
-              cardId
-            }));
+            return of(DashboardActions.removeCardFailure({ error: errorMessage, tabId, cardId }));
           })
         )
       )
@@ -367,11 +345,7 @@ export const reorderCard$ = createEffect(
       catchError((error) => {
         const errorMessage = error instanceof Error ? error.message : 'Failed to reorder card';
         messageService.show(errorMessage, 'error');
-        return of(DashboardActions.reorderCardFailure({
-          error: errorMessage,
-          tabId: 'unknown',
-          cardId: 'unknown'
-        }));
+        return of(DashboardActions.reorderCardFailure({ error: errorMessage, tabId: 'unknown', cardId: 'unknown' }));
       })
     );
   },
@@ -432,7 +406,6 @@ export const addItemToCard$ = createEffect(
           return of(DashboardActions.addItemToCardFailure({ error, cardId }));
         }
 
-        messageService.show(`Item added to card`);
         return of(DashboardActions.addItemToCardSuccess({ cardId, item }));
       }),
       catchError((error) => {

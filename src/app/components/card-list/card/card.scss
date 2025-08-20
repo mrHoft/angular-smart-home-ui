@@ -38,9 +38,10 @@
 .title {
   display: flex;
   column-gap: 0.5rem;
+  margin-block-end: 1em;
 
   h3 {
-    margin-top: 0;
+    margin: 0;
   }
 }
 
@@ -54,8 +55,6 @@
 .icon {
   margin-left: auto;
   color: #888;
-  padding: 0.25rem;
-  border-radius: 1rem;
 }
 
 .icon.on {

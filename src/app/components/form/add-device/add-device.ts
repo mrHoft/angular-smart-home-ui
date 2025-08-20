@@ -4,7 +4,7 @@ import { selectAllDevices } from '~/app/state/device.selectors';
 import type { DeviceItem, SensorItem } from '~/api/api.types';
 import { Icon } from '~/app/components/icon/icon';
 
-export type TAddDeviceResult = { item: DeviceItem | SensorItem } | undefined
+export type TAddDeviceResult = { item: DeviceItem | SensorItem } | null
 
 @Component({
   selector: 'app-add-device',
@@ -29,10 +29,10 @@ export class AddDevice {
         return
       }
     }
-    this.result.emit(undefined);
+    this.result.emit(null);
   }
 
   protected onCancel() {
-    this.result.emit(undefined);
+    this.result.emit(null);
   }
 }

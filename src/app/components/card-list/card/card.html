@@ -12,8 +12,10 @@
       (change)="handleTitleChange($event)" (blur)="handleTitleChange($event)" />
     }@else{
     <h3>{{card.title}}</h3>
-    @if(isEditMode){
-    <app-square-button icon="edit" (onClick)="handleTitleEdit()" />
+    @if(isEditMode && !card.id.startsWith('example')){
+    <button style="height: fit-content;" (click)="handleTitleEdit()">
+      <span class="font-icon">edit</span>
+    </button>
     }
     }
   </div>
@@ -44,7 +46,9 @@
     @if(item.type==='sensor'){
     <app-sensor [layout]="card.layout" [data]="item">
       @if(isEditMode && !item.id.startsWith('example')){
-      <button (click)="removeDevice(item.id)"><span class="font-icon">delete</span></button>
+      <button (click)="removeDevice(item.id)">
+        <span class="font-icon">delete</span>
+      </button>
       }
     </app-sensor>
     }

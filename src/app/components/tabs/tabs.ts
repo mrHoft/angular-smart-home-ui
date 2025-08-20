@@ -1,8 +1,7 @@
-import { Component, output, signal, ContentChildren, QueryList, AfterContentInit, effect, untracked, runInInjectionContext, EffectRef, inject, EnvironmentInjector } from '@angular/core';
+import { Component, output, signal, ContentChildren, QueryList, AfterContentInit, effect, untracked } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
 import { TabComponent } from './tab/tab';
-import { Subject, takeUntil, startWith } from 'rxjs';
-export { TabComponent }
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-tabs',
