@@ -122,4 +122,49 @@ export const dashboardReducer = createReducer(
     tabs: state.tabs.map(tab => tab.id === tabId ? { ...tab, id: newId, title } : tab)
   })
   ),
+
+  // Manage cards
+  on(DashboardActions.addCardSuccess, (state, { tabId, card }) => ({
+    ...state,
+    tabs: state.tabs.map(tab =>
+      tab.id === tabId
+        ? { ...tab, cards: [...tab.cards, card] }
+        : tab
+    )
+  })),
+
+  on(DashboardActions.removeCardSuccess, (state, { tabId, cardId }) => ({
+    ...state,
+    tabs: state.tabs.map(tab =>
+      tab.id === tabId
+        ? { ...tab, cards: tab.cards.filter(card => card.id !== cardId) }
+        : tab
+    )
+  })),
+
+  on(DashboardActions.reorderCardSuccess, (state, { tabId, cardId, newIndex }) => {
+    const tabIndex = state.tabs.findIndex(tab => tab.id === tabId);
+
+    if (tabIndex === -1) return state;
+
+    const tab = state.tabs[tabIndex];
+    const cardIndex = tab.cards.findIndex(card => card.id === cardId);
+
+    if (cardIndex === -1 || cardIndex === newIndex) return state;
+
+    // Reorder the cards array
+    const newCards = [...tab.cards];
+    const [movedCard] = newCards.splice(cardIndex, 1);
+    newCards.splice(newIndex, 0, movedCard);
+
+    return {
+      ...state,
+      tabs: state.tabs.map((t, index) =>
+        index === tabIndex
+          ? { ...t, cards: newCards }
+          : t
+      )
+    };
+  }),
+
 );

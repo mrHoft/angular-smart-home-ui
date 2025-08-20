@@ -15,7 +15,7 @@ export class TabsComponent implements AfterContentInit {
 
   activeTabIndex = signal(0);
   tabs = signal<TabComponent[]>([]);
-  tabChanged = output<number>();
+  onChange = output<string>();
   private destroy$ = new Subject<void>();
 
   ngAfterContentInit(): void {
@@ -35,21 +35,14 @@ export class TabsComponent implements AfterContentInit {
 
   private updateTabs(tabs: TabComponent[]): void {
     this.tabs.set(tabs);
-
-    if (tabs.length > 0) {
-      const currentIndex = this.activeTabIndex();
-      if (currentIndex >= tabs.length) {
-        this.setActiveTab(tabs.length - 1);
-      }
-    } else {
-      this.activeTabIndex.set(0);
-    }
+    this.setActiveTab(0);
   }
 
   public setActiveTab(index: number): void {
-    if (index >= 0 && index < this.tabs().length) {
+    const tabs = this.tabs()
+    if (index >= 0 && index < tabs.length) {
       this.activeTabIndex.set(index);
-      this.tabChanged.emit(index);
+      this.onChange.emit(tabs[index].id());
     }
   }
 }

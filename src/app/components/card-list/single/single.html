@@ -1,7 +1,7 @@
 @let title=data().title;
-@if(device){
 <div class="card" [class.highlight]="highlight()" (click)="onToggle()">
   <h3 class="title">{{title}}</h3>
+  @if(device){
   <div class="device">
     <div>{{device.label}}</div>
     @if(isLamp() && device.state){
@@ -10,5 +10,7 @@
     <app-icon class="icon" [class.icon_on]="device.state" aria-hidden="true">{{device.icon}}</app-icon>
     }
   </div>
+  }@else{
+  {{empty}}
+  }
 </div>
-}

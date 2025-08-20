@@ -1,4 +1,5 @@
 @let cardList=cards();
+@let isEditMode=editMode();
 
 @if(!cardList.length){
 @for(line of empty; track $index){
@@ -7,12 +8,22 @@
 <img class="bg_image" src="./assets/wi-fi-girl2.png" alt="bg_image" />
 }@else{
 <div class="card_list">
-  @for (card of cardList; track card.id) {
-  @if(card.layout==='singleDevice' && card.items[0].type === 'device'){
-  <app-card-single [data]="card" />
-  }@else{
-  <app-card [data]="card" />
-  }
+  @for (card of cardList; track card.id; let i = $index;) {
+  <div>
+    @if(card.layout==='singleDevice'){
+    <app-card-single [data]="card" />
+    }@else{
+    <app-card [data]="card" />
+    }
+    @if(isEditMode){
+    <div class="card_controls">
+      <button (click)="moveCardUp(card.id)" [disabled]="i === 0">↑</button>
+      <button (click)="editCard(card.id)">edit</button>
+      <button (click)="moveCardDown(card.id)" [disabled]="i === cardList.length - 1">↓</button>
+      <button (click)="removeCard(card.id)">x</button>
+    </div>
+    }
+  </div>
   }
 </div>
 }

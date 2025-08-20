@@ -14,3 +14,10 @@
   height: 12rem;
   z-index: -1;
 }
+
+.card_controls {
+  display: flex;
+  column-gap: 0.125rem;
+  justify-content: flex-end;
+  margin: 0.125rem var(--border-radius);
+}

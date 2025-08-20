@@ -29,6 +29,7 @@ export class SectionDashboard {
   // protected error = this.store.selectSignal(selectError);
   protected activeDashboardId = this.store.selectSignal(selectActiveDashboardId);
   protected editMode = this.store.selectSignal(selectEditMode);
+  private activeTabId = ''
 
   constructor() {
     effect(() => {
@@ -71,6 +72,12 @@ export class SectionDashboard {
     }
   }
 
+  // Manage tabs
+  protected onTabChange = (tabId: string) => {
+    console.log('activeTabId:', tabId)
+    this.activeTabId = tabId
+  }
+
   protected onAddTab = () => {
     this.modalService.showComponent<TAddDashboardTabResult, TAddDashboardTabProps>(
       AddDashboardTab,
@@ -111,11 +118,26 @@ export class SectionDashboard {
     return tabs.findIndex(tab => tab.id === tabId) < tabs.length - 1;
   }
 
+  // Manage cards
   protected onAddCard = () => {
     this.modalService.showComponent<TAddDashboardCardResult, never>(AddDashboardCard).then(result => {
       if (result) {
-        // this.store.dispatch(DashboardActions.addTab(result))
+        this.store.dispatch(DashboardActions.addCard({ tabId: this.activeTabId, layout: result.layout }))
       }
     })
+  }
+
+  canMoveCardUp(tabId: string, cardId: string): boolean {
+    const tab = this.tabs().find(t => t.id === tabId);
+    if (!tab) return false;
+    const index = tab.cards.findIndex(card => card.id === cardId);
+    return index > 0;
+  }
+
+  canMoveCardDown(tabId: string, cardId: string): boolean {
+    const tab = this.tabs().find(t => t.id === tabId);
+    if (!tab) return false;
+    const index = tab.cards.findIndex(card => card.id === cardId);
+    return index < tab.cards.length - 1;
   }
 }

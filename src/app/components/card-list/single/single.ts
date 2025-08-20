@@ -4,6 +4,7 @@ import { Icon } from '~/app/components/icon/icon';
 import type { CardData, DeviceItem } from '~/api/api.types';
 import { LampHighlight } from '~/app/entity/directives/lamp-highlight';
 import { toggleDevice } from '~/app/state/device.actions';
+import { i18n } from '~/data/i18n.en';
 
 @Component({
   selector: 'app-card-single',
@@ -13,6 +14,7 @@ import { toggleDevice } from '~/app/state/device.actions';
 })
 export class CardSingleComponent {
   private store = inject(Store);
+  protected empty = i18n.emptyCard
   public data = input.required<CardData>()
   protected device?: DeviceItem
   protected highlight = signal(false)
@@ -29,7 +31,7 @@ export class CardSingleComponent {
 
   ngOnInit() {
     const item = this.data().items[0]
-    if (item.type === 'device') {
+    if (item && item.type === 'device') {
       this.device = { ...item }
       this.highlight.set(item.state)
     }

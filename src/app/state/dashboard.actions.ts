@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import type { TabData, DashboardItem } from '~/api/api.types';
+import type { TabData, DashboardItem, TLayout, CardData } from '~/api/api.types';
 
 // Load dashboards
 export const loadDashboards = createAction('[Dashboard] Load Dashboards');
@@ -116,4 +116,50 @@ export const renameTabSuccess = createAction(
 export const renameTabFailure = createAction(
   '[Dashboard] Rename Tab Failure',
   props<{ error: string; tabId: string }>()
+);
+
+// Manage cards
+export const addCard = createAction(
+  '[Dashboard] Add Card',
+  props<{ tabId: string; layout: TLayout }>()
+);
+
+export const addCardSuccess = createAction(
+  '[Dashboard] Add Card Success',
+  props<{ tabId: string; card: CardData }>()
+);
+
+export const addCardFailure = createAction(
+  '[Dashboard] Add Card Failure',
+  props<{ error: string; tabId: string }>()
+);
+
+export const removeCard = createAction(
+  '[Dashboard] Remove Card',
+  props<{ tabId: string; cardId: string }>()
+);
+
+export const removeCardSuccess = createAction(
+  '[Dashboard] Remove Card Success',
+  props<{ tabId: string; cardId: string }>()
+);
+
+export const removeCardFailure = createAction(
+  '[Dashboard] Remove Card Failure',
+  props<{ error: string; tabId: string; cardId: string }>()
+);
+
+export const reorderCard = createAction(
+  '[Dashboard] Reorder Card',
+  props<{ tabId: string; cardId: string; newIndex: number }>()
+);
+
+export const reorderCardSuccess = createAction(
+  '[Dashboard] Reorder Card Success',
+  props<{ tabId: string; cardId: string; newIndex: number }>()
+);
+
+export const reorderCardFailure = createAction(
+  '[Dashboard] Reorder Card Failure',
+  props<{ error: string; tabId: string; cardId: string }>()
 );

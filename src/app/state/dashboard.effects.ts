@@ -7,6 +7,7 @@ import { DashboardService } from '~/api/dashboard.service';
 import * as DashboardActions from './dashboard.actions';
 import { selectAllTabs, selectActiveDashboardId } from './dashboard.selectors';
 import { MessageService } from '~/app/components/message/message.service';
+import { CardData } from '~/api/api.types';
 
 // Load dashboards
 export const loadDashboards$ = createEffect(
@@ -279,6 +280,99 @@ export const renameTab$ = createEffect(
             tabId
           }));
         }
+      })
+    );
+  },
+  { functional: true }
+);
+
+// Manage cards
+export const addCard$ = createEffect(
+  (actions$ = inject(Actions), messageService = inject(MessageService)) => {
+    return actions$.pipe(
+      ofType(DashboardActions.addCard),
+      map(({ tabId, layout }) => {
+        const newCard: CardData = {
+          id: crypto.randomUUID(),
+          title: 'New card',
+          layout,
+          items: []
+        };
+
+        messageService.show(`Card added to tab`);
+        return DashboardActions.addCardSuccess({ tabId, card: newCard });
+      }),
+      catchError((error) => {
+        const errorMessage = error instanceof Error ? error.message : 'Failed to add card';
+        messageService.show(errorMessage, 'error');
+        return of(DashboardActions.addCardFailure({
+          error: errorMessage,
+          tabId: 'unknown'
+        }));
+      })
+    );
+  },
+  { functional: true }
+);
+
+export const removeCard$ = createEffect(
+  (actions$ = inject(Actions), messageService = inject(MessageService)) => {
+    return actions$.pipe(
+      ofType(DashboardActions.removeCard),
+      mergeMap(({ tabId, cardId }) =>
+        of({ tabId, cardId }).pipe(
+          tap(() => messageService.show('Card removed')),
+          map(({ tabId, cardId }) => DashboardActions.removeCardSuccess({ tabId, cardId })),
+          catchError((error) => {
+            const errorMessage = error instanceof Error ? error.message : 'Failed to remove card';
+            messageService.show(errorMessage, 'error');
+            return of(DashboardActions.removeCardFailure({
+              error: errorMessage,
+              tabId,
+              cardId
+            }));
+          })
+        )
+      )
+    );
+  },
+  { functional: true }
+);
+
+export const reorderCard$ = createEffect(
+  (actions$ = inject(Actions), store = inject(Store), messageService = inject(MessageService)) => {
+    return actions$.pipe(
+      ofType(DashboardActions.reorderCard),
+      withLatestFrom(store.select(selectAllTabs)),
+      map(([{ tabId, cardId, newIndex }, tabs]) => {
+        const tab = tabs.find(t => t.id === tabId);
+        if (!tab) {
+          throw new Error(`Tab ${tabId} not found`);
+        }
+
+        const cardIndex = tab.cards.findIndex(card => card.id === cardId);
+        if (cardIndex === -1) {
+          throw new Error(`Card ${cardId} not found in tab ${tabId}`);
+        }
+
+        if (cardIndex === newIndex) {
+          throw new Error('Card is already at the target position');
+        }
+
+        if (newIndex < 0 || newIndex >= tab.cards.length) {
+          throw new Error('Invalid target index');
+        }
+
+        return DashboardActions.reorderCardSuccess({ tabId, cardId, newIndex });
+      }),
+      catchError((error) => {
+        const errorMessage = error instanceof Error ? error.message : 'Failed to reorder card';
+        messageService.show(errorMessage, 'error');
+        return of(DashboardActions.reorderCardFailure({
+          error: errorMessage,
+          tabId: 'unknown',
+          cardId: 'unknown'
+        }));
       })
     );
   },

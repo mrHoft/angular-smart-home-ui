@@ -1,8 +1,9 @@
 <div class="card" [class.highlight]="highlight()">
   @if(card){
   <h3 class="title">{{card.title}}</h3>
+  @if(card.items.length){
   <div class="item_list" [class.item_list_vertical]="card.layout==='verticalLayout'">
-    @for(item of card.items; track item.label){
+    @for(item of card.items; track item.id){
     @if(item.type==='device'){
     <app-device [onSwitch]="onToggle" [data]="item" />
     }
@@ -14,5 +15,8 @@
     <app-device [onSwitch]="onGroupToggle" [data]="groupToggle" />
     }
   </div>
+  }@else{
+  {{empty}}
+  }
   }
 </div>

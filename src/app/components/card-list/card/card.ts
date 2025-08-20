@@ -4,6 +4,7 @@ import type { CardData, CardItem, DeviceItem } from '~/api/api.types';
 import { SensorComponent } from './sensor/sensor';
 import { DeviceComponent } from './device/device';
 import { toggleDevice } from '~/app/state/device.actions';
+import { i18n } from '~/data/i18n.en';
 
 @Component({
   selector: 'app-card',
@@ -13,6 +14,7 @@ import { toggleDevice } from '~/app/state/device.actions';
 })
 export class CardComponent {
   private store = inject(Store);
+  protected empty = i18n.emptyCard
   public data = input.required<CardData>()
   protected card?: CardData
   protected groupToggle?: DeviceItem
