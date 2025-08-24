@@ -22,14 +22,14 @@ export class AddDevice {
     const form = event.target as HTMLFormElement
     const formData = new FormData(form)
     const id = formData.get('device')?.toString()
-    if (id) {
-      const item = this.devices().find(el => el.id === id)
-      if (item) {
-        this.result.emit({ item })
-        return
-      }
+    if (!id) {
+      return this.result.emit(null);
     }
-    this.result.emit(null);
+
+    const item = this.devices().find(el => el.id === id)
+    if (item) {
+      return this.result.emit({ item })
+    }
   }
 
   protected onCancel() {

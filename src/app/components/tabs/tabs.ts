@@ -1,7 +1,7 @@
-import { Component, output, signal, ContentChildren, QueryList, AfterContentInit, effect, untracked } from '@angular/core';
+import { Component, output, signal, ContentChildren, QueryList, AfterContentInit, effect, untracked, inject, DestroyRef } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TabComponent } from './tab/tab';
-import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-tabs',
@@ -15,7 +15,7 @@ export class TabsComponent implements AfterContentInit {
   activeTabIndex = signal(0);
   tabs = signal<TabComponent[]>([]);
   onChange = output<string>();
-  private destroy$ = new Subject<void>();
+  private destroyRef = inject(DestroyRef);
 
   constructor() {
     effect(() => {
@@ -30,15 +30,10 @@ export class TabsComponent implements AfterContentInit {
     this.updateTabs(this.tabComponents.toArray());
 
     this.tabComponents.changes
-      .pipe(takeUntil(this.destroy$))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((tabs: QueryList<TabComponent>) => {
         this.updateTabs(tabs.toArray());
       });
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 
   private updateTabs(tabs: TabComponent[]): void {

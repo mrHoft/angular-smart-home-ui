@@ -280,7 +280,7 @@ export const addCard$ = createEffect(
       withLatestFrom(store.select(selectAllTabs)),
       mergeMap(([{ tabId, layout }, tabs]) => {
         try {
-          if (!tabs.length) {
+          if (tabs.length === 0) {
             throw new Error('Create a new tab first.');
           }
           const tabExists = tabs.some(tab => tab.id === tabId);
