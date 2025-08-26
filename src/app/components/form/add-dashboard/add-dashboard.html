@@ -7,6 +7,13 @@
     <option class="icon" [value]="icon">{{icon}}</option>
     }
   </select>
+  @if(validationErrors.length){
+  <div class="error">
+    @for(message of validationErrors; track $index){
+    <div>{{message}}</div>
+    }
+  </div>
+  }
   <div class="form__btns">
     <button type="submit" class="button" [disabled]="form.invalid">Create</button>
     <button type="button" class="button" (click)="onCancel()">Cancel</button>

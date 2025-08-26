@@ -1,5 +1,7 @@
-import { Component, output } from '@angular/core';
-import { ReactiveFormsModule, FormControl, FormGroup } from '@angular/forms';
+import { Component, output, inject } from '@angular/core';
+import { ReactiveFormsModule, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import { selectDashboards } from '~/app/state/dashboard.selectors';
 import { DashboardItem } from '~/api/api.types';
 import { icons } from '~/data/icons';
 
@@ -16,12 +18,42 @@ export class AddDashboard {
   public result = output<TAddDashboardResult>()
   private icon = icons[Math.floor(Math.random() * icons.length)]
   private title = `${this.icon.charAt(0).toUpperCase()}${this.icon.slice(1).replace('_', ' ')}`
+  private store = inject(Store)
+  private dashboards = this.store.selectSignal(selectDashboards)
 
   protected form = new FormGroup({
-    id: new FormControl(this.icon, { nonNullable: true }),
-    title: new FormControl(this.title, { nonNullable: true }),
-    icon: new FormControl(this.icon, { nonNullable: true }),
+    id: new FormControl(this.icon, {
+      nonNullable: true,
+      validators: [Validators.required, Validators.maxLength(50), this.uniqueIdValidator.bind(this)]
+    }),
+    title: new FormControl(this.title, {
+      nonNullable: true,
+      validators: [Validators.required, Validators.maxLength(50)]
+    }),
+    icon: new FormControl(this.icon, {
+      nonNullable: true,
+      validators: [Validators.required, Validators.maxLength(50)]
+    }),
   });
+
+  private uniqueIdValidator(control: FormControl<string>): { [key: string]: boolean } | null {
+    const exists = this.dashboards().some(item => item.id === control.value);
+    return exists ? { nonUniqueId: true } : null;
+  }
+
+  protected get validationErrors(): string[] {
+    const errors: string[] = [];
+
+    Object.entries(this.form.controls).forEach(([key, control]) => {
+      if (control.errors && control.touched) {
+        if (control.errors['required']) errors.push(`${key} is required`);
+        if (control.errors['maxlength']) errors.push(`${key} is too long`);
+        if (control.errors['nonUniqueId']) errors.push(`${key} must be unique`);
+      }
+    });
+
+    return errors;
+  }
 
   protected onSubmit() {
     const value = this.form.getRawValue();
