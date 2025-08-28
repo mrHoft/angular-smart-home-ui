@@ -2,7 +2,7 @@
   <h3 class="form__header">Create Dashboard</h3>
   <input name="id" formControlName="id" placeholder="id*" maxlength="30" required />
   <input name="title" formControlName="title" placeholder="title*" maxlength="50" required />
-  <select name="icon" formControlName="icon" placeholder="icon*" required>
+  <select name="icon" formControlName="icon" required>
     @for (icon of icons; track icon){
     <option class="icon" [value]="icon">{{icon}}</option>
     }

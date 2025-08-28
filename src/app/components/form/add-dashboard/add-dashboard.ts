@@ -7,6 +7,12 @@ import { icons } from '~/data/icons';
 
 export type TAddDashboardResult = DashboardItem | null
 
+const getRandomFields = () => {
+  const icon = icons[Math.floor(Math.random() * icons.length)]
+  const title = `${icon.charAt(0).toUpperCase()}${icon.slice(1).replace('_', ' ')}`
+  return { id: `${icon}_${Date.now()}`, title, icon }
+}
+
 @Component({
   selector: 'app-add-dashboard',
   imports: [ReactiveFormsModule],
@@ -16,25 +22,27 @@ export type TAddDashboardResult = DashboardItem | null
 export class AddDashboard {
   protected icons = icons
   public result = output<TAddDashboardResult>()
-  private icon = icons[Math.floor(Math.random() * icons.length)]
-  private title = `${this.icon.charAt(0).toUpperCase()}${this.icon.slice(1).replace('_', ' ')}`
   private store = inject(Store)
   private dashboards = this.store.selectSignal(selectDashboards)
+  protected form: FormGroup
 
-  protected form = new FormGroup({
-    id: new FormControl(this.icon, {
-      nonNullable: true,
-      validators: [Validators.required, Validators.maxLength(50), this.uniqueIdValidator.bind(this)]
-    }),
-    title: new FormControl(this.title, {
-      nonNullable: true,
-      validators: [Validators.required, Validators.maxLength(50)]
-    }),
-    icon: new FormControl(this.icon, {
-      nonNullable: true,
-      validators: [Validators.required, Validators.maxLength(50)]
-    }),
-  });
+  constructor() {
+    const { id, icon, title } = getRandomFields()
+    this.form = new FormGroup({
+      id: new FormControl(id, {
+        nonNullable: true,
+        validators: [Validators.required, Validators.maxLength(50), this.uniqueIdValidator.bind(this)]
+      }),
+      title: new FormControl(title, {
+        nonNullable: true,
+        validators: [Validators.required, Validators.maxLength(50)]
+      }),
+      icon: new FormControl(icon, {
+        nonNullable: true,
+        validators: [Validators.required, Validators.maxLength(50)]
+      }),
+    });
+  }
 
   private uniqueIdValidator(control: FormControl<string>): { [key: string]: boolean } | null {
     const exists = this.dashboards().some(item => item.id === control.value);
@@ -44,13 +52,13 @@ export class AddDashboard {
   protected get validationErrors(): string[] {
     const errors: string[] = [];
 
-    Object.entries(this.form.controls).forEach(([key, control]) => {
+    for (const [key, control] of Object.entries(this.form.controls)) {
       if (control.errors && control.touched) {
         if (control.errors['required']) errors.push(`${key} is required`);
         if (control.errors['maxlength']) errors.push(`${key} is too long`);
         if (control.errors['nonUniqueId']) errors.push(`${key} must be unique`);
       }
-    });
+    };
 
     return errors;
   }
