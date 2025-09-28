@@ -6,6 +6,9 @@
 
 </div>
 
+<img width="713" height="421" alt="image" src="https://github.com/user-attachments/assets/0e73cfd7-7b2f-4c81-8ddc-e47a6cf81634" />
+<img width="713" height="369" alt="image" src="https://github.com/user-attachments/assets/a36a36fc-16f1-4b60-a7c6-0b9733e0b785" />
+
 Smart Home UI is an application for monitoring and controlling smart devices within a home environment. It offers a structured and interactive layout that allows users to:
 
 - Monitor temperature, humidity, weather conditions, electricity usage, and other sensor data.
